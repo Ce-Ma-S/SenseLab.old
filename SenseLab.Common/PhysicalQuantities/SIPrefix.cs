@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SenseLab.Common.Quantities
+﻿namespace SenseLab.Common.PhysicalQuantities
 {
     public class SIPrefix
     {
         public SIPrefix(string name, double multiplier, string shortcut)
         {
+            name.ValidateNonNullOrEmpty("name");
+            shortcut.ValidateNonNullOrEmpty("shortcut");
             Name = name;
             Multiplier = multiplier;
             Shortcut = shortcut;

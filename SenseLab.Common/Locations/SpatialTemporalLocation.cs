@@ -1,0 +1,56 @@
+﻿using System.Collections.Generic;
+namespace SenseLab.Common.Locations
+{
+    public class SpatialTemporalLocation :
+        Location, ISpatialTemporalLocation
+    {
+        public SpatialTemporalLocation(ISpatialLocation spatialLocation = null, ITemporalLocation temporalLocation = null)
+        {
+            SpatialLocation = spatialLocation;
+            TemporalLocation = temporalLocation;
+        }
+
+        public ISpatialLocation SpatialLocation
+        {
+            get { return spatialLocation; }
+            set
+            {
+                SetProperty(() => SpatialLocation, ref spatialLocation, value, OnTextChanged);
+            }
+        }
+        ISpatialLocation ILocatable<ISpatialLocation>.Location
+        {
+            get { return SpatialLocation; }
+        }
+        public ITemporalLocation TemporalLocation
+        {
+            get { return temporalLocation; }
+            set
+            {
+                SetProperty(() => TemporalLocation, ref temporalLocation, value, OnTextChanged);
+            }
+        }
+        ITemporalLocation ILocatable<ITemporalLocation>.Location
+        {
+            get { return TemporalLocation; }
+        }
+        public IEnumerable<ILocation> Locations
+        {
+            get
+            {
+                if (SpatialLocation != null)
+                    yield return SpatialLocation;
+                if (TemporalLocation != null)
+                    yield return TemporalLocation;
+            }
+        }
+
+        public override string Text
+        {
+            get { return string.Format("{0}\n{1}"); }
+        }
+
+        private ISpatialLocation spatialLocation;
+        private ITemporalLocation temporalLocation;
+    }
+}

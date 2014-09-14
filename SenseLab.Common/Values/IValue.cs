@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SenseLab.Common.Locations;
+using System;
 
-namespace SenseLab.Common.ViewModels.Values
+namespace SenseLab.Common.Values
 {
-    public interface IValueViewModel<T> : IViewModel
+    public interface IValue<T> : ILocatable
     {
         #region Read
 
@@ -26,5 +23,9 @@ namespace SenseLab.Common.ViewModels.Values
         bool WriteValue();
 
         #endregion
+    }
+
+    public interface IValue : IValue<object>
+    {
     }
 }

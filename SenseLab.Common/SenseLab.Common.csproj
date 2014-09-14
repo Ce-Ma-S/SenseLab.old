@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,24 +42,37 @@
   <ItemGroup>
     <Compile Include="Disposable.cs" />
     <Compile Include="Events\NotifyPropertyChange.cs" />
+    <Compile Include="Events\LocatableEventArgs.cs" />
     <Compile Include="Events\ValueChangeEventArgs.cs" />
+    <Compile Include="Locations\ILocation.cs" />
+    <Compile Include="Locations\ILocationGroup.cs" />
+    <Compile Include="Locations\OrientedPoint.cs" />
+    <Compile Include="Locations\Point.cs" />
+    <Compile Include="Locations\SpatialTemporalLocation.cs" />
+    <Compile Include="Locations\ISpatialTemporalLocation.cs" />
+    <Compile Include="Locations\ITemporalLocation.cs" />
+    <Compile Include="Locations\LocationGroup.cs" />
+    <Compile Include="Locations\TimeInterval.cs" />
+    <Compile Include="Locations\NamedLocation.cs" />
+    <Compile Include="Locations\Location.cs" />
     <Compile Include="OptionalValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quantities\Quantity.cs" />
-    <Compile Include="Quantities\SIPrefix.cs" />
-    <Compile Include="Quantities\SIUnit.cs" />
-    <Compile Include="Quantities\Unit.cs" />
-    <Compile Include="ViewModels\ExpressionHelper.cs" />
+    <Compile Include="PhysicalQuantities\PhysicalQuantity.cs" />
+    <Compile Include="PhysicalQuantities\SIPrefix.cs" />
+    <Compile Include="PhysicalQuantities\SIUnit.cs" />
+    <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="ValidationHelper.cs" />
+    <Compile Include="ExpressionHelper.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
-    <Compile Include="ViewModels\Locations\ILocationViewModel.cs" />
+    <Compile Include="Locations\ILocatable.cs" />
+    <Compile Include="Locations\ISpatialLocation.cs" />
     <Compile Include="ViewModels\Nodes\IDeviceViewModel.cs" />
     <Compile Include="ViewModels\Nodes\INodeViewModel.cs" />
-    <Compile Include="ViewModels\Nodes\ISpatialNodeViewModel.cs" />
+    <Compile Include="ViewModels\Nodes\ILocatableNodeViewModel.cs" />
     <Compile Include="ViewModels\Nodes\NodeViewModel.cs" />
-    <Compile Include="ViewModels\Nodes\SpatialNodeViewModel.cs" />
     <Compile Include="ViewModels\Projects\ProjectViewModel.cs" />
-    <Compile Include="ViewModels\Values\IPhysicalValueViewModel.cs" />
-    <Compile Include="ViewModels\Values\IValueViewModel.cs" />
+    <Compile Include="Values\IPhysicalValue.cs" />
+    <Compile Include="Values\IValue.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

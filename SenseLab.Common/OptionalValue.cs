@@ -6,6 +6,7 @@ namespace SenseLab.Common
     public struct OptionalValue<T>
     {
         public OptionalValue(T value)
+            : this()
         {
             HasValue = true;
             Value = value;

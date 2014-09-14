@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SenseLab.Common.Quantities
+﻿namespace SenseLab.Common.PhysicalQuantities
 {
     public class Unit
     {
         public Unit(string name, string shortcut)
         {
+            name.ValidateNonNullOrEmpty("name");
+            shortcut.ValidateNonNullOrEmpty("shortcut");
             Name = name;
             Shortcut = shortcut;
         }
