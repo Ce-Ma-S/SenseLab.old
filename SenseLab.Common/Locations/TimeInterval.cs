@@ -43,16 +43,13 @@ namespace SenseLab.Common.Locations
                 SetProperty(() => To, v => Length = From - To, value);
             }
         }
-        public override string Text
+        
+        protected override string GetText()
         {
-            get
-            {
-                return Length == TimeSpan.Zero ?
-                    From.ToString() :
-                    string.Format("{0} - {1} ({2})", From, To, Length);
-            }
+            return Length == TimeSpan.Zero ?
+                From.ToString() :
+                string.Format("{0} - {1} ({2})", From, To, Length);
         }
-
         protected virtual void OnFromChanged()
         {
             OnPropertyChanged(() => From);

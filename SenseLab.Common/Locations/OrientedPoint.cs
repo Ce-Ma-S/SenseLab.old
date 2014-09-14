@@ -13,9 +13,9 @@ namespace SenseLab.Common.Locations
             }
         }
 
-        public override string Text
+        protected override string GetText()
         {
-            get { return string.Format("{0}\n{1}", base.Text, Orientation.ToString()); }
+            return string.Format("{0}\n{1}", base.Text, Orientation.ToString());
         }
 
         private Quaternion orientation;

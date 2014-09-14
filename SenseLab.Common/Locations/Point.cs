@@ -14,9 +14,9 @@ namespace SenseLab.Common.Locations
             }
         }
 
-        public override string Text
+        protected override string GetText()
         {
-            get { return Position.ToString(); }
+            return Position.ToString();
         }
 
         private Point3D position;

@@ -52,8 +52,10 @@
     <Compile Include="Locations\ISpatialTemporalLocation.cs" />
     <Compile Include="Locations\ITemporalLocation.cs" />
     <Compile Include="Locations\LocationGroup.cs" />
+    <Compile Include="Locations\TemporalTextLocation.cs" />
+    <Compile Include="Locations\SpatialTextLocation.cs" />
     <Compile Include="Locations\TimeInterval.cs" />
-    <Compile Include="Locations\NamedLocation.cs" />
+    <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />
     <Compile Include="OptionalValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

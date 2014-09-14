@@ -12,10 +12,6 @@ namespace SenseLab.Common.Locations
             Locations = locations;
         }
 
-        public override string Text
-        {
-            get { return string.Join("\n", Locations); }
-        }
         public IList<ILocation> Locations
         {
             get;
@@ -24,6 +20,11 @@ namespace SenseLab.Common.Locations
         IEnumerable<ILocation> ILocationGroup.Locations
         {
             get { return Locations; }
+        }
+
+        protected override string GetText()
+        {
+            return string.Join("\n", Locations);
         }
     }
 }

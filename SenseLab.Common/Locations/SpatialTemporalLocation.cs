@@ -45,9 +45,9 @@ namespace SenseLab.Common.Locations
             }
         }
 
-        public override string Text
+        protected override string GetText()
         {
-            get { return string.Format("{0}\n{1}"); }
+            return string.Format("{0}\n{1}", SpatialLocation, TemporalLocation);
         }
 
         private ISpatialLocation spatialLocation;

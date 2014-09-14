@@ -4,9 +4,9 @@ namespace SenseLab.Common.Locations
 {
     public abstract class Location : NotifyPropertyChange, ILocation
     {
-        public abstract string Text
+        public string Text
         {
-            get;
+            get { return GetText(); }
         }
 
         public override string ToString()
@@ -14,6 +14,7 @@ namespace SenseLab.Common.Locations
             return Text;
         }
 
+        protected abstract string GetText();
         protected virtual void OnTextChanged()
         {
             OnPropertyChanged(() => Text);
