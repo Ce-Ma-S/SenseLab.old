@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SenseLab.Common.ViewModels.Nodes.Devices
+namespace SenseLab.Common.ViewModels.Nodes
 {
     public interface IDeviceViewModel : ISpatialNodeViewModel
     {

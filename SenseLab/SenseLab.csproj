@@ -2,10 +2,6 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetPlatformVersion>8.1</TargetPlatformVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A5B68C8E-6A01-473C-8B20-6792388DDAAF}</ProjectGuid>
@@ -13,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SenseLab</RootNamespace>
     <AssemblyName>SenseLab</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,7 +63,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,7 +71,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Windows" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -97,31 +92,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\Disposable.cs" />
-    <Compile Include="Common\Events\NotifyPropertyChange.cs" />
-    <Compile Include="Common\Events\ValueChangeEventArgs.cs" />
-    <Compile Include="Common\OptionalValue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Common\Quantities\SIUnit.cs" />
-    <Compile Include="Common\Quantities\SIPrefix.cs" />
-    <Compile Include="Common\Quantities\Unit.cs" />
-    <Compile Include="Common\Quantities\Quantity.cs" />
-    <Compile Include="Common\ViewModels\ExpressionHelper.cs" />
-    <Compile Include="Common\ViewModels\Nodes\Devices\Ble\BleDeviceViewModel.cs" />
-    <Compile Include="Common\ViewModels\Nodes\Devices\Ble\SensorTag\Magnetometer.cs" />
-    <Compile Include="Common\ViewModels\Nodes\Devices\Ble\SensorTag\Sensor.cs" />
-    <Compile Include="Common\ViewModels\Nodes\Devices\IDeviceViewModel.cs" />
-    <Compile Include="Common\ViewModels\Values\IPhysicalValueViewModel.cs" />
-    <Compile Include="Common\ViewModels\Values\IValueViewModel.cs" />
-    <Compile Include="Common\ViewModels\Nodes\INodeViewModel.cs" />
-    <Compile Include="Common\ViewModels\Locations\ILocationViewModel.cs" />
-    <Compile Include="Common\ViewModels\IViewModel.cs" />
-    <Compile Include="Common\ViewModels\Nodes\NodeViewModel.cs" />
-    <Compile Include="Common\ViewModels\Projects\ProjectViewModel.cs" />
-    <Compile Include="Common\ViewModels\Nodes\ISpatialNodeViewModel.cs" />
-    <Compile Include="Common\ViewModels\Nodes\SpatialNodeViewModel.cs" />
-    <Compile Include="Common\ViewModels\ViewModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

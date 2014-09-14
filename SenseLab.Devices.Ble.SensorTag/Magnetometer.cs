@@ -9,7 +9,7 @@ using X2CodingLab.SensorTag.Exceptions;
 using System.Runtime.InteropServices.WindowsRuntime;
 using X2CodingLab.Utils;
 
-namespace SenseLab.Common.ViewModels.Nodes.Devices.Ble.SensorTag
+namespace SenseLab.Devices.Ble.SensorTag
 {
     public class Magnetometer : SensorBase
     {

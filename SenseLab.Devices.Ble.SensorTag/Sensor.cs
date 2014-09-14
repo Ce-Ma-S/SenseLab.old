@@ -10,7 +10,7 @@ using Windows.Devices.Bluetooth;
 using Windows.Storage.Streams;
 using SenseLab.Common.Events;
 
-namespace SenseLab.Common.ViewModels.Nodes.Devices.Ble.SensorTag
+namespace SenseLab.Devices.Ble.SensorTag
 {
     public abstract class Sensor : Disposable
     {

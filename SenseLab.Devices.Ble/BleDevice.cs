@@ -9,7 +9,7 @@ namespace SenseLab.Common.ViewModels.Nodes.Devices.Ble
     /// <summary>
     /// Bluetooth Low Enegry (Smart) device.
     /// </summary>
-    public abstract class BleDeviceViewModel : ViewModel
+    public abstract class BleDevice : Disposable
     {
         public bool Connect()
         {
