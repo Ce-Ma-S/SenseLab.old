@@ -1,9 +1,9 @@
 ﻿using SenseLab.Common.Values;
 using System.Collections.Generic;
 
-namespace SenseLab.Common.ViewModels.Nodes
+namespace SenseLab.Common.Nodes
 {
-    public interface IDeviceViewModel : ILocatableNodeViewModel
+    public interface IDevice : ILocatableNode
     {
         IEnumerable<IValue> Values { get; }
     }

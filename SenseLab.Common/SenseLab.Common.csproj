@@ -66,10 +66,9 @@
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="Locations\ILocatable.cs" />
     <Compile Include="Locations\ISpatialLocation.cs" />
-    <Compile Include="ViewModels\Nodes\IDeviceViewModel.cs" />
-    <Compile Include="ViewModels\Nodes\INodeViewModel.cs" />
-    <Compile Include="ViewModels\Nodes\ILocatableNodeViewModel.cs" />
-    <Compile Include="ViewModels\Nodes\NodeViewModel.cs" />
+    <Compile Include="Nodes\IDevice.cs" />
+    <Compile Include="Nodes\INode.cs" />
+    <Compile Include="Nodes\ILocatableNode.cs" />
     <Compile Include="ViewModels\Projects\ProjectViewModel.cs" />
     <Compile Include="Values\IPhysicalValue.cs" />
     <Compile Include="Values\IValue.cs" />
