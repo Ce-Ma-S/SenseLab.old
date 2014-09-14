@@ -1,14 +1,23 @@
-﻿using SenseLab.Common.Events;
-using System;
+﻿using System;
 
 namespace SenseLab.Common.Locations
 {
     public class TimeInterval : Location, ITemporalLocation
     {
-        public TimeInterval(DateTimeOffset from)
+        public TimeInterval(DateTimeOffset from, TimeSpan? length = null)
         {
             From = from;
+            if (length.HasValue)
+                length = TimeSpan.Zero;
+            Length = length.Value;
         }
+        public TimeInterval(DateTimeOffset from, DateTimeOffset to)
+        {
+            From = from;
+            To = to;
+        }
+
+        public static TimeInterval Now { get { return new TimeInterval(DateTimeOffset.Now); } }
 
         public DateTimeOffset From
         {
@@ -61,6 +70,6 @@ namespace SenseLab.Common.Locations
         }
 
         private DateTimeOffset from;
-        private TimeSpan length = TimeSpan.Zero;
+        private TimeSpan length;
     }
 }
