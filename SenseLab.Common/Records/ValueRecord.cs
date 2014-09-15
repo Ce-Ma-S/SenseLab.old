@@ -12,14 +12,14 @@
                 SetProperty(() => Value, ref this.value, value);
             }
         }
+        object IValueRecord.Value
+        {
+            get { return Value; }
+        }
 
         protected override string GetText()
         {
             return string.Format("{0}", Value);
-        }
-        object IValueRecord.Value
-        {
-            get { return Value; }
         }
 
         private T value;

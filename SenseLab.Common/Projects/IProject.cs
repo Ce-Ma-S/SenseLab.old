@@ -7,7 +7,6 @@ namespace SenseLab.Common.Projects
     public interface IProject
     {
         IEnumerable<INode> Nodes { get; }
-        IRecorder Recorder { get; }
         IEnumerable<IRecords> Records { get; }
     }
 }

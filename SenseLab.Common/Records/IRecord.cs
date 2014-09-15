@@ -6,5 +6,6 @@ namespace SenseLab.Common.Records
         ILocatable
     {
         string Text { get; }
+        IRecorder Recorder { get; }
     }
 }

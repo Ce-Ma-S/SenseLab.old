@@ -2,22 +2,22 @@
 
 namespace SenseLab.Common.Locations
 {
-    public class TimeInterval : Location, ITemporalLocation
+    public class Time : Location, ITemporalLocation
     {
-        public TimeInterval(DateTimeOffset from, TimeSpan? length = null)
+        public Time(DateTimeOffset from, TimeSpan? length = null)
         {
             From = from;
             if (length.HasValue)
                 length = TimeSpan.Zero;
             Length = length.Value;
         }
-        public TimeInterval(DateTimeOffset from, DateTimeOffset to)
+        public Time(DateTimeOffset from, DateTimeOffset to)
         {
             From = from;
             To = to;
         }
 
-        public static TimeInterval Now { get { return new TimeInterval(DateTimeOffset.Now); } }
+        public static Time Now { get { return new Time(DateTimeOffset.Now); } }
 
         public DateTimeOffset From
         {

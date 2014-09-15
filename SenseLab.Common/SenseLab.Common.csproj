@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandExecutedEventArgs.cs" />
+    <Compile Include="Commands\ICommandEx.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
@@ -55,7 +57,7 @@
     <Compile Include="Locations\LocationGroup.cs" />
     <Compile Include="Locations\TemporalTextLocation.cs" />
     <Compile Include="Locations\SpatialTextLocation.cs" />
-    <Compile Include="Locations\TimeInterval.cs" />
+    <Compile Include="Locations\Time.cs" />
     <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />
     <Compile Include="OptionalValue.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />
     <Compile Include="PhysicalQuantities\SIUnit.cs" />
     <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="Records\ISamplingRecorder.cs" />
     <Compile Include="Records\ValueRecord.cs" />
     <Compile Include="Records\IValueRecord.cs" />
     <Compile Include="Records\ICommandRecord.cs" />

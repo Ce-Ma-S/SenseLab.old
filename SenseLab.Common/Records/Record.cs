@@ -10,9 +10,17 @@ namespace SenseLab.Common.Records
         {
             get { return GetText(); }
         }
+        public IRecorder Recorder
+        {
+            get { return recorder; }
+            set
+            {
+                SetProperty(() => Recorder, ref recorder, value);
+            }
+        }
 
         protected abstract string GetText();
 
-        private string text;
+        private IRecorder recorder;
     }
 }

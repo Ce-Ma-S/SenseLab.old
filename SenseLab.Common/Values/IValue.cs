@@ -5,8 +5,6 @@ namespace SenseLab.Common.Values
 {
     public interface IValue<T> : ILocatable
     {
-        string Name { get; }
-
         #region Read
 
         bool HasValue { get; }
@@ -27,7 +25,7 @@ namespace SenseLab.Common.Values
         #endregion
     }
 
-    public interface IValue : IValue<object>
-    {
-    }
+    //public interface IValue : IValue<object>
+    //{
+    //}
 }

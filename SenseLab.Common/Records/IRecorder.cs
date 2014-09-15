@@ -1,15 +1,38 @@
-﻿using SenseLab.Common.Nodes;
-using System.Collections.Generic;
+﻿using System;
 
 namespace SenseLab.Common.Records
 {
+    /// <summary>
+    /// Allows recording of changes or current states.
+    /// </summary>
     public interface IRecorder
     {
-        bool IsRecording { get;}
-        IRecords CurrentRecords { get; }
+        Guid Id { get; }
+        string Name { get; }
+        string Description { get; }
 
-        void Start(IEnumerable<INode> nodes, IRecords records);
-        void Pause();
+        /// <summary>
+        /// Whether recording is started by <see cref="Start"/> and not stopped by <see cref="Stop"/>.
+        /// </summary>
+        bool IsStarted { get; }
+        /// <summary>
+        /// Whether recording started by <see cref="Start"/> is paused.
+        /// </summary>
+        bool IsPaused { get; set; }
+        /// <summary>
+        /// Records, new records are added to.
+        /// </summary>
+        /// <value>Non-null between <see cref="Start"/> and <see cref="Stop"/>.</value>
+        IRecords Records { get; }
+
+        /// <summary>
+        /// Starts recording.
+        /// </summary>
+        /// <param name="records">See <see cref="Records"/>.</param>
+        void Start(IRecords records);
+        /// <summary>
+        /// Stops started recording.
+        /// </summary>
         void Stop();
     }
 }

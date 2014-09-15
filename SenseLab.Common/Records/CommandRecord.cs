@@ -2,7 +2,7 @@
 
 namespace SenseLab.Common.Records
 {
-    public class CommandRecord<T> :
+    public class CommandRecord<P> :
         Record,
         ICommandRecord
     {
@@ -14,7 +14,7 @@ namespace SenseLab.Common.Records
                 SetProperty(() => Command, ref command, value);
             }
         }
-        public T CommandParameter
+        public P CommandParameter
         {
             get { return commandParameter; }
             set
@@ -33,6 +33,6 @@ namespace SenseLab.Common.Records
         }
 
         private ICommand command;
-        private T commandParameter;
+        private P commandParameter;
     }
 }
