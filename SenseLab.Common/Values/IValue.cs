@@ -5,6 +5,8 @@ namespace SenseLab.Common.Values
 {
     public interface IValue<T> : ILocatable
     {
+        string Name { get; }
+
         #region Read
 
         bool HasValue { get; }

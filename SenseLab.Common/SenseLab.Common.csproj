@@ -63,6 +63,9 @@
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />
     <Compile Include="PhysicalQuantities\SIUnit.cs" />
     <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="Records\IRecords.cs" />
+    <Compile Include="Records\IRecorder.cs" />
+    <Compile Include="Records\IRecord.cs" />
     <Compile Include="ValidationHelper.cs" />
     <Compile Include="ExpressionHelper.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
