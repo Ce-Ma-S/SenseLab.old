@@ -74,7 +74,7 @@
     <Compile Include="Nodes\IDevice.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="Nodes\ILocatableNode.cs" />
-    <Compile Include="ViewModels\Projects\ProjectViewModel.cs" />
+    <Compile Include="Projects\IProject.cs" />
     <Compile Include="Values\IPhysicalValue.cs" />
     <Compile Include="Values\IValue.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
