@@ -10,6 +10,11 @@ namespace SenseLab.Common.Records
         IRecorder
     {
         /// <summary>
+        /// Whether <see cref="RecordPeriod"/> is used.
+        /// </summary>
+        /// <value><see cref="TimeSpan.Zero"/> means no sampling.</value>
+        TimeSpan RecordPeriodEnabled { get; set; }
+        /// <summary>
         /// Sampling period between added sample records.
         /// </summary>
         /// <value><see cref="TimeSpan.Zero"/> means no sampling.</value>
