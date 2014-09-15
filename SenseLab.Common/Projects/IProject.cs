@@ -8,5 +8,6 @@ namespace SenseLab.Common.Projects
     {
         IEnumerable<INode> Nodes { get; }
         IRecorder Recorder { get; }
+        IEnumerable<IRecords> Records { get; }
     }
 }

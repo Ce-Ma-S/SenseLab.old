@@ -18,10 +18,6 @@ namespace SenseLab.Common.Locations
                 SetProperty(() => SpatialLocation, ref spatialLocation, value, OnTextChanged);
             }
         }
-        ISpatialLocation ILocatable<ISpatialLocation>.Location
-        {
-            get { return SpatialLocation; }
-        }
         public ITemporalLocation TemporalLocation
         {
             get { return temporalLocation; }
@@ -29,10 +25,6 @@ namespace SenseLab.Common.Locations
             {
                 SetProperty(() => TemporalLocation, ref temporalLocation, value, OnTextChanged);
             }
-        }
-        ITemporalLocation ILocatable<ITemporalLocation>.Location
-        {
-            get { return TemporalLocation; }
         }
         public IEnumerable<ILocation> Locations
         {

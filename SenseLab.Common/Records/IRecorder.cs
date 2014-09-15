@@ -1,9 +1,15 @@
-﻿namespace SenseLab.Common.Records
+﻿using SenseLab.Common.Nodes;
+using System.Collections.Generic;
+
+namespace SenseLab.Common.Records
 {
-    public interface IRecorder : IRecords
+    public interface IRecorder
     {
-        bool Add(IRecord record);
-        bool Remove(IRecord record);
-        void Clear();
+        bool IsRecording { get;}
+        IRecords CurrentRecords { get; }
+
+        void Start(IEnumerable<INode> nodes, IRecords records);
+        void Pause();
+        void Stop();
     }
 }

@@ -1,10 +1,8 @@
-﻿using SenseLab.Common.Values;
-using System.Collections.Generic;
-
-namespace SenseLab.Common.Nodes
+﻿namespace SenseLab.Common.Nodes
 {
-    public interface IDevice : ILocatableNode
+    public interface IDevice :
+        INode
     {
-        IEnumerable<IValue> Values { get; }
+        bool IsAvailable { get; }
     }
 }

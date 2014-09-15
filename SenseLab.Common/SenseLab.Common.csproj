@@ -46,6 +46,7 @@
     <Compile Include="Events\ValueChangeEventArgs.cs" />
     <Compile Include="Locations\ILocation.cs" />
     <Compile Include="Locations\ILocationGroup.cs" />
+    <Compile Include="Locations\Locatable.cs" />
     <Compile Include="Locations\OrientedPoint.cs" />
     <Compile Include="Locations\Point.cs" />
     <Compile Include="Locations\SpatialTemporalLocation.cs" />
@@ -63,9 +64,14 @@
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />
     <Compile Include="PhysicalQuantities\SIUnit.cs" />
     <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="Records\ValueRecord.cs" />
+    <Compile Include="Records\IValueRecord.cs" />
+    <Compile Include="Records\ICommandRecord.cs" />
+    <Compile Include="Records\CommandRecord.cs" />
     <Compile Include="Records\IRecords.cs" />
     <Compile Include="Records\IRecorder.cs" />
     <Compile Include="Records\IRecord.cs" />
+    <Compile Include="Records\Record.cs" />
     <Compile Include="ValidationHelper.cs" />
     <Compile Include="ExpressionHelper.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
@@ -73,7 +79,6 @@
     <Compile Include="Locations\ISpatialLocation.cs" />
     <Compile Include="Nodes\IDevice.cs" />
     <Compile Include="Nodes\INode.cs" />
-    <Compile Include="Nodes\ILocatableNode.cs" />
     <Compile Include="Projects\IProject.cs" />
     <Compile Include="Values\IPhysicalValue.cs" />
     <Compile Include="Values\IValue.cs" />

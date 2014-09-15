@@ -2,7 +2,9 @@
 
 namespace SenseLab.Common.Records
 {
-    public interface IRecord : ILocatable
+    public interface IRecord :
+        ILocatable
     {
+        string Text { get; }
     }
 }

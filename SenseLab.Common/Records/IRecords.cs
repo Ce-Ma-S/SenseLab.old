@@ -2,8 +2,10 @@
 
 namespace SenseLab.Common.Records
 {
-    public interface IRecords
+    public interface IRecords :
+        ICollection<IRecord>
     {
-        IEnumerable<IRecord> Records { get; }
+        string Name { get; }
+        string Description { get; }
     }
 }

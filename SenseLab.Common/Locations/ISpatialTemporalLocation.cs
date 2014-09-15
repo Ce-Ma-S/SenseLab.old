@@ -1,9 +1,9 @@
 ﻿namespace SenseLab.Common.Locations
 {
     public interface ISpatialTemporalLocation :
-        ISpatialLocation, ILocatable<ISpatialLocation>,
-        ITemporalLocation, ILocatable<ITemporalLocation>,
         ILocationGroup
     {
+        ISpatialLocation SpatialLocation { get; }
+        ITemporalLocation TemporalLocation { get; }
     }
 }

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using SenseLab.Common.Locations;
+using SenseLab.Common.Values;
+using System;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Nodes
 {
-    public interface INode
+    public interface INode :
+        ILocatable
     {
         Guid Id { get; }
         bool IsEnabled { get; }
@@ -12,5 +15,6 @@ namespace SenseLab.Common.Nodes
 
         INode Parent { get; }
         IEnumerable<INode> Children { get; }
+        IEnumerable<IValue> Values { get; }
     }
 }
