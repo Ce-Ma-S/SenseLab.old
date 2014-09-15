@@ -1,13 +1,12 @@
-﻿using System;
+﻿using SenseLab.Common.Records;
+using System;
 using System.Windows.Input;
 
 namespace SenseLab.Common.Commands
 {
-    public interface ICommandEx :
-        ICommand
+    public interface IRecordableCommand :
+        ICommand, IRecordable
     {
-        string Name { get; }
-        string Description { get; }
         event EventHandler<CommandExecutedEventArgs> Executed;
     }
 }

@@ -1,9 +1,11 @@
 ﻿using SenseLab.Common.Locations;
+using SenseLab.Common.Records;
 using System;
 
 namespace SenseLab.Common.Values
 {
-    public interface IValue<T>
+    public interface IValue<T> :
+        IRecordable
     {
         #region Read
 
@@ -24,8 +26,4 @@ namespace SenseLab.Common.Values
 
         #endregion
     }
-
-    //public interface IValue : IValue<object>
-    //{
-    //}
 }

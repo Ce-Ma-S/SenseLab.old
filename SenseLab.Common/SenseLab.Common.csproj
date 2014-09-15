@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
-    <Compile Include="Commands\ICommandEx.cs" />
+    <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />
     <Compile Include="PhysicalQuantities\SIUnit.cs" />
     <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="Records\IRecordable.cs" />
     <Compile Include="Records\ISamplingRecorder.cs" />
     <Compile Include="Records\ValueRecord.cs" />
     <Compile Include="Records\IValueRecord.cs" />

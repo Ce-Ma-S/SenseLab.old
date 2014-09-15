@@ -15,6 +15,6 @@ namespace SenseLab.Common.Nodes
         INode Parent { get; }
         IEnumerable<INode> Children { get; }
 
-        IEnumerable<IRecorder> IRecorders { get; }
+        IEnumerable<IRecordable> Recordables { get; }
     }
 }

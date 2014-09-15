@@ -7,6 +7,6 @@ namespace SenseLab.Common.Records
         ILocatable<ITemporalLocation>
     {
         string Text { get; }
-        IRecorder Recorder { get; }
+        IRecordable Recordable { get; }
     }
 }

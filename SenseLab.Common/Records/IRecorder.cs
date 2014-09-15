@@ -7,10 +7,6 @@ namespace SenseLab.Common.Records
     /// </summary>
     public interface IRecorder
     {
-        Guid Id { get; }
-        string Name { get; }
-        string Description { get; }
-
         /// <summary>
         /// Whether recording is started by <see cref="Start"/> and not stopped by <see cref="Stop"/>.
         /// </summary>

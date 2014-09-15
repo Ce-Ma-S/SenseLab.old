@@ -11,12 +11,12 @@ namespace SenseLab.Common.Records
         {
             get { return GetText(); }
         }
-        public IRecorder Recorder
+        public IRecordable Recordable
         {
-            get { return recorder; }
+            get { return recordable; }
             set
             {
-                SetProperty(() => Recorder, ref recorder, value);
+                SetProperty(() => Recordable, ref recordable, value);
             }
         }
         public ISpatialLocation SpatialLocation
@@ -49,6 +49,6 @@ namespace SenseLab.Common.Records
 
         protected abstract string GetText();
 
-        private IRecorder recorder;
+        private IRecordable recordable;
     }
 }
