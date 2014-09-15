@@ -1,7 +1,8 @@
 ﻿namespace SenseLab.Common.Locations
 {
-    public interface ILocatable
+    public interface ILocatable<T>
+        where T : ILocation
     {
-        ILocation Location { get; }
+        T Location { get; }
     }
 }

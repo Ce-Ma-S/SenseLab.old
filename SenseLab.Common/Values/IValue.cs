@@ -3,7 +3,7 @@ using System;
 
 namespace SenseLab.Common.Values
 {
-    public interface IValue<T> : ILocatable
+    public interface IValue<T>
     {
         #region Read
 

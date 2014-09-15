@@ -3,7 +3,9 @@ using System;
 
 namespace SenseLab.Common.Events
 {
-    public class LocatableEventArgs : EventArgs, ILocatable
+    public class LocatableEventArgs :
+        EventArgs,
+        ILocatable<ILocation>
     {
         public LocatableEventArgs(ILocation location = null)
         {

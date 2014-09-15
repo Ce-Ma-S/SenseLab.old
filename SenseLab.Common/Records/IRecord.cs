@@ -3,7 +3,8 @@
 namespace SenseLab.Common.Records
 {
     public interface IRecord :
-        ILocatable
+        ILocatable<ISpatialLocation>,
+        ILocatable<ITemporalLocation>
     {
         string Text { get; }
         IRecorder Recorder { get; }

@@ -48,11 +48,10 @@
     <Compile Include="Events\ValueChangeEventArgs.cs" />
     <Compile Include="Locations\ILocation.cs" />
     <Compile Include="Locations\ILocationGroup.cs" />
-    <Compile Include="Locations\Locatable.cs" />
+    <Compile Include="Locations\TemporalLocationGroup.cs" />
+    <Compile Include="Locations\SpatialLocationGroup.cs" />
     <Compile Include="Locations\OrientedPoint.cs" />
     <Compile Include="Locations\Point.cs" />
-    <Compile Include="Locations\SpatialTemporalLocation.cs" />
-    <Compile Include="Locations\ISpatialTemporalLocation.cs" />
     <Compile Include="Locations\ITemporalLocation.cs" />
     <Compile Include="Locations\LocationGroup.cs" />
     <Compile Include="Locations\TemporalTextLocation.cs" />

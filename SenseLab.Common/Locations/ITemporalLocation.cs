@@ -1,6 +1,7 @@
 ﻿namespace SenseLab.Common.Locations
 {
-    public interface ITemporalLocation : ILocation
+    public interface ITemporalLocation :
+        ILocation
     {
     }
 }
