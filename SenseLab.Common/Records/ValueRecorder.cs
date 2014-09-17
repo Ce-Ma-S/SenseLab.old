@@ -1,4 +1,5 @@
 ﻿using SenseLab.Common.Events;
+using SenseLab.Common.Locations;
 using SenseLab.Common.Values;
 using System;
 
@@ -37,8 +38,9 @@ namespace SenseLab.Common.Records
         }
         protected override ValueRecord<T> CreateRecord(object data)
         {
-            var a = (ValueChangeEventArgs<T>)data;;
-            return new ValueRecord<T>(a.NewValue, Recordable);
+            var a = (ValueChangeEventArgs<T>)data;
+            return new ValueRecord<T>(a.NewValue, Recordable,
+                a.Location as ISpatialLocation, Time.Now);
         }
 
         private void OnValueChanged(object sender, ValueChangeEventArgs<T> e)

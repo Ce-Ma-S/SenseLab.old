@@ -1,4 +1,5 @@
 ﻿using SenseLab.Common.Events;
+using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
 using System;
 
@@ -47,6 +48,12 @@ namespace SenseLab.Common.Values
         public bool WriteValue()
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void OnValueChanged(T newValue, ILocation location)
+        {
+            if (ValueChanged != null)
+                ValueChanged(this, new ValueChangeEventArgs<T>(newValue, location));
         }
     }
 }

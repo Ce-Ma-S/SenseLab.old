@@ -12,12 +12,11 @@ namespace SenseLab.Common.Records
         /// <summary>
         /// Whether <see cref="RecordPeriod"/> is used.
         /// </summary>
-        /// <value><see cref="TimeSpan.Zero"/> means no sampling.</value>
-        TimeSpan RecordPeriodEnabled { get; set; }
+        bool RecordPeriodEnabled { get; set; }
         /// <summary>
         /// Sampling period between added sample records.
         /// </summary>
-        /// <value><see cref="TimeSpan.Zero"/> means no sampling.</value>
+        /// <value><see cref="TimeSpan.Zero"/> or negative period means no sampling.</value>
         TimeSpan RecordPeriod { get; set; }
 
         /// <summary>

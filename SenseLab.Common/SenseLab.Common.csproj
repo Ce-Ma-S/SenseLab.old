@@ -71,6 +71,7 @@
     <Compile Include="PhysicalQuantities\Unit.cs" />
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
+    <Compile Include="Records\SamplingRecorder.cs" />
     <Compile Include="Records\ValueRecorder.cs" />
     <Compile Include="Records\Recorder.cs" />
     <Compile Include="Records\Recordable.cs" />

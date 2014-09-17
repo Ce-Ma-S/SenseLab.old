@@ -38,15 +38,21 @@ namespace SenseLab.Common.Records
                 throw new ArgumentException("Records are read only.", "records");
             if (IsStarted)
                 throw new InvalidOperationException("Recorder is already started.");
+            doStartCalledAfterStart = false;
             Records = records;
-            DoStart();
+            if (!IsPaused)
+            {
+                DoStart();
+                doStartCalledAfterStart = true;
+            }
         }
         public void Stop()
         {
             if (!IsStarted)
                 throw new InvalidOperationException("Recorder is already stopped.");
             Records = null;
-            DoStop();
+            if (doStartCalledAfterStart)
+                DoStop();
         }
 
         protected abstract void DoStart();
@@ -78,12 +84,18 @@ namespace SenseLab.Common.Records
             if (!IsStarted)
                 return;
             if (IsPaused)
+                DoPause();
+            else if (doStartCalledAfterStart)
                 DoUnpause();
             else
-                DoPause();
+            {
+                DoStart();
+                doStartCalledAfterStart = true;
+            }
         }
         
         private IRecords records;
+        private bool doStartCalledAfterStart;
         private bool isPaused;
     }
 }
