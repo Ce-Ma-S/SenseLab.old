@@ -1,7 +1,7 @@
 ﻿namespace SenseLab.Common.Nodes
 {
     public interface IDevice :
-        IDeviceNode
+        IDeviceProvider
     {
         bool IsAvailable { get; }
     }

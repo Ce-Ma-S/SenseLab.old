@@ -1,6 +1,6 @@
 ﻿namespace SenseLab.Common.Nodes
 {
-    public interface IDeviceNode :
+    public interface IDeviceProvider :
         INode<INode, IDevice>
     {
     }
