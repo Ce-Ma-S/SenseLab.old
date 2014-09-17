@@ -8,9 +8,9 @@ namespace SenseLab.Common.Values
         Recordable<ValueRecorder<T>>,
         IValue<T>
     {
-        public Value()
+        public Value(Guid id, IRecordType type, string name, string description = null)
+            : base(id, type, name, description)
         {
-
         }
 
         public bool HasValue

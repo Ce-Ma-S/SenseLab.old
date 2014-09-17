@@ -60,6 +60,9 @@
     <Compile Include="Locations\Time.cs" />
     <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />
+    <Compile Include="Nodes\IDeviceNode.cs" />
+    <Compile Include="Nodes\INodeWritable.cs" />
+    <Compile Include="Projects\IProjectNode.cs" />
     <Compile Include="OptionalValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhysicalQuantities\PhysicalQuantity.cs" />

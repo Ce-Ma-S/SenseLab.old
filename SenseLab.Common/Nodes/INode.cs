@@ -9,7 +9,6 @@ namespace SenseLab.Common.Nodes
         IId<Guid>,
         ILocatable<ISpatialLocation>
     {
-        Guid Id { get; }
         string Name { get; }
         string Description { get; }
 
@@ -17,5 +16,15 @@ namespace SenseLab.Common.Nodes
         IEnumerable<INode> Children { get; }
 
         IEnumerable<IRecordable> Recordables { get; }
+    }
+
+
+    public interface INode<P, C> :
+        INode
+        where P : INode
+        where C : INode
+    {
+        new P Parent { get; }
+        new IEnumerable<C> Children { get; }
     }
 }
