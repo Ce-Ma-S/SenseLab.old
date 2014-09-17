@@ -15,6 +15,11 @@ namespace SenseLab.Common.Records
         /// Whether recording started by <see cref="Start"/> is paused.
         /// </summary>
         bool IsPaused { get; set; }
+
+        /// <summary>
+        /// Recordable recorded by this recorder.
+        /// </summary>
+        IRecordable Recordable { get; }
         /// <summary>
         /// Records, new records are added to.
         /// </summary>

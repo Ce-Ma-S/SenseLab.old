@@ -7,6 +7,16 @@ namespace SenseLab.Common.Records
         NotifyPropertyChange,
         IRecord
     {
+        public Record(
+            IRecordable recordable = null,
+            ISpatialLocation spatialLocation = null,
+            ITemporalLocation temporalLocation = null)
+        {
+            Recordable = recordable;
+            SpatialLocation = spatialLocation;
+            TemporalLocation = temporalLocation;
+        }
+
         public string Text
         {
             get { return GetText(); }

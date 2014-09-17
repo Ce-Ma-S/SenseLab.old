@@ -6,6 +6,7 @@ using System.Collections.Generic;
 namespace SenseLab.Common.Nodes
 {
     public interface INode :
+        IId<Guid>,
         ILocatable<ISpatialLocation>
     {
         Guid Id { get; }

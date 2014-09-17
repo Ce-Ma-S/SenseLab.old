@@ -1,9 +1,21 @@
-﻿namespace SenseLab.Common.Records
+﻿using SenseLab.Common.Locations;
+
+namespace SenseLab.Common.Records
 {
     public class ValueRecord<T> :
         Record,
         IValueRecord
     {
+        public ValueRecord(
+            T value,
+            IRecordable recordable = null,
+            ISpatialLocation spatialLocation = null,
+            ITemporalLocation temporalLocation = null)
+            : base(recordable, spatialLocation, temporalLocation)
+        {
+            Value = value;
+        }
+
         public T Value
         {
             get { return value; }

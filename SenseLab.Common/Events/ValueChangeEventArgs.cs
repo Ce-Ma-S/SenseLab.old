@@ -2,7 +2,8 @@
 
 namespace SenseLab.Common.Events
 {
-    public class ValueChangeEventArgs<T> : LocatableEventArgs
+    public class ValueChangeEventArgs<T> :
+        LocatableEventArgs
     {
         public ValueChangeEventArgs(T oldValue, T newValue, ILocation location = null)
             : this(newValue, location)

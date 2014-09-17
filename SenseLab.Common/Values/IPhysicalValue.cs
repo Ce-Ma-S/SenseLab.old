@@ -6,6 +6,6 @@ namespace SenseLab.Common.Values
     {
         PhysicalQuantity Quantity { get; }
         Unit Unit { get; }
-        T Precision { get; }
+        IPrecision Precision { get; }
     }
 }

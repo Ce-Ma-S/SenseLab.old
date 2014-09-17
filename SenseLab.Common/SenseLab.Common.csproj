@@ -46,6 +46,7 @@
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
     <Compile Include="Events\ValueChangeEventArgs.cs" />
+    <Compile Include="IId.cs" />
     <Compile Include="Locations\ILocation.cs" />
     <Compile Include="Locations\ILocationGroup.cs" />
     <Compile Include="Locations\TemporalLocationGroup.cs" />
@@ -65,6 +66,11 @@
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />
     <Compile Include="PhysicalQuantities\SIUnit.cs" />
     <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="Records\IRecordTransformer.cs" />
+    <Compile Include="Records\IRecordType.cs" />
+    <Compile Include="Records\ValueRecorder.cs" />
+    <Compile Include="Records\Recorder.cs" />
+    <Compile Include="Records\Recordable.cs" />
     <Compile Include="Records\IRecordable.cs" />
     <Compile Include="Records\ISamplingRecorder.cs" />
     <Compile Include="Records\ValueRecord.cs" />
@@ -77,6 +83,9 @@
     <Compile Include="Records\Record.cs" />
     <Compile Include="ValidationHelper.cs" />
     <Compile Include="ExpressionHelper.cs" />
+    <Compile Include="Values\IValuePrecision.cs" />
+    <Compile Include="Values\IPrecision.cs" />
+    <Compile Include="Values\Value.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="Locations\ILocatable.cs" />
     <Compile Include="Locations\ISpatialLocation.cs" />

@@ -2,11 +2,11 @@
 
 namespace SenseLab.Common.Records
 {
-    public interface IRecordable :
+    public interface IRecordType :
         IId<Guid>
     {
         Guid Id { get; }
-        IRecordType Type { get; }
-        IRecorder Recorder { get; }
+        string Name { get; }
+        string Description { get; }
     }
 }

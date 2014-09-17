@@ -1,4 +1,4 @@
-﻿using SenseLab.Common.Locations;
+﻿using SenseLab.Common.Events;
 using SenseLab.Common.Records;
 using System;
 
@@ -11,7 +11,7 @@ namespace SenseLab.Common.Values
 
         bool HasValue { get; }
         T Value { get; }
-        event EventHandler ValueChanged;
+        event EventHandler<ValueChangeEventArgs<T>> ValueChanged;
 
         bool ReadValue();
         
