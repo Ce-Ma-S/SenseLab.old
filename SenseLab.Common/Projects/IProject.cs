@@ -5,6 +5,9 @@ namespace SenseLab.Common.Projects
 {
     public interface IProject
     {
+        string Name { get; }
+        string Description { get; }
+        
         IEnumerable<IProjectNode> Nodes { get; }
         IEnumerable<IRecords> Records { get; }
     }
