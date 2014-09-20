@@ -1,6 +1,7 @@
-﻿using System.Windows.Input;
+﻿using SenseLab.Common.Records;
+using System.Windows.Input;
 
-namespace SenseLab.Common.Records
+namespace SenseLab.Common.Commands
 {
     public class CommandRecord<P> :
         Record,

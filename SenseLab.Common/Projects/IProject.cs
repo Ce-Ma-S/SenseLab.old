@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace SenseLab.Common.Projects
 {
-    public interface IProject
+    /// <summary>
+    /// Lab project with selected nodes and recordables of <see cref="IEnvironment"/>.
+    /// </summary>
+    public interface IProject :
+        IProjectNode
     {
-        string Name { get; }
-        string Description { get; }
-        
-        IEnumerable<IProjectNode> Nodes { get; }
+        /// <summary>
+        /// Records recorded.
+        /// </summary>
         IEnumerable<IRecords> Records { get; }
     }
 }

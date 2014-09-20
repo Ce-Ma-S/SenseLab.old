@@ -1,6 +1,7 @@
 ﻿using SenseLab.Common.Locations;
+using SenseLab.Common.Records;
 
-namespace SenseLab.Common.Records
+namespace SenseLab.Common.Values
 {
     public class ValueRecord<T> :
         Record,

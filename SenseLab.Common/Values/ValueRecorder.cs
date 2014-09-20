@@ -1,9 +1,8 @@
 ﻿using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
-using SenseLab.Common.Values;
-using System;
+using SenseLab.Common.Records;
 
-namespace SenseLab.Common.Records
+namespace SenseLab.Common.Values
 {
     public class ValueRecorder<T> :
         Recorder<ValueRecord<T>>

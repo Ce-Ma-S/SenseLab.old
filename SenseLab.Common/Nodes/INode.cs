@@ -6,16 +6,13 @@ using System.Collections.Generic;
 namespace SenseLab.Common.Nodes
 {
     public interface INode :
-        IId<Guid>,
-        ILocatable<ISpatialLocation>
+        IId<Guid>
     {
         string Name { get; }
         string Description { get; }
 
         INode Parent { get; }
         IEnumerable<INode> Children { get; }
-
-        IEnumerable<IRecordable> Recordables { get; }
     }
 
 

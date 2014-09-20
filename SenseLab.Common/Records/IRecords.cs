@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SenseLab.Common.Records
 {
@@ -9,6 +8,6 @@ namespace SenseLab.Common.Records
         string Name { get; }
         string Description { get; }
 
-        ICollection<IRecord> RecordsFromRecordableId(Guid id);
+        //ICollection<IRecord> RecordsFromRecordableId(Guid id);
     }
 }

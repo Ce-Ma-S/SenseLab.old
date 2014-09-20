@@ -1,4 +1,4 @@
-﻿namespace SenseLab.Common.Nodes
+﻿namespace SenseLab.Common.Environments
 {
     public interface IDevice :
         IDeviceProvider
