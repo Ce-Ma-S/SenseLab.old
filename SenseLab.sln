@@ -7,9 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab", "SenseLab\SenseL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Common", "SenseLab.Common\SenseLab.Common.csproj", "{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Devices.Ble", "SenseLab.Devices.Ble\SenseLab.Devices.Ble.csproj", "{0FF54CC6-1DC2-4F4D-B367-D02D921F885B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Devices.Ble.SensorTag", "SenseLab.Devices.Ble.SensorTag\SenseLab.Devices.Ble.SensorTag.csproj", "{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Devices.SensorTag", "SenseLab.Devices.SensorTag\SenseLab.Devices.SensorTag.csproj", "{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FF54CC6-1DC2-4F4D-B367-D02D921F885B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FF54CC6-1DC2-4F4D-B367-D02D921F885B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FF54CC6-1DC2-4F4D-B367-D02D921F885B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FF54CC6-1DC2-4F4D-B367-D02D921F885B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU

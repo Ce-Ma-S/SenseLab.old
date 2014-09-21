@@ -2,13 +2,17 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0FF54CC6-1DC2-4F4D-B367-D02D921F885B}</ProjectGuid>
+    <ProjectGuid>{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SenseLab.Devices.Ble</RootNamespace>
-    <AssemblyName>SenseLab.Devices.Ble</AssemblyName>
+    <RootNamespace>SenseLab.Devices.SensorTag</RootNamespace>
+    <AssemblyName>SenseLab.Devices.SensorTag</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,15 +36,18 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Windows" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BleDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SensorTag.cs" />
+    <Compile Include="SensorTags.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SenseLab.Common\SenseLab.Common.csproj">

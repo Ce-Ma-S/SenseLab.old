@@ -20,9 +20,24 @@ namespace SenseLab.Common.Environments
 
         public abstract bool IsAvailable { get; }
 
-        protected void OnIsAvailableChanged()
+        protected virtual void OnIsAvailableChanged()
         {
             OnPropertyChanged(() => IsAvailable);
         }
+    }
+
+
+    public abstract class Device :
+        Device<IDevice>,
+        IDevice
+    {
+        public Device(Guid id, string name, string description = null,
+            INode parent = null,
+            IList<IRecordable> recordables = null)
+            : base(id, name, description, parent, noChildren, recordables)
+        {
+        }
+
+        private static readonly IDevice[] noChildren = new IDevice[0];
     }
 }
