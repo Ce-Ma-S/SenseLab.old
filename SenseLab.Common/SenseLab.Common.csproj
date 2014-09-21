@@ -47,6 +47,8 @@
     <Compile Include="Environments\EnvironmentNodeWritable.cs" />
     <Compile Include="Environments\EnvironmentNode.cs" />
     <Compile Include="Environments\DeviceProvider.cs" />
+    <Compile Include="Environments\EnvironmentsViewModel.cs" />
+    <Compile Include="Environments\IEnvironmentStorage.cs" />
     <Compile Include="Environments\IEnvironmentNode.cs" />
     <Compile Include="Environments\IEnvironment.cs" />
     <Compile Include="Events\NotifyPropertyChange.cs" />
@@ -67,11 +69,14 @@
     <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />
     <Compile Include="Environments\IDeviceProvider.cs" />
+    <Compile Include="Nodes\INodeStorage.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
+    <Compile Include="Projects\IProjectStorage.cs" />
     <Compile Include="Projects\ProjectNode.cs" />
     <Compile Include="Projects\IProjectNode.cs" />
     <Compile Include="OptionalValue.cs" />
+    <Compile Include="Projects\ProjectsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhysicalQuantities\PhysicalQuantity.cs" />
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />

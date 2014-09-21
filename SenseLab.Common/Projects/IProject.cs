@@ -1,4 +1,6 @@
-﻿using SenseLab.Common.Records;
+﻿using SenseLab.Common.Locations;
+using SenseLab.Common.Nodes;
+using SenseLab.Common.Records;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Projects
@@ -7,7 +9,8 @@ namespace SenseLab.Common.Projects
     /// Lab project with selected nodes and recordables of <see cref="IEnvironment"/>.
     /// </summary>
     public interface IProject :
-        IProjectNode
+        INode<INode, IProjectNode>,
+        ILocatable<ISpatialLocation>
     {
         /// <summary>
         /// Records recorded.
