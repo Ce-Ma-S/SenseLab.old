@@ -3,5 +3,6 @@
     public interface ITemporalLocation :
         ILocation
     {
+        new ITemporalLocation Clone();
     }
 }

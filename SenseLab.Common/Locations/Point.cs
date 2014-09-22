@@ -3,15 +3,21 @@
 namespace SenseLab.Common.Locations
 {
     public class Point :
-        Location, ISpatialLocation
+        Location,
+        ISpatialLocation
     {
         public Point3D Position
         {
             get { return position; }
             set
             {
-                SetProperty(() => Position, ref position, value, OnTextChanged);
+                SetProperty(() => Position, ref position, value, OnChanged);
             }
+        }
+
+        public new ISpatialLocation Clone()
+        {
+            return (ISpatialLocation)base.Clone();
         }
 
         protected override string GetText()

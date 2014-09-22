@@ -3,5 +3,6 @@
     public interface ISpatialLocation :
         ILocation
     {
+        new ISpatialLocation Clone();
     }
 }

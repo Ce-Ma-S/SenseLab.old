@@ -1,6 +1,7 @@
 ﻿namespace SenseLab.Common.Locations
 {
-    public class TextLocation : Location
+    public class TextLocation :
+        Location
     {
         public TextLocation(string text)
         {
@@ -13,7 +14,7 @@
             set
             {
                 value.ValidateNonNullOrEmpty();
-                SetProperty(() => Text, ref text, value, OnTextChanged);
+                SetProperty(() => Text, ref text, value, OnChanged);
             }
         }
 

@@ -6,6 +6,7 @@ namespace SenseLab.Common.Records
         IId<Guid>
     {
         IRecordType Type { get; }
-        IRecorder Recorder { get; }
+
+        IRecorder CreateRecorder();
     }
 }

@@ -2,14 +2,15 @@
 
 namespace SenseLab.Common.Locations
 {
-    public class OrientedPoint : Point
+    public class OrientedPoint :
+        Point
     {
         public Quaternion Orientation
         {
             get { return orientation; }
             set
             {
-                SetProperty(() => Orientation, ref orientation, value, OnTextChanged);
+                SetProperty(() => Orientation, ref orientation, value, OnChanged);
             }
         }
 

@@ -51,10 +51,12 @@
     <Compile Include="Environments\IEnvironmentStorage.cs" />
     <Compile Include="Environments\IEnvironmentNode.cs" />
     <Compile Include="Environments\IEnvironment.cs" />
+    <Compile Include="Events\IChangeable.cs" />
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
     <Compile Include="Events\ValueChangeEventArgs.cs" />
     <Compile Include="IId.cs" />
+    <Compile Include="Locations\ILocatableChangeable.cs" />
     <Compile Include="Locations\ILocation.cs" />
     <Compile Include="Locations\ILocationGroup.cs" />
     <Compile Include="Locations\TemporalLocationGroup.cs" />

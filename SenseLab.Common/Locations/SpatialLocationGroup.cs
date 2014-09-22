@@ -11,5 +11,10 @@ namespace SenseLab.Common.Locations
             : base(locations)
         {
         }
+
+        public new ISpatialLocation Clone()
+        {
+            return (ISpatialLocation)base.Clone();
+        }
     }
 }

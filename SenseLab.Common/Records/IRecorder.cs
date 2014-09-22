@@ -1,11 +1,13 @@
-﻿using System;
+﻿using SenseLab.Common.Locations;
+using System;
 
 namespace SenseLab.Common.Records
 {
     /// <summary>
     /// Allows recording of changes or current states.
     /// </summary>
-    public interface IRecorder
+    public interface IRecorder :
+        IDisposable
     {
         /// <summary>
         /// Whether recording is started by <see cref="Start"/> and not stopped by <see cref="Stop"/>.
@@ -30,7 +32,8 @@ namespace SenseLab.Common.Records
         /// Starts recording.
         /// </summary>
         /// <param name="records">See <see cref="Records"/>.</param>
-        void Start(IRecords records);
+        /// <param name="spatialLocation">Spatial location (project node) used in records creation which can vary over time.</param>
+        void Start(IRecords records, ILocatable<ISpatialLocation> spatialLocation);
         /// <summary>
         /// Stops started recording.
         /// </summary>

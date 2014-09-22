@@ -35,11 +35,25 @@ namespace SenseLab.Common.Values
         {
             DoStart();
         }
-        protected override ValueRecord<T> CreateRecord(object data)
+        protected override ValueRecord<T> CreateRecord(object data, ISpatialLocation spatialLocation)
         {
             var a = (ValueChangeEventArgs<T>)data;
-            return new ValueRecord<T>(a.NewValue, Recordable,
-                a.Location as ISpatialLocation, Time.Now);
+            T value;
+            ITemporalLocation temporalLocation = null;
+            if (a != null)
+            {
+                value = a.NewValue;
+                temporalLocation = a.Location as ITemporalLocation;
+            }
+            else
+            {
+                Value.ReadValue();
+                value = Value.Value;
+            }
+            if (temporalLocation == null)
+                temporalLocation = Time.Now;
+            return new ValueRecord<T>(value, Recordable,
+                spatialLocation, temporalLocation);
         }
 
         private void OnValueChanged(object sender, ValueChangeEventArgs<T> e)

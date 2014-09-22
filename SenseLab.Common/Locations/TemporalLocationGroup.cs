@@ -11,5 +11,10 @@ namespace SenseLab.Common.Locations
             : base(locations)
         {
         }
+
+        public new ITemporalLocation Clone()
+        {
+            return (ITemporalLocation)base.Clone();
+        }
     }
 }

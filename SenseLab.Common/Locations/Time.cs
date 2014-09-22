@@ -2,7 +2,9 @@
 
 namespace SenseLab.Common.Locations
 {
-    public class Time : Location, ITemporalLocation
+    public class Time :
+        Location,
+        ITemporalLocation
     {
         public Time(DateTimeOffset from, TimeSpan? length = null)
         {
@@ -43,6 +45,11 @@ namespace SenseLab.Common.Locations
                 SetProperty(() => To, v => Length = From - To, value);
             }
         }
+
+        public new ITemporalLocation Clone()
+        {
+            return (ITemporalLocation)base.Clone();
+        }
         
         protected override string GetText()
         {
@@ -54,16 +61,21 @@ namespace SenseLab.Common.Locations
         {
             OnPropertyChanged(() => From);
             OnLengthChanged(false);
+            OnChanged();
         }
         protected virtual void OnLengthChanged(bool onToChanged)
         {
             OnPropertyChanged(() => Length);
             if (onToChanged)
+            {
                 OnToChanged();
+                OnChanged();
+            }
         }
         protected virtual void OnToChanged()
         {
             OnPropertyChanged(() => To);
+            OnChanged();
         }
 
         private DateTimeOffset from;

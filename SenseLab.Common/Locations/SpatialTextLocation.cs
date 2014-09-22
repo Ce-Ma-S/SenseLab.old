@@ -3,11 +3,17 @@
 namespace SenseLab.Common.Locations
 {
     public class SpatialTextLocation :
-        TextLocation, ISpatialLocation
+        TextLocation,
+        ISpatialLocation
     {
         public SpatialTextLocation(string text)
             : base(text)
         {
+        }
+
+        public new ISpatialLocation Clone()
+        {
+            return (ISpatialLocation)base.Clone();
         }
     }
 }

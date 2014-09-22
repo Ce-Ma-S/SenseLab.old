@@ -14,7 +14,6 @@ namespace SenseLab.Common.Records
             Type = type;
             Name = name;
             Description = description;
-            recorder = new Lazy<T>(CreateRecorder);
         }
 
         public Guid Id { get; private set; }
@@ -22,17 +21,15 @@ namespace SenseLab.Common.Records
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public T Recorder
+        public T CreateRecorder()
         {
-            get { return recorder.Value; }
+            return DoCreateRecorder();
         }
-        IRecorder IRecordable.Recorder
+        IRecorder IRecordable.CreateRecorder()
         {
-            get { return Recorder; }
+            return CreateRecorder();
         }
 
-        protected abstract T CreateRecorder();
-
-        private Lazy<T> recorder;
+        protected abstract T DoCreateRecorder();
     }
 }

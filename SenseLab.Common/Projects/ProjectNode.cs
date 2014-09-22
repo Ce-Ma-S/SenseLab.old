@@ -1,4 +1,5 @@
 ﻿using SenseLab.Common.Environments;
+using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
@@ -13,7 +14,8 @@ namespace SenseLab.Common.Projects
     /// </summary>
     public class ProjectNode :
         NodeWritable<INode, ProjectNode>,
-        IProjectNode
+        IProjectNode,
+        ILocatableChangeable<ISpatialLocation>
     {
         public ProjectNode(Guid id, string name, string description = null,
             INode parent = null, IList<ProjectNode> children = null,
@@ -35,17 +37,25 @@ namespace SenseLab.Common.Projects
                 SetProperty(() => Node, ref node, value);
             }
         }
-        /// <summary>
-        /// <see cref="Node"/> location.
-        /// </summary>
+        
         public ISpatialLocation Location
         {
             get { return location; }
             set
             {
-                SetProperty(() => Location, ref location, value);
+                SetProperty(() => Location, ref location, value, OnLocationChanged);
             }
         }
+
+        private void OnLocationChanged(ISpatialLocation oldValue, ISpatialLocation newValue)
+        {
+            if (LocationChanged != null)
+                LocationChanged(this, new ValueChangeEventArgs<ISpatialLocation>(oldValue, newValue));
+        }
+        /// <summary>
+        /// Fired when <see cref="ILocatable{T}.Location"/> is changed.
+        /// </summary>
+        public event EventHandler<ValueChangeEventArgs<ISpatialLocation>> LocationChanged;
         /// <summary>
         /// Whether <see cref="Node"/> is selected.
         /// </summary>
