@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
     <Compile Include="Commands\IRecordableCommand.cs" />
+    <Compile Include="Data\IItemStorage.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Environments\Device.cs" />
     <Compile Include="Environments\EnvironmentNodeWritable.cs" />
@@ -71,10 +72,11 @@
     <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />
     <Compile Include="Environments\IDeviceProvider.cs" />
-    <Compile Include="Nodes\INodeStorage.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Projects\IProjectStorage.cs" />
+    <Compile Include="Projects\Project.cs" />
+    <Compile Include="Projects\ProjectNodeBase.cs" />
     <Compile Include="Projects\ProjectNode.cs" />
     <Compile Include="Projects\IProjectNode.cs" />
     <Compile Include="OptionalValue.cs" />
@@ -86,6 +88,10 @@
     <Compile Include="PhysicalQuantities\Unit.cs" />
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
+    <Compile Include="Records\PreviewRecorder.cs" />
+    <Compile Include="Records\Records.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Records\SamplingRecorder.cs" />
     <Compile Include="Values\ValueRecorder.cs" />
     <Compile Include="Records\Recorder.cs" />

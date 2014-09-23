@@ -5,9 +5,10 @@ using SenseLab.Common.Records;
 namespace SenseLab.Common.Values
 {
     public class ValueRecorder<T> :
-        Recorder<ValueRecord<T>>
+        SamplingRecorder<ValueRecord<T>>
     {
-        public ValueRecorder(IValue<T> value)
+        public ValueRecorder(IValue<T> value, IRecords records, ILocatable<ISpatialLocation> location)
+            : base(records, location)
         {
             value.ValidateNonNull("value");
             Value = value;

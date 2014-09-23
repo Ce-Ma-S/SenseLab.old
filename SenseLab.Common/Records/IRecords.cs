@@ -1,16 +1,14 @@
-﻿using System;
+﻿using SenseLab.Common.Data;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Records
 {
-    public interface IRecords :
-        ICollection<IRecord>
+    public interface IRecords
     {
         string Name { get; }
         string Description { get; }
 
+        IItemStorage<IRecord> Storage { get; }
         ICollection<IRecordTransformer> WriteRecordTransformers { get; }
-
-        IEnumerable<IRecord> RecordsFromRecordableId(Guid id);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SenseLab.Common.Environments;
-using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
@@ -13,16 +12,14 @@ namespace SenseLab.Common.Projects
     /// Wraps another node to be in a project.
     /// </summary>
     public class ProjectNode :
-        NodeWritable<INode, ProjectNode>,
-        IProjectNode,
-        ILocatableChangeable<ISpatialLocation>
+        ProjectNodeBase,
+        IProjectNode
     {
         public ProjectNode(Guid id, string name, string description = null,
             INode parent = null, IList<ProjectNode> children = null,
             ISpatialLocation location = null)
-            : base(id, name, description, parent, children)
+            : base(id, name, description, parent, children, location)
         {
-            Location = location;
             SelectedRecordables = new ObservableCollection<IRecordable>();
         }
 
@@ -37,25 +34,6 @@ namespace SenseLab.Common.Projects
                 SetProperty(() => Node, ref node, value);
             }
         }
-        
-        public ISpatialLocation Location
-        {
-            get { return location; }
-            set
-            {
-                SetProperty(() => Location, ref location, value, OnLocationChanged);
-            }
-        }
-
-        private void OnLocationChanged(ISpatialLocation oldValue, ISpatialLocation newValue)
-        {
-            if (LocationChanged != null)
-                LocationChanged(this, new ValueChangeEventArgs<ISpatialLocation>(oldValue, newValue));
-        }
-        /// <summary>
-        /// Fired when <see cref="ILocatable{T}.Location"/> is changed.
-        /// </summary>
-        public event EventHandler<ValueChangeEventArgs<ISpatialLocation>> LocationChanged;
         /// <summary>
         /// Whether <see cref="Node"/> is selected.
         /// </summary>
@@ -78,13 +56,8 @@ namespace SenseLab.Common.Projects
         {
             get { return SelectedRecordables; }
         }
-        IEnumerable<IProjectNode> INode<INode, IProjectNode>.Children
-        {
-            get { return Children; }
-        }
 
         private IEnvironmentNode node;
         private bool isSelected;
-        private ISpatialLocation location;
     }
 }

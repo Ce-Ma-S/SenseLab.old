@@ -25,15 +25,16 @@ namespace SenseLab.Common.Records
         /// <summary>
         /// Records, new records are added to.
         /// </summary>
-        /// <value>Non-null between <see cref="Start"/> and <see cref="Stop"/>.</value>
         IRecords Records { get; }
+        /// <summary>
+        /// Optional spatial location (project node) used in records creation which can vary over time.
+        /// </summary>
+        ILocatable<ISpatialLocation> Location { get; }
 
         /// <summary>
         /// Starts recording.
         /// </summary>
-        /// <param name="records">See <see cref="Records"/>.</param>
-        /// <param name="spatialLocation">Spatial location (project node) used in records creation which can vary over time.</param>
-        void Start(IRecords records, ILocatable<ISpatialLocation> spatialLocation);
+        void Start();
         /// <summary>
         /// Stops started recording.
         /// </summary>

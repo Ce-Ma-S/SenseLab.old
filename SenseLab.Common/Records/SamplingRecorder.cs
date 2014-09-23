@@ -1,4 +1,4 @@
-﻿using SenseLab.Common.Events;
+﻿using SenseLab.Common.Locations;
 using System;
 
 namespace SenseLab.Common.Records
@@ -8,6 +8,11 @@ namespace SenseLab.Common.Records
         ISamplingRecorder
         where T : class, IRecord
     {
+        public SamplingRecorder(IRecords records, ILocatable<ISpatialLocation> location)
+            : base(records, location)
+        {
+        }
+
         public bool RecordPeriodEnabled
         {
             get

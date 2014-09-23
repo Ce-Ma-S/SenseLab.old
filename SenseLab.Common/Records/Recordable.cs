@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SenseLab.Common.Locations;
+using System;
 
 namespace SenseLab.Common.Records
 {
@@ -21,13 +22,13 @@ namespace SenseLab.Common.Records
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public T CreateRecorder()
+        public T CreateRecorder(IRecords records, ILocatable<ISpatialLocation> spatialLocation)
         {
             return DoCreateRecorder();
         }
-        IRecorder IRecordable.CreateRecorder()
+        IRecorder IRecordable.CreateRecorder(IRecords records, ILocatable<ISpatialLocation> spatialLocation)
         {
-            return CreateRecorder();
+            return CreateRecorder(records, spatialLocation);
         }
 
         protected abstract T DoCreateRecorder();

@@ -1,4 +1,4 @@
-﻿using SenseLab.Common.Nodes;
+﻿using SenseLab.Common.Data;
 
 namespace SenseLab.Common.Projects
 {
@@ -6,7 +6,7 @@ namespace SenseLab.Common.Projects
     /// Project storage.
     /// </summary>
     public interface IProjectStorage :
-        INodeStorage<IProject>
+        IItemStorage<IProject>
     {
     }
 }

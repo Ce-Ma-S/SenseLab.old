@@ -1,4 +1,4 @@
-﻿using SenseLab.Common.Nodes;
+﻿using SenseLab.Common.Data;
 
 namespace SenseLab.Common.Environments
 {
@@ -6,7 +6,7 @@ namespace SenseLab.Common.Environments
     /// Environment storage.
     /// </summary>
     public interface IEnvironmentStorage :
-        INodeStorage<IEnvironment>
+        IItemStorage<IEnvironment>
     {
     }
 }
