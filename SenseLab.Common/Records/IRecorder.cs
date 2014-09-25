@@ -5,12 +5,14 @@ namespace SenseLab.Common.Records
 {
     /// <summary>
     /// Allows recording of changes or current states.
+    /// By subscribing to this recorder, recording starts and records created are available for watching observers until they unsubscribe.
     /// </summary>
     public interface IRecorder :
+        IObservable<IRecord>,
         IDisposable
     {
         /// <summary>
-        /// Whether recording is started by <see cref="Start"/> and not stopped by <see cref="Stop"/>.
+        /// Whether recording is started by at least one active observer subscription.
         /// </summary>
         bool IsStarted { get; }
         /// <summary>
@@ -23,21 +25,8 @@ namespace SenseLab.Common.Records
         /// </summary>
         IRecordable Recordable { get; }
         /// <summary>
-        /// Records, new records are added to.
-        /// </summary>
-        IRecords Records { get; }
-        /// <summary>
         /// Optional spatial location (project node) used in records creation which can vary over time.
         /// </summary>
         ILocatable<ISpatialLocation> Location { get; }
-
-        /// <summary>
-        /// Starts recording.
-        /// </summary>
-        void Start();
-        /// <summary>
-        /// Stops started recording.
-        /// </summary>
-        void Stop();
     }
 }

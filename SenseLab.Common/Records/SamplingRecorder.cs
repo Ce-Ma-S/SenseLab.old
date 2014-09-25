@@ -1,5 +1,6 @@
 ﻿using SenseLab.Common.Locations;
 using System;
+using System.Timers;
 
 namespace SenseLab.Common.Records
 {
@@ -8,8 +9,8 @@ namespace SenseLab.Common.Records
         ISamplingRecorder
         where T : class, IRecord
     {
-        public SamplingRecorder(IRecords records, ILocatable<ISpatialLocation> location)
-            : base(records, location)
+        public SamplingRecorder(ILocatable<ISpatialLocation> location)
+            : base(location)
         {
         }
 
@@ -43,8 +44,19 @@ namespace SenseLab.Common.Records
             return AddRecord(null);
         }
 
+        protected override void DoStart()
+        {
+            ApplyRecordPeriod();
+        }
+        protected override void DoStop()
+        {
+            StopSampling();
+        }
+
         private void ApplyRecordPeriod()
         {
+            if (!IsStarted)
+                return;
             if (RecordPeriodEnabled && RecordPeriod.Milliseconds > 0)
                 StartSampling();
             else
@@ -52,14 +64,30 @@ namespace SenseLab.Common.Records
         }
         private void StartSampling()
         {
-            throw new NotImplementedException();
+            if (timer == null)
+            {
+                timer = new Timer() { AutoReset = true };
+                timer.Elapsed += OnTime;
+            }
+            timer.Interval = RecordPeriod.Milliseconds;
+            timer.Enabled = true;
         }
         private void StopSampling()
         {
-            throw new NotImplementedException();
+            if (timer != null)
+            {
+                timer.Dispose();
+                timer = null;
+            }
+        }
+
+        private void OnTime(object sender, ElapsedEventArgs e)
+        {
+            AddRecord();
         }
 
         private bool recordPeriodEnabled;
         private TimeSpan recordPeriod;
+        private Timer timer;
     }
 }

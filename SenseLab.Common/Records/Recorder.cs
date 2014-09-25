@@ -1,6 +1,9 @@
 ﻿using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace SenseLab.Common.Records
 {
@@ -9,23 +12,14 @@ namespace SenseLab.Common.Records
         IRecorder
         where T : class, IRecord
     {
-        public Recorder(IRecords records, ILocatable<ISpatialLocation> location)
+        public Recorder(ILocatable<ISpatialLocation> location)
         {
-            records.ValidateNonNull("records");
-            if (records.Storage.IsReadOnly)
-                throw new ArgumentException("Record storage is read only.", "records.Storage");
-            if (records.Storage.IsConnected)
-                throw new ArgumentException("Record storage is not connected.", "records.Storage");
-            Records = records;
             Location = location;
         }
+
         public bool IsStarted
         {
-            get { return Records != null; }
-            private set
-            {
-                SetProperty(() => IsStarted, ref isStarted, value, OnIsStartedChanged);
-            }
+            get { return RecordsSubject != null; }
         }
         public bool IsPaused
         {
@@ -37,46 +31,20 @@ namespace SenseLab.Common.Records
         }
 
         public abstract IRecordable Recordable { get; }
-        public IRecords Records { get; private set; }
         public ILocatable<ISpatialLocation> Location { get; private set; }
 
-        public void Start()
+        public IDisposable Subscribe(IObserver<IRecord> observer)
         {
-            if (IsStarted)
-                throw new InvalidOperationException("Recorder is already started.");
-            doStartCalledAfterStart = false;
-            if (Location is ILocatableChangeable<ISpatialLocation>)
-            {
-                ((ILocatableChangeable<ISpatialLocation>)Location).LocationChanged += OnSpatialLocationChanged;
-                var changeableLocation = Location.Location as IChangeable;
-                if (changeableLocation != null)
-                {
-                    changeableLocation.Changed += OnSpatialLocationChanged;
-                }
-            }
-            if (!IsPaused)
-            {
-                DoStart();
-                doStartCalledAfterStart = true;
-            }
-            IsStarted = true;
-        }
-        public void Stop()
-        {
+            var subscription = recordsSubject.Subscribe(observer);
             if (!IsStarted)
-                throw new InvalidOperationException("Recorder is already stopped.");
-            if (Location is ILocatableChangeable<ISpatialLocation>)
-            {
-                ((ILocatableChangeable<ISpatialLocation>)Location).LocationChanged -= OnSpatialLocationChanged;
-                var changeableLocation = Location.Location as IChangeable;
-                if (changeableLocation != null)
+                Start();
+            return System.Reactive.Disposables.Disposable.Create(
+                () =>
                 {
-                    changeableLocation.Changed -= OnSpatialLocationChanged;
-                }
-            }
-            if (doStartCalledAfterStart)
-                DoStop();
-            IsStarted = false;
+                    subscription.Dispose();
+                    if (!recordsSubject.HasObservers)
+                        Stop();
+                });
         }
 
         protected abstract void DoStart();
@@ -86,13 +54,11 @@ namespace SenseLab.Common.Records
         protected abstract T CreateRecord(object data, ISpatialLocation spatialLocation);
         protected T AddRecord(object data)
         {
-            if (!IsStarted)
-                throw new InvalidOperationException("Recorder is not started.");
-            if (IsPaused)
+            if (!IsStarted || IsPaused)
                 return null;
             var record = CreateRecord(data, SpatialLocationClone);
             if (record != null)
-                Records.Storage.AddOrReplace(record);
+                RecordsSubject.OnNext(record);
             return record;
         }
         protected override void Dispose(bool disposing)
@@ -135,6 +101,55 @@ namespace SenseLab.Common.Records
                 return spatialLocationClone;
             }
         }
+        private ReplaySubject<T> RecordsSubject
+        {
+            get { return recordsSubject; }
+            set
+            {
+                recordsSubject = value;
+                OnIsStartedChanged();
+            }
+        }
+
+        private void Start()
+        {
+            if (IsStarted)
+                throw new InvalidOperationException("Recorder is already started.");
+            doStartCalledAfterStart = false;
+            if (Location is ILocatableChangeable<ISpatialLocation>)
+            {
+                ((ILocatableChangeable<ISpatialLocation>)Location).LocationChanged += OnSpatialLocationChanged;
+                var changeableLocation = Location.Location as IChangeable;
+                if (changeableLocation != null)
+                {
+                    changeableLocation.Changed += OnSpatialLocationChanged;
+                }
+            }
+            if (!IsPaused)
+            {
+                DoStart();
+                doStartCalledAfterStart = true;
+            }
+            RecordsSubject = new ReplaySubject<T>(1);
+        }
+        private void Stop()
+        {
+            if (!IsStarted)
+                throw new InvalidOperationException("Recorder is already stopped.");
+            if (Location is ILocatableChangeable<ISpatialLocation>)
+            {
+                ((ILocatableChangeable<ISpatialLocation>)Location).LocationChanged -= OnSpatialLocationChanged;
+                var changeableLocation = Location.Location as IChangeable;
+                if (changeableLocation != null)
+                {
+                    changeableLocation.Changed -= OnSpatialLocationChanged;
+                }
+            }
+            if (doStartCalledAfterStart)
+                DoStop();
+            RecordsSubject.Dispose();
+            RecordsSubject = null;
+        }
 
         private void OnSpatialLocationChanged(object sender, ValueChangeEventArgs<ISpatialLocation> e)
         {
@@ -162,7 +177,7 @@ namespace SenseLab.Common.Records
 
         private ISpatialLocation spatialLocationClone;
         private bool doStartCalledAfterStart;
-        private bool isStarted;
         private bool isPaused;
+        private ReplaySubject<T> recordsSubject;
     }
 }

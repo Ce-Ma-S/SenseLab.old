@@ -7,8 +7,8 @@ namespace SenseLab.Common.Values
     public class ValueRecorder<T> :
         SamplingRecorder<ValueRecord<T>>
     {
-        public ValueRecorder(IValue<T> value, IRecords records, ILocatable<ISpatialLocation> location)
-            : base(records, location)
+        public ValueRecorder(IValue<T> value, ILocatable<ISpatialLocation> location)
+            : base(location)
         {
             value.ValidateNonNull("value");
             Value = value;
@@ -22,6 +22,7 @@ namespace SenseLab.Common.Values
 
         protected override void DoStart()
         {
+            AddRecord();
             Value.ValueChanged += OnValueChanged;
         }
         protected override void DoStop()

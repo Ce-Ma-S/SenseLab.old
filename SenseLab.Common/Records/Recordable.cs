@@ -22,13 +22,13 @@ namespace SenseLab.Common.Records
         public string Name { get; private set; }
         public string Description { get; private set; }
 
-        public T CreateRecorder(IRecords records, ILocatable<ISpatialLocation> spatialLocation)
+        public T CreateRecorder(ILocatable<ISpatialLocation> spatialLocation)
         {
             return DoCreateRecorder();
         }
-        IRecorder IRecordable.CreateRecorder(IRecords records, ILocatable<ISpatialLocation> spatialLocation)
+        IRecorder IRecordable.CreateRecorder(ILocatable<ISpatialLocation> spatialLocation)
         {
-            return CreateRecorder(records, spatialLocation);
+            return CreateRecorder(spatialLocation);
         }
 
         protected abstract T DoCreateRecorder();
