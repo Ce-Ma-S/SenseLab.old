@@ -10,7 +10,7 @@ namespace SenseLab.Common.Records
         public Record(
             IRecordable recordable = null,
             ISpatialLocation spatialLocation = null,
-            ITemporalLocation temporalLocation = null)
+            ITime temporalLocation = null)
         {
             Recordable = recordable;
             SpatialLocation = spatialLocation;
@@ -41,7 +41,7 @@ namespace SenseLab.Common.Records
         {
             get { return SpatialLocation; }
         }
-        public ITemporalLocation TemporalLocation
+        public ITime TemporalLocation
         {
             get { return temporalLocation; }
             set
@@ -49,13 +49,13 @@ namespace SenseLab.Common.Records
                 SetProperty(() => TemporalLocation, ref temporalLocation, value);
             }
         }
-        ITemporalLocation ILocatable<ITemporalLocation>.Location
+        ITime ILocatable<ITime>.Location
         {
             get { return TemporalLocation; }
         }
 
         private ISpatialLocation spatialLocation;
-        private ITemporalLocation temporalLocation;
+        private ITime temporalLocation;
 
         protected abstract string GetText();
 

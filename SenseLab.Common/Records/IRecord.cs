@@ -4,7 +4,7 @@ namespace SenseLab.Common.Records
 {
     public interface IRecord :
         ILocatable<ISpatialLocation>,
-        ILocatable<ITemporalLocation>
+        ILocatable<ITime>
     {
         string Text { get; }
         IRecordable Recordable { get; }

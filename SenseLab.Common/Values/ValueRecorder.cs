@@ -41,11 +41,11 @@ namespace SenseLab.Common.Values
         {
             var a = (ValueChangeEventArgs<T>)data;
             T value;
-            ITemporalLocation temporalLocation = null;
+            ITime temporalLocation = null;
             if (a != null)
             {
                 value = a.NewValue;
-                temporalLocation = a.Location as ITemporalLocation;
+                temporalLocation = a.Location as ITime;
             }
             else
             {

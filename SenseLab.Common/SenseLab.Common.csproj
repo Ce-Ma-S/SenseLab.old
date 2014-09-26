@@ -80,12 +80,15 @@
     <Compile Include="Locations\ILocatableChangeable.cs" />
     <Compile Include="Locations\ILocation.cs" />
     <Compile Include="Locations\ILocationGroup.cs" />
+    <Compile Include="Locations\ITime.cs" />
     <Compile Include="Locations\SpatialLocationGroup.cs" />
     <Compile Include="Locations\OrientedPoint.cs" />
     <Compile Include="Locations\Point.cs" />
     <Compile Include="Locations\ITemporalLocation.cs" />
     <Compile Include="Locations\LocationGroup.cs" />
     <Compile Include="Locations\SpatialTextLocation.cs" />
+    <Compile Include="Locations\TemporalLocationGroup.cs" />
+    <Compile Include="Locations\TemporalTextLocation.cs" />
     <Compile Include="Locations\Time.cs" />
     <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />

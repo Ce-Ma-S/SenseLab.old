@@ -11,7 +11,7 @@ namespace SenseLab.Common.Values
             T value,
             IRecordable recordable = null,
             ISpatialLocation spatialLocation = null,
-            ITemporalLocation temporalLocation = null)
+            ITime temporalLocation = null)
             : base(recordable, spatialLocation, temporalLocation)
         {
             Value = value;

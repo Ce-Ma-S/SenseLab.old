@@ -4,7 +4,7 @@ namespace SenseLab.Common.Locations
 {
     public class Time :
         Location,
-        ITemporalLocation
+        ITime
     {
         public Time(DateTimeOffset from, TimeSpan? length = null)
         {
