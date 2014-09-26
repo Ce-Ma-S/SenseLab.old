@@ -76,6 +76,9 @@
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
     <Compile Include="Events\ValueChangeEventArgs.cs" />
+    <Compile Include="IdHelper.cs" />
+    <Compile Include="IdValue.cs" />
+    <Compile Include="IIdValue.cs" />
     <Compile Include="IId.cs" />
     <Compile Include="Locations\ILocatableChangeable.cs" />
     <Compile Include="Locations\ILocation.cs" />

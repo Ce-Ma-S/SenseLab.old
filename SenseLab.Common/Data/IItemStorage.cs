@@ -6,8 +6,12 @@ namespace SenseLab.Common.Data
     /// Storage of items.
     /// Local or remote.
     /// </summary>
-    public interface IItemStorage<T>
+    public interface IItemStorage<T> :
+        IId<Guid>
     {
+        string Name { get; }
+        string Description { get; }
+
         bool IsReadOnly { get; }
         bool IsConnected { get; }
 

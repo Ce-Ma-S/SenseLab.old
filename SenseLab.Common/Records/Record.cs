@@ -54,11 +54,15 @@ namespace SenseLab.Common.Records
             get { return TemporalLocation; }
         }
 
-        private ISpatialLocation spatialLocation;
-        private ITime temporalLocation;
+        public override string ToString()
+        {
+            return string.Format("{0} ({1}, {2})", Text, TemporalLocation, SpatialLocation);
+        }
 
         protected abstract string GetText();
 
         private IRecordable recordable;
+        private ISpatialLocation spatialLocation;
+        private ITime temporalLocation;
     }
 }
