@@ -7,6 +7,7 @@ namespace SenseLab.Common.Records
         IRecords
     {
         public IItemStorage<IIdValue<uint, IRecord>, uint> Storage { get; private set; }
+        public IList<IRecordTransformer> ReadRecordTransformers { get; private set; }
         public IList<IRecordTransformer> WriteRecordTransformers { get; private set; }
     }
 }

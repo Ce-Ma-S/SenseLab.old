@@ -1,12 +1,13 @@
 ﻿using SenseLab.Common.Data;
+using System;
 
 namespace SenseLab.Common.Projects
 {
     /// <summary>
-    /// Project storage.
+    /// Projects.
     /// </summary>
-    public interface IProjectStorage :
-        IItemStorage<IProject>
+    public interface IProjects
     {
+        IItemStorage<IProject, Guid> Storage { get; }
     }
 }

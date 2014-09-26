@@ -6,6 +6,7 @@ namespace SenseLab.Common.Records
     public interface IRecords
     {
         IItemStorage<IIdValue<uint, IRecord>, uint> Storage { get; }
+        IList<IRecordTransformer> ReadRecordTransformers { get; }
         IList<IRecordTransformer> WriteRecordTransformers { get; }
     }
 }

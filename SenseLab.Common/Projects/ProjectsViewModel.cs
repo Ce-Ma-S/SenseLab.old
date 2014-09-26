@@ -12,32 +12,32 @@ namespace SenseLab.Common.Projects
     {
         public ProjectsViewModel()
         {
-            var projectStorages = new ObservableCollection<IProjectStorage>();
-            projectStorages.CollectionChanged += OnProjectStoragesChanged;
-            ProjectStorages = projectStorages;
+            var projects = new ObservableCollection<IProjects>();
+            projects.CollectionChanged += OnProjectsChanged;
+            Projects = projects;
             OpenProjects = new ObservableCollection<IProject>();
         }
 
-        public IList<IProjectStorage> ProjectStorages { get; private set; }
-        public IProjectStorage DefaultProjectStorage
+        public IList<IProjects> Projects { get; private set; }
+        public IProjects DefaultProjects
         {
-            get { return defaultProjectStorage; }
+            get { return defaultProjects; }
             set
             {
-                if (value != null && !ProjectStorages.Contains(value))
+                if (value != null && !Projects.Contains(value))
                     throw new ArgumentOutOfRangeException();
-                SetProperty(() => DefaultProjectStorage, ref defaultProjectStorage, value);
+                SetProperty(() => DefaultProjects, ref defaultProjects, value);
             }
         }
         public IList<IProject> OpenProjects { get; private set; }
         public EnvironmentsViewModel Environments { get; private set; }
 
-        private void OnProjectStoragesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnProjectsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (DefaultProjectStorage != null && !ProjectStorages.Contains(DefaultProjectStorage))
-                DefaultProjectStorage = null;
+            if (DefaultProjects != null && !Projects.Contains(DefaultProjects))
+                DefaultProjects = null;
         }
 
-        private IProjectStorage defaultProjectStorage;
+        private IProjects defaultProjects;
     }
 }

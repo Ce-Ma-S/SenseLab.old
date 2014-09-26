@@ -69,7 +69,7 @@
     <Compile Include="Environments\EnvironmentNode.cs" />
     <Compile Include="Environments\DeviceProvider.cs" />
     <Compile Include="Environments\EnvironmentsViewModel.cs" />
-    <Compile Include="Environments\IEnvironmentStorage.cs" />
+    <Compile Include="Environments\IEnvironments.cs" />
     <Compile Include="Environments\IEnvironmentNode.cs" />
     <Compile Include="Environments\IEnvironment.cs" />
     <Compile Include="Events\IChangeable.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Environments\IDeviceProvider.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
-    <Compile Include="Projects\IProjectStorage.cs" />
+    <Compile Include="Projects\IProjects.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\ProjectNodeBase.cs" />
     <Compile Include="Projects\ProjectNode.cs" />

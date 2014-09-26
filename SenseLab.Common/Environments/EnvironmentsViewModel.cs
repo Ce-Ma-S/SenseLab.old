@@ -9,9 +9,9 @@ namespace SenseLab.Common.Environments
     {
         public EnvironmentsViewModel()
         {
-            EnvironmentStorages = new ObservableCollection<IEnvironmentStorage>();
+            Environments = new ObservableCollection<IEnvironments>();
         }
 
-        public IList<IEnvironmentStorage> EnvironmentStorages { get; private set; }
+        public IList<IEnvironments> Environments { get; private set; }
     }
 }
