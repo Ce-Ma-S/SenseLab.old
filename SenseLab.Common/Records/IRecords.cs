@@ -9,6 +9,6 @@ namespace SenseLab.Common.Records
         string Description { get; }
 
         IItemStorage<IRecord> Storage { get; }
-        ICollection<IRecordTransformer> WriteRecordTransformers { get; }
+        IList<IRecordTransformer> WriteRecordTransformers { get; }
     }
 }

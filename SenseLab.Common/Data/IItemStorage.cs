@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 
 namespace SenseLab.Common.Data
 {
@@ -11,12 +11,15 @@ namespace SenseLab.Common.Data
         bool IsReadOnly { get; }
         bool IsConnected { get; }
 
-        IQueryable<T> Items { get; }
+        IObservable<T> Items { get; }
+        IObservable<T> ItemsUpdated { get; }
+        IObservable<T> ItemsRemoved { get; }
 
         void Connect();
         void Disconnect();
 
-        void AddOrReplace(T item);
+        void Add(T item);
+        bool Update(T item);
         bool Remove(T item);
     }
 
@@ -29,6 +32,9 @@ namespace SenseLab.Common.Data
         IItemStorage<TItem>
         where TItem : IId<TId>
     {
+        OptionalValue<TItem> this[TId itemId] { get; }
+
+        bool Contains(TId itemId);
         bool Remove(TId itemId);
     }
 }

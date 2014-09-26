@@ -26,7 +26,7 @@ namespace SenseLab.Common.Records
         }
         
         public IItemStorage<IRecord> Storage { get; private set; }
-        public ICollection<IRecordTransformer> WriteRecordTransformers { get; private set; }
+        public IList<IRecordTransformer> WriteRecordTransformers { get; private set; }
         
         private string name;
         private string description;

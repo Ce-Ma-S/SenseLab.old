@@ -1,6 +1,4 @@
-﻿using SenseLab.Common.Locations;
-
-namespace SenseLab.Common.Records
+﻿namespace SenseLab.Common.Records
 {
     public interface IRecordTransformer
     {
