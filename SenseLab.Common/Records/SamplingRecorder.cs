@@ -9,8 +9,8 @@ namespace SenseLab.Common.Records
         ISamplingRecorder
         where T : class, IRecord
     {
-        public SamplingRecorder(ILocatable<ISpatialLocation> location)
-            : base(location)
+        public SamplingRecorder(uint nextSequenceNumber, ILocatable<ISpatialLocation> location)
+            : base(nextSequenceNumber, location)
         {
         }
 

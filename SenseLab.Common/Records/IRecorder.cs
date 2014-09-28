@@ -25,6 +25,10 @@ namespace SenseLab.Common.Records
         /// </summary>
         IRecordable Recordable { get; }
         /// <summary>
+        /// Sequence number of next record.
+        /// </summary>
+        uint NextSequenceNumber { get; }
+        /// <summary>
         /// Optional spatial location (project node) used in records creation which can vary over time.
         /// </summary>
         ILocatable<ISpatialLocation> Location { get; }

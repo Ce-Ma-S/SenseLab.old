@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Records;
+﻿using SenseLab.Common.Locations;
+using SenseLab.Common.Records;
 using System.Windows.Input;
 
 namespace SenseLab.Common.Commands
@@ -7,13 +8,23 @@ namespace SenseLab.Common.Commands
         Record,
         ICommandRecord
     {
-        public ICommand Command
+        public CommandRecord(
+            IRecordableCommand command,
+            P commandParameter,
+            uint sequenceNumber,
+            ISpatialLocation spatialLocation = null,
+            ITime temporalLocation = null)
+            : base(sequenceNumber, spatialLocation, temporalLocation)
         {
-            get { return command; }
-            set
-            {
-                SetProperty(() => Command, ref command, value);
-            }
+            command.ValidateNonNull("command");
+            Command = command;
+            CommandParameter = commandParameter;
+        }
+
+        public IRecordableCommand Command { get; private set; }
+        public override IRecordSource Source
+        {
+            get { return Command; }
         }
         public P CommandParameter
         {
@@ -23,14 +34,14 @@ namespace SenseLab.Common.Commands
                 SetProperty(() => CommandParameter, ref commandParameter, value);
             }
         }
+        object ICommandRecord.CommandParameter
+        {
+            get { return CommandParameter; }
+        }
 
         protected override string GetText()
         {
             return string.Format("{0} ({1})", Command, CommandParameter);
-        }
-        object ICommandRecord.CommandParameter
-        {
-            get { return CommandParameter; }
         }
 
         private ICommand command;

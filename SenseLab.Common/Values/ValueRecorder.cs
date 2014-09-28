@@ -7,8 +7,8 @@ namespace SenseLab.Common.Values
     public class ValueRecorder<T> :
         SamplingRecorder<ValueRecord<T>>
     {
-        public ValueRecorder(IValue<T> value, ILocatable<ISpatialLocation> location)
-            : base(location)
+        public ValueRecorder(IValue<T> value, uint nextSequenceNumber, ILocatable<ISpatialLocation> location)
+            : base(nextSequenceNumber, location)
         {
             value.ValidateNonNull("value");
             Value = value;
@@ -37,7 +37,7 @@ namespace SenseLab.Common.Values
         {
             DoStart();
         }
-        protected override ValueRecord<T> CreateRecord(object data, ISpatialLocation spatialLocation)
+        protected override ValueRecord<T> CreateRecord(object data, uint sequenceNumber, ISpatialLocation spatialLocation)
         {
             var a = (ValueChangeEventArgs<T>)data;
             T value;
@@ -54,8 +54,8 @@ namespace SenseLab.Common.Values
             }
             if (temporalLocation == null)
                 temporalLocation = Time.Now;
-            return new ValueRecord<T>(value, Recordable,
-                spatialLocation, temporalLocation);
+            return new ValueRecord<T>(Recordable, value,
+                sequenceNumber, spatialLocation, temporalLocation);
         }
 
         private void OnValueChanged(object sender, ValueChangeEventArgs<T> e)

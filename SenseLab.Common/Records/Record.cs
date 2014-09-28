@@ -1,5 +1,7 @@
 ﻿using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
+using System;
+using System.Collections.Generic;
 
 namespace SenseLab.Common.Records
 {
@@ -8,27 +10,25 @@ namespace SenseLab.Common.Records
         IRecord
     {
         public Record(
-            IRecordable recordable = null,
+            uint sequenceNumber,
             ISpatialLocation spatialLocation = null,
             ITime temporalLocation = null)
         {
-            Recordable = recordable;
+            SequenceNumber = sequenceNumber;
             SpatialLocation = spatialLocation;
             TemporalLocation = temporalLocation;
         }
 
+        public KeyValuePair<Guid, uint> Id
+        {
+            get { return new KeyValuePair<Guid, uint>(Source.Id, SequenceNumber); }
+        }
         public string Text
         {
             get { return GetText(); }
         }
-        public IRecordable Recordable
-        {
-            get { return recordable; }
-            set
-            {
-                SetProperty(() => Recordable, ref recordable, value);
-            }
-        }
+        public abstract IRecordSource Source { get; }
+        public uint SequenceNumber { get; private set; }
         public ISpatialLocation SpatialLocation
         {
             get { return spatialLocation; }
@@ -53,6 +53,14 @@ namespace SenseLab.Common.Records
         {
             get { return TemporalLocation; }
         }
+        public IRecordGroup Group
+        {
+            get { return group; }
+            set
+            {
+                SetProperty(() => Group, ref group, value);
+            }
+        }
 
         public override string ToString()
         {
@@ -61,8 +69,8 @@ namespace SenseLab.Common.Records
 
         protected abstract string GetText();
 
-        private IRecordable recordable;
         private ISpatialLocation spatialLocation;
         private ITime temporalLocation;
+        private IRecordGroup group;        
     }
 }

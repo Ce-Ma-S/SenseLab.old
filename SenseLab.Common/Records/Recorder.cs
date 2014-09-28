@@ -12,8 +12,9 @@ namespace SenseLab.Common.Records
         IRecorder
         where T : class, IRecord
     {
-        public Recorder(ILocatable<ISpatialLocation> location)
+        public Recorder(uint nextSequenceNumber, ILocatable<ISpatialLocation> location)
         {
+            NextSequenceNumber = nextSequenceNumber;
             Location = location;
         }
 
@@ -31,6 +32,14 @@ namespace SenseLab.Common.Records
         }
 
         public abstract IRecordable Recordable { get; }
+        public uint NextSequenceNumber
+        {
+            get { return nextSequenceNumber; }
+            private set
+            {
+                SetProperty(() => NextSequenceNumber, ref nextSequenceNumber, value);
+            }
+        }
         public ILocatable<ISpatialLocation> Location { get; private set; }
 
         public IDisposable Subscribe(IObserver<IRecord> observer)
@@ -51,14 +60,17 @@ namespace SenseLab.Common.Records
         protected abstract void DoStop();
         protected abstract void DoPause();
         protected abstract void DoUnpause();
-        protected abstract T CreateRecord(object data, ISpatialLocation spatialLocation);
+        protected abstract T CreateRecord(object data, uint sequenceNumber, ISpatialLocation spatialLocation);
         protected T AddRecord(object data)
         {
             if (!IsStarted || IsPaused)
                 return null;
-            var record = CreateRecord(data, SpatialLocationClone);
+            var record = CreateRecord(data, NextSequenceNumber, SpatialLocationClone);
             if (record != null)
+            {
                 RecordsSubject.OnNext(record);
+                NextSequenceNumber++;
+            }
             return record;
         }
         protected override void Dispose(bool disposing)
@@ -179,5 +191,6 @@ namespace SenseLab.Common.Records
         private bool doStartCalledAfterStart;
         private bool isPaused;
         private ReplaySubject<T> recordsSubject;
+        private uint nextSequenceNumber;
     }
 }

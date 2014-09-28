@@ -8,23 +8,21 @@ namespace SenseLab.Common.Values
         IValueRecord
     {
         public ValueRecord(
+            IRecordSource source,
             T value,
-            IRecordable recordable = null,
+            uint sequenceNumber,
             ISpatialLocation spatialLocation = null,
             ITime temporalLocation = null)
-            : base(recordable, spatialLocation, temporalLocation)
+            : base(sequenceNumber, spatialLocation, temporalLocation)
         {
             Value = value;
         }
 
-        public T Value
+        public override IRecordSource Source
         {
-            get { return value; }
-            set
-            {
-                SetProperty(() => Value, ref this.value, value);
-            }
+            get { return recordable; }
         }
+        public T Value { get; private set; }
         object IValueRecord.Value
         {
             get { return Value; }
@@ -35,6 +33,7 @@ namespace SenseLab.Common.Values
             return string.Format("{0}", Value);
         }
 
+        private IRecordSource recordable;
         private T value;
     }
 }

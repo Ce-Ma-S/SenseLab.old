@@ -1,5 +1,4 @@
 ﻿using SenseLab.Common.Locations;
-using System;
 
 namespace SenseLab.Common.Records
 {
@@ -7,17 +6,17 @@ namespace SenseLab.Common.Records
     /// Recordable object.
     /// </summary>
     public interface IRecordable :
-        IId<Guid>
+        IRecordSource
     {
-        /// <summary>
-        /// Record type.
-        /// </summary>
-        IRecordType Type { get; }
-
         /// <summary>
         /// Creates recorder.
         /// </summary>
+        /// <param name="group">Optional group for new records.</param>
+        /// <param name="nextSequenceNumber">Sequence number of next new record.</param>
         /// <param name="location">Optional spatial location (project node) used in records creation which can vary over time.</param>
-        IRecorder CreateRecorder(ILocatable<ISpatialLocation> location = null);
+        IRecorder CreateRecorder(
+            IRecordGroup group = null,
+            uint nextSequenceNumber = 0,
+            ILocatable<ISpatialLocation> location = null);
     }
 }

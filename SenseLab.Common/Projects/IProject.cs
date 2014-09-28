@@ -1,6 +1,8 @@
-﻿using SenseLab.Common.Locations;
+﻿using SenseLab.Common.Data;
+using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
+using System;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Projects
@@ -15,6 +17,8 @@ namespace SenseLab.Common.Projects
         /// <summary>
         /// Records recorded.
         /// </summary>
-        IEnumerable<IRecords> Records { get; }
+        IItemStorage<IRecord, KeyValuePair<Guid, uint>> Storage { get; }
+        IList<IRecordTransformer> ReadRecordTransformers { get; }
+        IList<IRecordTransformer> WriteRecordTransformers { get; }
     }
 }
