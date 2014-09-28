@@ -47,6 +47,9 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive.Providers">
+      <HintPath>..\packages\Rx-Providers.2.2.5\lib\net45\System.Reactive.Providers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
@@ -93,6 +96,7 @@
     <Compile Include="Locations\TextLocation.cs" />
     <Compile Include="Locations\Location.cs" />
     <Compile Include="Environments\IDeviceProvider.cs" />
+    <Compile Include="Locations\TimeHelper.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Projects\IProjects.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Records\IRecordGroup.cs" />
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
+    <Compile Include="Records\RecordsHelper.cs" />
     <Compile Include="Records\RecordSource.cs" />
     <Compile Include="Records\SamplingRecorder.cs" />
     <Compile Include="Values\ValueRecorder.cs" />

@@ -13,5 +13,7 @@ namespace SenseLab.Common.Records
         IRecordSource Source { get; }
         uint SequenceNumber { get; }
         IRecordGroup Group { get; }
+        ISpatialLocation SpatialLocation { get; }
+        ITime TemporalLocation { get; }
     }
 }
