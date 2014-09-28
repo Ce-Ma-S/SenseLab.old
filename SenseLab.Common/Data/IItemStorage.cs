@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 
 namespace SenseLab.Common.Data
 {
@@ -15,7 +16,7 @@ namespace SenseLab.Common.Data
         bool IsReadOnly { get; }
         bool IsConnected { get; }
 
-        IObservable<T> Items { get; }
+        IQbservable<T> Items { get; }
         IObservable<T> ItemsUpdated { get; }
         IObservable<T> ItemsRemoved { get; }
 
