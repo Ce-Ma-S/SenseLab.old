@@ -14,6 +14,7 @@ namespace SenseLab.Common.Records
         {
             return records.Where(record => record.TemporalLocation.Intersects(time));
         }
+
         public static IQbservable<IRecordSource> Sources(this IQbservable<IRecord> records)
         {
             return records.Select(record => record.Source).Distinct();
@@ -22,6 +23,7 @@ namespace SenseLab.Common.Records
         {
             return records.Where(record => record.Source.Id == sourceId);
         }
+
         public static IQbservable<IRecordGroup> Groups(this IQbservable<IRecord> records)
         {
             return records.Select(record => record.Group).Distinct();
@@ -34,6 +36,7 @@ namespace SenseLab.Common.Records
         {
             return records.Where(record => record.Group == null);
         }
+
         public static IQbservable<IRecordType> Types(this IQbservable<IRecord> records)
         {
             return records.Select(record => record.Source.Type).Distinct();

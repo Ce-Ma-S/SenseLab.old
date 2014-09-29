@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
 {
@@ -7,8 +8,11 @@ namespace SenseLab.Common.Data
     /// Storage of items.
     /// Local or remote.
     /// </summary>
-    public interface IItemStorage<T> :
+    /// <typeparam name="TItem">Item type.</typeparam>
+    /// <typeparam name="TId">Item identifier type.</typeparam>
+    public interface IItemStorage<TItem, TId> :
         IId<Guid>
+        where TItem : IId<TId>
     {
         string Name { get; }
         string Description { get; }
@@ -16,30 +20,15 @@ namespace SenseLab.Common.Data
         bool IsReadOnly { get; }
         bool IsConnected { get; }
 
-        IQbservable<T> Items { get; }
-        IObservable<T> ItemsUpdated { get; }
-        IObservable<T> ItemsRemoved { get; }
+        IQbservable<TItem> Items { get; }
+        IObservable<TItem> ItemsUpdated { get; }
+        IObservable<TItem> ItemsRemoved { get; }
 
-        void Connect();
-        void Disconnect();
+        Task Connect();
+        Task Disconnect();
 
-        void Add(T item);
-        bool Update(T item);
-        bool Remove(T item);
-    }
-
-
-    /// <summary>
-    /// Storage of items.
-    /// Local or remote.
-    /// </summary>
-    public interface IItemStorage<TItem, TId> :
-        IItemStorage<TItem>
-        where TItem : IId<TId>
-    {
-        OptionalValue<TItem> this[TId itemId] { get; }
-
-        bool Contains(TId itemId);
-        bool Remove(TId itemId);
+        Task Add(TItem item);
+        Task<bool> Update(TItem item);
+        Task<bool> Remove(TId itemId);
     }
 }

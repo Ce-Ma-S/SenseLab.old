@@ -65,6 +65,7 @@
     <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\IItemStorage.cs" />
+    <Compile Include="Data\ItemStorage.cs" />
     <Compile Include="Data\ObservableCache.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Environments\Device.cs" />
