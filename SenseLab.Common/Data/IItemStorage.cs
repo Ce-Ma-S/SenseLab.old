@@ -17,18 +17,35 @@ namespace SenseLab.Common.Data
         string Name { get; }
         string Description { get; }
 
-        bool IsReadOnly { get; }
-        bool IsConnected { get; }
+        #region Connection
 
-        IQbservable<TItem> Items { get; }
-        IObservable<TItem> ItemsUpdated { get; }
-        IObservable<TItem> ItemsRemoved { get; }
+        bool IsConnected { get; }
 
         Task Connect();
         Task Disconnect();
 
+        #endregion
+
+        #region Items
+
+        IQbservable<TItem> Items { get; }
+
+        Task<bool> Contains(TId itemId);
+        Task<TItem> FirstOrDefault(TId itemId);
+
+        #endregion
+
+        #region Updates
+
+        bool IsReadOnly { get; }
+
+        IObservable<TItem> ItemsUpdated { get; }
+        IObservable<TItem> ItemsRemoved { get; }
+        
         Task Add(TItem item);
-        Task<bool> Update(TItem item);
+        Task Update(TItem item);
         Task<bool> Remove(TId itemId);
+
+        #endregion
     }
 }
