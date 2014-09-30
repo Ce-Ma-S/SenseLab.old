@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
 {
+    /// <summary>
+    /// Storage base.
+    /// </summary>
+    /// <typeparam name="TItem">Item type.</typeparam>
+    /// <typeparam name="TId">Item identifier type.</typeparam>
     public abstract class ItemStorage<TItem, TId> :
         NotifyPropertyChange,
         IItemStorage<TItem, TId>

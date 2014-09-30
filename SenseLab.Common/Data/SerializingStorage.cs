@@ -1,27 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
 {
+    /// <summary>
+    /// Storage with items serialized to stream(s).
+    /// </summary>
+    /// <typeparam name="TItem">Item type.</typeparam>
+    /// <typeparam name="TId">Item identifier type.</typeparam>
     public abstract class SerializingStorage<TItem, TId> :
         ItemStorage<TItem, TId>
         where TItem : IId<TId>
     {
         public SerializingStorage(Guid id, string name, string description, bool isReadOnly,
-            XmlObjectSerializer serializer, string folderPath, string fileExtension)
+            ISerializer<TItem> serializer)
             : base(id, name, description, isReadOnly)
         {
             serializer.ValidateNonNull("serializer");
-            folderPath.ValidateNonNullOrEmpty("folderPath");
-            fileExtension.ValidateNonNullOrEmpty("fileExtension");
             Serializer = serializer;
-            FolderPath = folderPath;
-            FileExtension = fileExtension;
         }
 
         #region Connection
@@ -37,56 +35,9 @@ namespace SenseLab.Common.Data
 
         #endregion
 
-        #region Files
-
-        public string FolderPath { get; private set; }
-        public string FileExtension { get; private set; }
-
-        public string GetFilePath(TId itemId)
-        {
-            return Path.Combine(FolderPath, NameFromItemId(itemId));
-        }
-
-        protected virtual string NameFromItemId(TId itemId)
-        {
-            return itemId.ToString();
-        }
-        protected abstract TId ItemIdFromName(string name);
-
-        protected async Task<Stream> GetItemStream(TId itemId, FileAccess access)
-        {
-            var filePath = GetFilePath(itemId);
-            return await Task.Run(() => File.Open(filePath, FileMode.OpenOrCreate, access));
-        }
-        protected async Task<bool> RemoveItemStream(TId itemId)
-        {
-            var filePath = GetFilePath(itemId);
-            return await Task.Run(
-                () =>
-                {
-                    if (File.Exists(filePath))
-                    {
-                        File.Delete(filePath);
-                        return true;
-                    }
-                    return false;
-                });
-        }
-
-        #endregion
-
         #region Items
 
-        public IObservable<TId> ItemIds
-        {
-            get
-            {
-                var pattern = Path.ChangeExtension("*", FileExtension);
-                return Directory.EnumerateFiles(FolderPath, pattern)
-                    .Select(name => ItemIdFromName(Path.GetFileNameWithoutExtension(name)))
-                    .ToObservable();
-            }
-        }
+        public abstract IObservable<TId> ItemIds { get; }
         public override IQbservable<TItem> Items
         {
             get
@@ -109,32 +60,35 @@ namespace SenseLab.Common.Data
 
         #endregion
 
+        #region Streams
+
+        protected abstract Task<Stream> OpenItemStreamForReading(TId itemId);
+        protected abstract Task<Stream> CreateItemStreamForWriting(TId itemId);
+        protected abstract Task<bool> RemoveItemStream(TId itemId);
+
+        #endregion
+
         #region Serialization
 
-        protected XmlObjectSerializer Serializer { get; private set; }
+        /// <summary>
+        /// Item serializer.
+        /// </summary>
+        /// <value>Non-null.</value>
+        public ISerializer<TItem> Serializer { get; private set; }
 
         protected async Task SerializeItem(TItem item)
         {
-            var itemStream = await GetItemStream(item.Id, FileAccess.Write);
-            await SerializeItem(item, itemStream);
-        }
-        protected virtual async Task SerializeItem(TItem item, Stream itemStream)
-        {
-            await Task.Run(() =>
+            using (var itemStream = await CreateItemStreamForWriting(item.Id))
             {
-                Serializer.WriteObject(itemStream, item);
-                // truncate the rest if any
-                itemStream.SetLength(itemStream.Position);
-            });
+                await Serializer.Serialize(item, itemStream); 
+            }
         }
         protected async Task<TItem> DeserializeItem(TId itemId)
         {
-            var itemStream = await GetItemStream(itemId, FileAccess.Read);
-            return await DeserializeItem(itemStream);
-        }
-        protected virtual async Task<TItem> DeserializeItem(Stream itemStream)
-        {
-            return await Task.Run(() => (TItem)Serializer.ReadObject(itemStream));
+            using (var itemStream = await OpenItemStreamForReading(itemId))
+            {
+                return await Serializer.Deserialize(itemStream); 
+            }
         }
 
         #endregion

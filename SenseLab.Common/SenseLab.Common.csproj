@@ -35,6 +35,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -65,10 +67,14 @@
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
     <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\ISerializer.cs" />
     <Compile Include="Data\IItemStorage.cs" />
     <Compile Include="Data\ItemStorage.cs" />
     <Compile Include="Data\ObservableCache.cs" />
+    <Compile Include="Data\FileSerializingStorage.cs" />
     <Compile Include="Data\SerializingStorage.cs" />
+    <Compile Include="Data\Serializer.cs" />
+    <Compile Include="Data\XmlSerializer.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Environments\Device.cs" />
     <Compile Include="Environments\EnvironmentNodeWritable.cs" />
