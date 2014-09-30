@@ -1,33 +1,32 @@
 ﻿using SenseLab.Common.Events;
-using SenseLab.Common.Locations;
-using SenseLab.Common.Records;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Nodes
 {
-    public abstract class Node<P, C> :
+    [DataContract]
+    public abstract class Node</*P,*/ C> :
         NotifyPropertyChange,
-        INode<P, C>
-        where P : INode
+        INode</*P,*/ C>
+        //where P : INode
         where C : INode
     {
         public Node(Guid id, string name, string description = null,
-            P parent = default(P), IList<C> children = null)
+            /*P parent = default(P),*/ IList<C> children = null)
         {
             Id = id;
             Name = name;
             Description = description;
-            Parent = parent;
+            //Parent = parent;
             if (children == null)
                 children = new ObservableCollection<C>();
             Children = children;
         }
 
+        [DataMember]
         public Guid Id { get; private set; }
         public string Name
         {
@@ -47,19 +46,19 @@ namespace SenseLab.Common.Nodes
             }
         }
 
-        public P Parent
-        {
-            get { return parent; }
-            protected set
-            {
-                SetProperty(() => Parent, ref parent, value);
-            }
-        }
-        INode INode.Parent
-        {
-            get { return Parent; }
-        }
-        IEnumerable<C> INode<P, C>.Children
+        //public P Parent
+        //{
+        //    get { return parent; }
+        //    protected set
+        //    {
+        //        SetProperty(() => Parent, ref parent, value);
+        //    }
+        //}
+        //INode INode.Parent
+        //{
+        //    get { return Parent; }
+        //}
+        IEnumerable<C> INode</*P,*/ C>.Children
         {
             get { return Children; }
         }
@@ -68,10 +67,13 @@ namespace SenseLab.Common.Nodes
             get { return Children.Cast<INode>(); }
         }
 
+        [DataMember]
         protected IList<C> Children { get; private set; }
 
+        [DataMember(Name = "Name")]
         private string name;
+        [DataMember(Name = "Description")]
         private string description;
-        private P parent;
+        //private P parent;
     }
 }

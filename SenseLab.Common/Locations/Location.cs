@@ -30,6 +30,10 @@ namespace SenseLab.Common.Locations
 
         protected virtual void OnChanged()
         {
+            if (Changed != null)
+            {
+                Changed(this, EventArgs.Empty);
+            }
             OnPropertyChanged(() => Text);
         }
     }

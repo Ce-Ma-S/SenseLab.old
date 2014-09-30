@@ -12,13 +12,13 @@ namespace SenseLab.Common.Environments
         where T : IDevice
     {
         public DeviceProvider(Guid id, string name, string description = null,
-            INode parent = null, IList<T> children = null,
+            /*INode parent = null,*/ IList<T> children = null,
             IList<IRecordable> recordables = null)
-            : base(id, name, description, parent, children, recordables)
+            : base(id, name, description, /*parent,*/ children, recordables)
         {
         }
 
-        IEnumerable<IDevice> INode<INode, IDevice>.Children
+        IEnumerable<IDevice> INode</*INode,*/ IDevice>.Children
         {
             get { return Children.Cast<IDevice>(); }
         }

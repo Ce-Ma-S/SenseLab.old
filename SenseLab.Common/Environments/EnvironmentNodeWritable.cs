@@ -7,13 +7,13 @@ using System.Collections.ObjectModel;
 namespace SenseLab.Common.Environments
 {
     public class EnvironmentNodeWritable :
-        NodeWritable<INode, IEnvironmentNode>,
+        NodeWritable</*INode,*/ IEnvironmentNode>,
         IEnvironmentNode
     {
         public EnvironmentNodeWritable(Guid id, string name, string description = null,
-            INode parent = null, IList<IEnvironmentNode> children = null,
+            /*INode parent = null,*/ IList<IEnvironmentNode> children = null,
             IList<IRecordable> recordables = null)
-            : base(id, name, description, parent, children)
+            : base(id, name, description, /*parent,*/ children)
         {
             if (recordables == null)
                 recordables = new ObservableCollection<IRecordable>();

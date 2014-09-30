@@ -3,7 +3,7 @@
 namespace SenseLab.Common.Environments
 {
     public interface IDeviceProvider :
-        INode<INode, IDevice>,
+        INode</*INode,*/ IDevice>,
         IEnvironmentNode
     {
     }

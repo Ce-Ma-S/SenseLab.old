@@ -1,6 +1,5 @@
 ﻿using SenseLab.Common.Data;
 using SenseLab.Common.Locations;
-using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
 using System;
 using System.Collections.Generic;
@@ -15,9 +14,9 @@ namespace SenseLab.Common.Projects
         IProject
     {
         public Project(Guid id, string name, string description = null,
-            INode parent = null, IList<ProjectNode> children = null,
+            /*INode parent = null,*/ IList<ProjectNode> children = null,
             ISpatialLocation location = null)
-            : base(id, name, description, parent, children, location)
+            : base(id, name, description, /*parent,*/ children, location)
         {
         }
 

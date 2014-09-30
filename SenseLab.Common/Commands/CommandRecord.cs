@@ -44,7 +44,6 @@ namespace SenseLab.Common.Commands
             return string.Format("{0} ({1})", Command, CommandParameter);
         }
 
-        private ICommand command;
         private P commandParameter;
     }
 }

@@ -12,9 +12,9 @@ namespace SenseLab.Common.Environments
         where T : IDevice
     {
         public Device(Guid id, string name, string description = null,
-            INode parent = null, IList<T> children = null,
+            /*INode parent = null,*/ IList<T> children = null,
             IList<IRecordable> recordables = null)
-            : base(id, name, description, parent, children, recordables)
+            : base(id, name, description, /*parent,*/ children, recordables)
         {
         }
 
@@ -32,9 +32,9 @@ namespace SenseLab.Common.Environments
         IDevice
     {
         public Device(Guid id, string name, string description = null,
-            INode parent = null,
+            //INode parent = null,
             IList<IRecordable> recordables = null)
-            : base(id, name, description, parent, noChildren, recordables)
+            : base(id, name, description, /*parent,*/ noChildren, recordables)
         {
         }
 

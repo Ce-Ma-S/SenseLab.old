@@ -11,17 +11,17 @@ namespace SenseLab.Common.Nodes
         string Name { get; }
         string Description { get; }
 
-        INode Parent { get; }
+        //INode Parent { get; }
         IEnumerable<INode> Children { get; }
     }
 
 
-    public interface INode<P, C> :
+    public interface INode</*P,*/ C> :
         INode
-        where P : INode
+        //where P : INode
         where C : INode
     {
-        new P Parent { get; }
+        //new P Parent { get; }
         new IEnumerable<C> Children { get; }
     }
 }

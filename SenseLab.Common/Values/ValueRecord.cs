@@ -15,12 +15,14 @@ namespace SenseLab.Common.Values
             ITime temporalLocation = null)
             : base(sequenceNumber, spatialLocation, temporalLocation)
         {
+            source.ValidateNonNull("source");
+            this.source = source;
             Value = value;
         }
 
         public override IRecordSource Source
         {
-            get { return recordable; }
+            get { return source; }
         }
         public T Value { get; private set; }
         object IValueRecord.Value
@@ -33,7 +35,6 @@ namespace SenseLab.Common.Values
             return string.Format("{0}", Value);
         }
 
-        private IRecordSource recordable;
-        private T value;
+        private IRecordSource source;
     }
 }

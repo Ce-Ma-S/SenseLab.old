@@ -7,14 +7,14 @@ using System.Collections.Generic;
 namespace SenseLab.Common.Projects
 {
     public abstract class ProjectNodeBase :
-        NodeWritable<INode, ProjectNode>,
-        INode<INode, IProjectNode>,
+        NodeWritable</*INode,*/ ProjectNode>,
+        INode</*INode,*/ IProjectNode>,
         ILocatableChangeable<ISpatialLocation>
     {
         public ProjectNodeBase(Guid id, string name, string description = null,
-            INode parent = null, IList<ProjectNode> children = null,
+            /*INode parent = null,*/ IList<ProjectNode> children = null,
             ISpatialLocation location = null)
-            : base(id, name, description, parent, children)
+            : base(id, name, description, /*parent,*/ children)
         {
             Location = location;
         }
@@ -31,7 +31,7 @@ namespace SenseLab.Common.Projects
         /// Fired when <see cref="ILocatable{T}.Location"/> is changed.
         /// </summary>
         public event EventHandler<ValueChangeEventArgs<ISpatialLocation>> LocationChanged;
-        IEnumerable<IProjectNode> INode<INode, IProjectNode>.Children
+        IEnumerable<IProjectNode> INode</*INode,*/ IProjectNode>.Children
         {
             get { return Children; }
         }

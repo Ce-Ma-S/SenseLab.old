@@ -7,7 +7,7 @@ namespace SenseLab.Devices.SensorTag
         DeviceProvider<SensorTag>
     {
         public SensorTags(Guid id, string name, string description = null)
-            : base(id, name, description, null, null, null)
+            : base(id, name, description, /*null,*/ null, null)
         {
         }
     }

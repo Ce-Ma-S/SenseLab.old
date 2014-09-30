@@ -8,7 +8,7 @@ namespace SenseLab.Common.Environments
     /// Environment node with equipment like devices etc.
     /// </summary>
     public interface IEnvironmentNode :
-        INode<INode, IEnvironmentNode>
+        INode</*INode,*/ IEnvironmentNode>
     {
         IEnumerable<IRecordable> Recordables { get; }
     }

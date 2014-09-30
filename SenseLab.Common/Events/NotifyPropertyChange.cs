@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Events
 {
+    [DataContract]
     public abstract class NotifyPropertyChange : Disposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
