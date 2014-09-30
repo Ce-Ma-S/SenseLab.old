@@ -1,4 +1,6 @@
-﻿using SenseLab.Common.ViewModels;
+﻿using SenseLab.Common.Data;
+using SenseLab.Common.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -9,9 +11,9 @@ namespace SenseLab.Common.Environments
     {
         public EnvironmentsViewModel()
         {
-            Environments = new ObservableCollection<IEnvironments>();
+            Storages = new ObservableCollection<IItemStorage<IEnvironment, Guid>>();
         }
 
-        public IList<IEnvironments> Environments { get; private set; }
+        public IList<IItemStorage<IEnvironment, Guid>> Storages { get; private set; }
     }
 }

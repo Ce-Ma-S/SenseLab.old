@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Environments;
+﻿using SenseLab.Common.Data;
+using SenseLab.Common.Environments;
 using SenseLab.Common.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,21 @@ namespace SenseLab.Common.Projects
     {
         public ProjectsViewModel()
         {
-            var projects = new ObservableCollection<IProjects>();
+            var projects = new ObservableCollection<IItemStorage<IProject, Guid>>();
             projects.CollectionChanged += OnProjectsChanged;
-            Projects = projects;
+            Storages = projects;
             OpenProjects = new ObservableCollection<IProject>();
         }
 
-        public IList<IProjects> Projects { get; private set; }
-        public IProjects DefaultProjects
+        public IList<IItemStorage<IProject, Guid>> Storages { get; private set; }
+        public IItemStorage<IProject, Guid> DefaultStorage
         {
-            get { return defaultProjects; }
+            get { return defaultStorage; }
             set
             {
-                if (value != null && !Projects.Contains(value))
+                if (value != null && !Storages.Contains(value))
                     throw new ArgumentOutOfRangeException();
-                SetProperty(() => DefaultProjects, ref defaultProjects, value);
+                SetProperty(() => DefaultStorage, ref defaultStorage, value);
             }
         }
         public IList<IProject> OpenProjects { get; private set; }
@@ -34,10 +35,10 @@ namespace SenseLab.Common.Projects
 
         private void OnProjectsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (DefaultProjects != null && !Projects.Contains(DefaultProjects))
-                DefaultProjects = null;
+            if (DefaultStorage != null && !Storages.Contains(DefaultStorage))
+                DefaultStorage = null;
         }
 
-        private IProjects defaultProjects;
+        private IItemStorage<IProject, Guid> defaultStorage;
     }
 }
