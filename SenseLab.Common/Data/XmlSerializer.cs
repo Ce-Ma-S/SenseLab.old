@@ -8,8 +8,6 @@ namespace SenseLab.Common.Data
     public class XmlSerializer<T> :
         Serializer<T>
     {
-        public static readonly XmlSerializer<T> Default = new XmlSerializer<T>(new DataContractJsonSerializer(typeof(T)));
-
         public XmlSerializer(XmlObjectSerializer serializer)
         {
             serializer.ValidateNonNull("serializer");

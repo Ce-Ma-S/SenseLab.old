@@ -14,16 +14,14 @@ namespace SenseLab.Common.Nodes
         //where P : INode
         where C : INode
     {
-        public Node(Guid id, string name, string description = null,
-            /*P parent = default(P),*/ IList<C> children = null)
+        public Node(Guid id, string name, string description = null/*,
+            P parent = default(P)*/)
         {
             Id = id;
             Name = name;
             Description = description;
             //Parent = parent;
-            if (children == null)
-                children = new ObservableCollection<C>();
-            Children = children;
+            Children = new ObservableCollection<C>();
         }
 
         [DataMember]
@@ -67,8 +65,14 @@ namespace SenseLab.Common.Nodes
             get { return Children.Cast<INode>(); }
         }
 
-        [DataMember]
         protected IList<C> Children { get; private set; }
+
+        [DataMember(Name = "Children")]
+        private IList<C> ChildrenSerialized
+        {
+            get { return Children; }
+            set { Children = new ObservableCollection<C>(value); }
+        }
 
         [DataMember(Name = "Name")]
         private string name;

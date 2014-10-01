@@ -8,9 +8,9 @@ namespace SenseLab.Common.Nodes
         //where P : INode
         where C : INode
     {
-        public NodeWritable(Guid id, string name, string description = null,
-            /*P parent = default(P),*/ IList<C> children = null)
-            : base(id, name, description, /*parent,*/ children)
+        public NodeWritable(Guid id, string name, string description = null/*,
+            P parent = default(P)*/)
+            : base(id, name, description/*, parent*/)
         {
         }
 

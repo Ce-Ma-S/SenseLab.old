@@ -1,5 +1,4 @@
-﻿using SenseLab.Common.Data;
-using SenseLab.Common.Environments;
+﻿using SenseLab.Common.Environments;
 using SenseLab.Common.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,14 @@ namespace SenseLab.Common.Projects
     {
         public ProjectsViewModel()
         {
-            var projects = new ObservableCollection<IItemStorage<IProject, Guid>>();
+            var projects = new ObservableCollection<IProjectStorage>();
             projects.CollectionChanged += OnProjectsChanged;
             Storages = projects;
             OpenProjects = new ObservableCollection<IProject>();
         }
 
-        public IList<IItemStorage<IProject, Guid>> Storages { get; private set; }
-        public IItemStorage<IProject, Guid> DefaultStorage
+        public IList<IProjectStorage> Storages { get; private set; }
+        public IProjectStorage DefaultStorage
         {
             get { return defaultStorage; }
             set
@@ -39,6 +38,6 @@ namespace SenseLab.Common.Projects
                 DefaultStorage = null;
         }
 
-        private IItemStorage<IProject, Guid> defaultStorage;
+        private IProjectStorage defaultStorage;
     }
 }

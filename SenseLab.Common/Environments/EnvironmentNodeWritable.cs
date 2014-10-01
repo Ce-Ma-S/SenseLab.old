@@ -3,17 +3,19 @@ using SenseLab.Common.Records;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Environments
 {
+    [DataContract]
     public class EnvironmentNodeWritable :
         NodeWritable</*INode,*/ IEnvironmentNode>,
         IEnvironmentNode
     {
         public EnvironmentNodeWritable(Guid id, string name, string description = null,
-            /*INode parent = null,*/ IList<IEnvironmentNode> children = null,
+            //INode parent = null,
             IList<IRecordable> recordables = null)
-            : base(id, name, description, /*parent,*/ children)
+            : base(id, name, description/*, parent*/)
         {
             if (recordables == null)
                 recordables = new ObservableCollection<IRecordable>();

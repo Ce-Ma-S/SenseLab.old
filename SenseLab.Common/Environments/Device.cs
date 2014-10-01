@@ -1,8 +1,6 @@
-﻿using SenseLab.Common.Nodes;
-using SenseLab.Common.Records;
+﻿using SenseLab.Common.Records;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SenseLab.Common.Environments
 {
@@ -11,10 +9,9 @@ namespace SenseLab.Common.Environments
         IDevice
         where T : IDevice
     {
-        public Device(Guid id, string name, string description = null,
-            /*INode parent = null,*/ IList<T> children = null,
-            IList<IRecordable> recordables = null)
-            : base(id, name, description, /*parent,*/ children, recordables)
+        public Device(Guid id, string name, string description = null/*,
+            INode parent = null*/)
+            : base(id, name, description/*, parent*/)
         {
         }
 
@@ -31,13 +28,10 @@ namespace SenseLab.Common.Environments
         Device<IDevice>,
         IDevice
     {
-        public Device(Guid id, string name, string description = null,
-            //INode parent = null,
-            IList<IRecordable> recordables = null)
-            : base(id, name, description, /*parent,*/ noChildren, recordables)
+        public Device(Guid id, string name, string description = null/*,
+            INode parent = null*/)
+            : base(id, name, description/*, parent*/)
         {
         }
-
-        private static readonly IDevice[] noChildren = new IDevice[0];
     }
 }

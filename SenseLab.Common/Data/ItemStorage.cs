@@ -1,6 +1,7 @@
 ﻿using SenseLab.Common.Events;
 using System;
 using System.Reactive.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
@@ -10,6 +11,7 @@ namespace SenseLab.Common.Data
     /// </summary>
     /// <typeparam name="TItem">Item type.</typeparam>
     /// <typeparam name="TId">Item identifier type.</typeparam>
+    [DataContract]
     public abstract class ItemStorage<TItem, TId> :
         NotifyPropertyChange,
         IItemStorage<TItem, TId>
@@ -24,8 +26,11 @@ namespace SenseLab.Common.Data
             IsReadOnly = isReadOnly;
         }
 
+        [DataMember]
         public Guid Id { get; private set; }
+        [DataMember]
         public string Name { get; private set; }
+        [DataMember]
         public string Description { get; private set; }
 
         #region Connection
@@ -70,6 +75,7 @@ namespace SenseLab.Common.Data
 
         #region Updates
 
+        [DataMember]
         public bool IsReadOnly { get; private set; }
 
         public abstract IObservable<TItem> ItemsUpdated { get; }

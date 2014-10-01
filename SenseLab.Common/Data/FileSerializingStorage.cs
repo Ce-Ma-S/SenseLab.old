@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
@@ -14,6 +15,7 @@ namespace SenseLab.Common.Data
     /// </summary>
     /// <typeparam name="TItem">Item type.</typeparam>
     /// <typeparam name="TId">Item identifier type.</typeparam>
+    [DataContract]
     public class FileSerializingStorage<TItem, TId> :
         SerializingStorage<TItem, TId>
         where TItem : IId<TId>
@@ -89,6 +91,7 @@ namespace SenseLab.Common.Data
         /// Folder path of item file(s).
         /// </summary>
         /// <value>Non-empty.</value>
+        [DataMember]
         public string FileFolderPath { get; private set; }
         /// <summary>
         /// Item file name.
@@ -97,11 +100,13 @@ namespace SenseLab.Common.Data
         /// Non-empty means all items are stored in one file with this name.
         /// Otherwise each item has its own file with <see cref="GetNameFromItemId"/> name.
         /// </value>
+        [DataMember]
         public string FileName { get; private set; }
         /// <summary>
         /// Item file(s) extension (with or without leading dot).
         /// </summary>
         /// <value>Non-empty.</value>
+        [DataMember]
         public string FileExtension { get; private set; }
         /// <summary>
         /// Item entry folder path in its file.
@@ -110,6 +115,7 @@ namespace SenseLab.Common.Data
         /// Non-empty means entry folder is created for an item.
         /// Otherwise no entry folder is created and the entry is at the root of its file.
         /// </value>
+        [DataMember]
         public string EntryFolderPath { get; private set; }
         /// <summary>
         /// Item entry name in its file.
@@ -118,6 +124,7 @@ namespace SenseLab.Common.Data
         /// Non-empty means item is stored with this entry name.
         /// Otherwise entry name is <see cref="GetNameFromItemId"/>.
         /// </value>
+        [DataMember]
         public string EntryName { get; private set; }
         /// <summary>
         /// Compression level for item entry added to its file.
@@ -232,6 +239,7 @@ namespace SenseLab.Common.Data
 
         private static readonly TypeConverter idTypeConverter = TypeDescriptor.GetConverter(typeof(TId));
 
+        [DataMember(Name = "CompressionLevel")]
         private CompressionLevel compressionLevel;
 
         #endregion

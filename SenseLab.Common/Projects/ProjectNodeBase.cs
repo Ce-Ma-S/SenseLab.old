@@ -3,18 +3,20 @@ using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Projects
 {
+    [DataContract]
     public abstract class ProjectNodeBase :
         NodeWritable</*INode,*/ ProjectNode>,
         INode</*INode,*/ IProjectNode>,
         ILocatableChangeable<ISpatialLocation>
     {
         public ProjectNodeBase(Guid id, string name, string description = null,
-            /*INode parent = null,*/ IList<ProjectNode> children = null,
+            //INode parent = null,
             ISpatialLocation location = null)
-            : base(id, name, description, /*parent,*/ children)
+            : base(id, name, description/*, parent*/)
         {
             Location = location;
         }
@@ -42,6 +44,7 @@ namespace SenseLab.Common.Projects
                 LocationChanged(this, new ValueChangeEventArgs<ISpatialLocation>(oldValue, newValue));
         }
 
+        [DataMember(Name = "Location")]
         private ISpatialLocation location;
     }
 }

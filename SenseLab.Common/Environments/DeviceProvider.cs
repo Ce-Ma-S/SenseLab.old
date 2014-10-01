@@ -11,10 +11,9 @@ namespace SenseLab.Common.Environments
         IDeviceProvider
         where T : IDevice
     {
-        public DeviceProvider(Guid id, string name, string description = null,
-            /*INode parent = null,*/ IList<T> children = null,
-            IList<IRecordable> recordables = null)
-            : base(id, name, description, /*parent,*/ children, recordables)
+        public DeviceProvider(Guid id, string name, string description = null/*,
+            INode parent = null*/)
+            : base(id, name, description/*, parent*/)
         {
         }
 

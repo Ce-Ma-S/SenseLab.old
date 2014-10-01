@@ -69,9 +69,11 @@
     <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\ISerializer.cs" />
     <Compile Include="Data\IItemStorage.cs" />
+    <Compile Include="Data\ItemRegister.cs" />
     <Compile Include="Data\ItemStorage.cs" />
     <Compile Include="Data\ObservableCache.cs" />
     <Compile Include="Data\FileSerializingStorage.cs" />
+    <Compile Include="Data\Serializers.cs" />
     <Compile Include="Data\SerializingStorage.cs" />
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="Data\XmlSerializer.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Environments\EnvironmentsViewModel.cs" />
     <Compile Include="Environments\IEnvironmentNode.cs" />
     <Compile Include="Environments\IEnvironment.cs" />
+    <Compile Include="Environments\IEnvironmentStorage.cs" />
     <Compile Include="Events\IChangeable.cs" />
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
@@ -107,6 +110,7 @@
     <Compile Include="Locations\TimeHelper.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
+    <Compile Include="Projects\IProjectStorage.cs" />
     <Compile Include="Projects\Project.cs" />
     <Compile Include="Projects\ProjectNodeBase.cs" />
     <Compile Include="Projects\ProjectNode.cs" />
@@ -120,6 +124,7 @@
     <Compile Include="PhysicalQuantities\Unit.cs" />
     <Compile Include="Records\IRecordSource.cs" />
     <Compile Include="Records\IRecordGroup.cs" />
+    <Compile Include="Records\IRecordStorage.cs" />
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
     <Compile Include="Records\RecordsHelper.cs" />

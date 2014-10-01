@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reactive.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
@@ -89,6 +90,13 @@ namespace SenseLab.Common.Data
             {
                 return await Serializer.Deserialize(itemStream); 
             }
+        }
+
+        [DataMember]
+        private Guid SerializerId
+        {
+            get { return Serializers<TItem>.Instance.GetId(Serializer); }
+            set { Serializer = Serializers<TItem>.Instance.GetFromId(value); }
         }
 
         #endregion

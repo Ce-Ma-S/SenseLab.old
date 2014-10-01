@@ -6,8 +6,8 @@ namespace SenseLab.Devices.SensorTag
     public class SensorTag :
         Device
     {
-        public SensorTag(Guid id/*, SensorTags parent*/)
-            : base(id, "", null/*, parent*/)
+        public SensorTag(Guid id)
+            : base(id, "SensorTag")
         {
         }
 

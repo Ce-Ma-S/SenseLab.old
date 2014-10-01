@@ -4,20 +4,22 @@ using SenseLab.Common.Records;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Projects
 {
     /// <summary>
     /// Wraps another node to be in a project.
     /// </summary>
+    [DataContract]
     public class ProjectNode :
         ProjectNodeBase,
         IProjectNode
     {
         public ProjectNode(Guid id, string name, string description = null,
-            /*INode parent = null,*/ IList<ProjectNode> children = null,
+            //INode parent = null,
             ISpatialLocation location = null)
-            : base(id, name, description, /*parent,*/ children, location)
+            : base(id, name, description, /*parent,*/ location)
         {
             SelectedRecordables = new ObservableCollection<IRecordable>();
         }
@@ -56,7 +58,16 @@ namespace SenseLab.Common.Projects
             get { return SelectedRecordables; }
         }
 
+        [DataMember(Name = "SelectedRecordables")]
+        private IList<IRecordable> SelectedRecordablesSerialized
+        {
+            get { return SelectedRecordables; }
+            set { SelectedRecordables = new ObservableCollection<IRecordable>(value); }
+        }
+
+        [DataMember(Name = "Node")]
         private IEnvironmentNode node;
+        [DataMember(Name = "IsSelected")]
         private bool isSelected;
     }
 }
