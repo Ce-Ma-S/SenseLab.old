@@ -8,7 +8,6 @@ using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Environments
 {
-    [DataContract]
     public abstract class EnvironmentNode<T> :
         Node</*INode,*/ T>,
         IEnvironmentNode

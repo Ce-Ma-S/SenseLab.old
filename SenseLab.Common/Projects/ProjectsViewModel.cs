@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Environments;
+﻿using Microsoft.Practices.ServiceLocation;
+using SenseLab.Common.Environments;
 using SenseLab.Common.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,10 @@ namespace SenseLab.Common.Projects
         public ProjectsViewModel()
         {
             var projects = new ObservableCollection<IProjectStorage>();
-            projects.CollectionChanged += OnProjectsChanged;
+            projects.CollectionChanged += OnStoragesChanged;
             Storages = projects;
             OpenProjects = new ObservableCollection<IProject>();
+            Environment = ServiceLocator.Current.GetInstance<IEnvironment>();
         }
 
         public IList<IProjectStorage> Storages { get; private set; }
@@ -30,9 +32,9 @@ namespace SenseLab.Common.Projects
             }
         }
         public IList<IProject> OpenProjects { get; private set; }
-        public EnvironmentsViewModel Environments { get; private set; }
+        public IEnvironment Environment { get; private set; }
 
-        private void OnProjectsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnStoragesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (DefaultStorage != null && !Storages.Contains(DefaultStorage))
                 DefaultStorage = null;
