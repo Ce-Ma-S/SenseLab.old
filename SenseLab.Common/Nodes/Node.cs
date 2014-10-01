@@ -68,7 +68,7 @@ namespace SenseLab.Common.Nodes
         protected IList<C> Children { get; private set; }
 
         [DataMember(Name = "Children")]
-        private IList<C> ChildrenSerialized
+        private IEnumerable<C> ChildrenSerialized
         {
             get { return Children; }
             set { Children = new ObservableCollection<C>(value); }

@@ -1,10 +1,13 @@
 ﻿using SenseLab.Common.Environments;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
+using Microsoft.Practices.ServiceLocation;
+using SenseLab.Common.Nodes;
 
 namespace SenseLab.Common.Projects
 {
@@ -58,14 +61,25 @@ namespace SenseLab.Common.Projects
             get { return SelectedRecordables; }
         }
 
-        [DataMember(Name = "SelectedRecordables")]
-        private IList<IRecordable> SelectedRecordablesSerialized
+        [DataMember]
+        private Guid NodeId
         {
-            get { return SelectedRecordables; }
-            set { SelectedRecordables = new ObservableCollection<IRecordable>(value); }
+            get { return Node.Id; }
+            set { node = (IEnvironmentNode)environment.FromId(value); }
+        }
+        [DataMember]
+        private IEnumerable<Guid> SelectedRecordableIds
+        {
+            get { return SelectedRecordables.Select(r => r.Id); }
+            set
+            {
+                var recordables = node.RecordablesFromIds(value);
+                SelectedRecordables = new ObservableCollection<IRecordable>(recordables);
+            }
         }
 
-        [DataMember(Name = "Node")]
+        private static readonly IEnvironment environment = ServiceLocator.Current.GetInstance<IEnvironment>();
+
         private IEnvironmentNode node;
         [DataMember(Name = "IsSelected")]
         private bool isSelected;

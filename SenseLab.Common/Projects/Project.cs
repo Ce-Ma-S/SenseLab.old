@@ -1,7 +1,6 @@
 ﻿using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Projects
@@ -21,8 +20,9 @@ namespace SenseLab.Common.Projects
         {
         }
 
+        [DataMember]
         public IRecordStorage Records { get; private set; }
-        public IList<IRecordTransformer> ReadRecordTransformers { get; private set; }
-        public IList<IRecordTransformer> WriteRecordTransformers { get; private set; }
+        //public IList<IRecordTransformer> ReadRecordTransformers { get; private set; }
+        //public IList<IRecordTransformer> WriteRecordTransformers { get; private set; }
     }
 }

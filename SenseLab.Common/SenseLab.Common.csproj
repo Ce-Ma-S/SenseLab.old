@@ -84,6 +84,7 @@
     <Compile Include="Disposable.cs" />
     <Compile Include="Environments\Device.cs" />
     <Compile Include="Environments\Environment.cs" />
+    <Compile Include="Environments\EnvironmentHelper.cs" />
     <Compile Include="Environments\EnvironmentNode.cs" />
     <Compile Include="Environments\DeviceProvider.cs" />
     <Compile Include="Environments\IDeviceProviders.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Locations\Location.cs" />
     <Compile Include="Environments\IDeviceProvider.cs" />
     <Compile Include="Locations\TimeHelper.cs" />
+    <Compile Include="Nodes\NodeHelper.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Projects\IProjectStorage.cs" />
