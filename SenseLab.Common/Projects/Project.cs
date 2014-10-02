@@ -14,9 +14,8 @@ namespace SenseLab.Common.Projects
         IProject
     {
         public Project(Guid id, string name, string description = null,
-            //INode parent = null,
             ISpatialLocation location = null)
-            : base(id, name, description, /*parent,*/ location)
+            : base(id, name, description, location)
         {
         }
 

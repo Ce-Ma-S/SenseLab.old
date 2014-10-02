@@ -3,6 +3,5 @@
     public interface IDevice :
         IDeviceProvider
     {
-        bool IsAvailable { get; }
     }
 }

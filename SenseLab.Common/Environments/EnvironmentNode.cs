@@ -4,23 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Environments
 {
     public abstract class EnvironmentNode<T> :
-        Node</*INode,*/ T>,
+        Node<T>,
         IEnvironmentNode
         where T : IEnvironmentNode
     {
-        public EnvironmentNode(Guid id, string name, string description = null/*,
-            INode parent = null*/)
-            : base(id, name, description/*, parent*/)
+        public EnvironmentNode(Guid id, string name, string description = null)
+            : base(id, name, description)
         {
             Recordables = new ObservableCollection<IRecordable>();
         }
 
-        IEnumerable<IEnvironmentNode> INode</*INode,*/ IEnvironmentNode>.Children
+        public abstract bool IsAvailable { get; }
+        IEnumerable<IEnvironmentNode> INode<IEnvironmentNode>.Children
         {
             get { return Children.Cast<IEnvironmentNode>(); }
         }

@@ -8,7 +8,7 @@ namespace SenseLab.Common.Projects
     /// Lab project with selected nodes and recordables of <see cref="IEnvironment"/>.
     /// </summary>
     public interface IProject :
-        INode</*INode,*/ IProjectNode>,
+        INode<IProjectNode>,
         ILocatable<ISpatialLocation>
     {
         /// <summary>

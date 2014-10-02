@@ -1,6 +1,4 @@
-﻿using SenseLab.Common.Records;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace SenseLab.Common.Environments
 {
@@ -9,13 +7,10 @@ namespace SenseLab.Common.Environments
         IDevice
         where T : IDevice
     {
-        public Device(Guid id, string name, string description = null/*,
-            INode parent = null*/)
-            : base(id, name, description/*, parent*/)
+        public Device(Guid id, string name, string description = null)
+            : base(id, name, description)
         {
         }
-
-        public abstract bool IsAvailable { get; }
 
         protected virtual void OnIsAvailableChanged()
         {
@@ -28,9 +23,8 @@ namespace SenseLab.Common.Environments
         Device<IDevice>,
         IDevice
     {
-        public Device(Guid id, string name, string description = null/*,
-            INode parent = null*/)
-            : base(id, name, description/*, parent*/)
+        public Device(Guid id, string name, string description = null)
+            : base(id, name, description)
         {
         }
     }

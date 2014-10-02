@@ -87,6 +87,7 @@
     <Compile Include="Environments\EnvironmentHelper.cs" />
     <Compile Include="Environments\EnvironmentNode.cs" />
     <Compile Include="Environments\DeviceProvider.cs" />
+    <Compile Include="Environments\EnvironmentNodeUnavailable.cs" />
     <Compile Include="Environments\IDeviceProviders.cs" />
     <Compile Include="Environments\IEnvironmentNode.cs" />
     <Compile Include="Environments\IEnvironment.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Events\NotifyPropertyChange.cs" />
     <Compile Include="Events\LocatableEventArgs.cs" />
     <Compile Include="Events\ValueChangeEventArgs.cs" />
+    <Compile Include="IdNameDescription.cs" />
     <Compile Include="IId.cs" />
     <Compile Include="Locations\ILocatableChangeable.cs" />
     <Compile Include="Locations\ILocation.cs" />

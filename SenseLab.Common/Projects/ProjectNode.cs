@@ -1,13 +1,13 @@
-﻿using SenseLab.Common.Environments;
+﻿using Microsoft.Practices.ServiceLocation;
+using SenseLab.Common.Environments;
 using SenseLab.Common.Locations;
+using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
-using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
-using Microsoft.Practices.ServiceLocation;
-using SenseLab.Common.Nodes;
 
 namespace SenseLab.Common.Projects
 {
@@ -20,9 +20,8 @@ namespace SenseLab.Common.Projects
         IProjectNode
     {
         public ProjectNode(Guid id, string name, string description = null,
-            //INode parent = null,
             ISpatialLocation location = null)
-            : base(id, name, description, /*parent,*/ location)
+            : base(id, name, description, location)
         {
             SelectedRecordables = new ObservableCollection<IRecordable>();
         }
@@ -62,19 +61,45 @@ namespace SenseLab.Common.Projects
         }
 
         [DataMember]
-        private Guid NodeId
+        private IdNameDescription<Guid> NodeInfo
         {
-            get { return Node.Id; }
-            set { node = (IEnvironmentNode)environment.FromId(value); }
+            get
+            {
+                if (Node == null)
+                    return null;
+                return new IdNameDescription<Guid>(Node.Id, Node.Name, Node.Description);
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                node = (IEnvironmentNode)environment.FromId(value.Id);
+                if (node == null)
+                    node = new EnvironmentNodeUnavailable(value.Id, value.Name, value.Description);
+            }
         }
         [DataMember]
         private IEnumerable<Guid> SelectedRecordableIds
         {
-            get { return SelectedRecordables.Select(r => r.Id); }
+            get
+            {
+                // keep selected recordable ids of unavailable node
+                if (node is EnvironmentNodeUnavailable)
+                    return ((EnvironmentNodeUnavailable)node).RecordableIds;
+                return SelectedRecordables.Select(r => r.Id);
+            }
             set
             {
-                var recordables = node.RecordablesFromIds(value);
-                SelectedRecordables = new ObservableCollection<IRecordable>(recordables);
+                // keep selected recordable ids of unavailable node
+                if (node is EnvironmentNodeUnavailable)
+                {
+                    ((EnvironmentNodeUnavailable)node).RecordableIds = value;
+                }
+                else
+                {
+                    var recordables = node.RecordablesFromIds(value);
+                    SelectedRecordables = new ObservableCollection<IRecordable>(recordables);
+                }
             }
         }
 

@@ -1,6 +1,4 @@
-﻿using SenseLab.Common.Locations;
-using SenseLab.Common.Records;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Nodes
@@ -11,17 +9,14 @@ namespace SenseLab.Common.Nodes
         string Name { get; }
         string Description { get; }
 
-        //INode Parent { get; }
         IEnumerable<INode> Children { get; }
     }
 
 
-    public interface INode</*P,*/ C> :
+    public interface INode<T> :
         INode
-        //where P : INode
-        where C : INode
+        where T : INode
     {
-        //new P Parent { get; }
-        new IEnumerable<C> Children { get; }
+        new IEnumerable<T> Children { get; }
     }
 }

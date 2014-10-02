@@ -10,7 +10,7 @@ namespace SenseLab.Common.Projects
     /// Wraps an environment node to be in a project.
     /// </summary>
     public interface IProjectNode :
-        INode</*INode,*/ IProjectNode>,
+        INode<IProjectNode>,
         ILocatable<ISpatialLocation>
     {
         /// <summary>

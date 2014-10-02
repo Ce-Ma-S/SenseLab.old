@@ -10,5 +10,10 @@ namespace SenseLab.Devices.SensorTag
             : base(id, "SensorTags")
         {
         }
+
+        public override bool IsAvailable
+        {
+            get { return true; }
+        }
     }
 }

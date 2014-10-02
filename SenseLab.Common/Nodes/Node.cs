@@ -8,20 +8,17 @@ using System.Runtime.Serialization;
 namespace SenseLab.Common.Nodes
 {
     [DataContract]
-    public abstract class Node</*P,*/ C> :
+    public abstract class Node<T> :
         NotifyPropertyChange,
-        INode</*P,*/ C>
-        //where P : INode
-        where C : INode
+        INode<T>
+        where T : INode
     {
-        public Node(Guid id, string name, string description = null/*,
-            P parent = default(P)*/)
+        public Node(Guid id, string name, string description = null)
         {
             Id = id;
             Name = name;
             Description = description;
-            //Parent = parent;
-            Children = new ObservableCollection<C>();
+            Children = new ObservableCollection<T>();
         }
 
         [DataMember]
@@ -44,19 +41,7 @@ namespace SenseLab.Common.Nodes
             }
         }
 
-        //public P Parent
-        //{
-        //    get { return parent; }
-        //    protected set
-        //    {
-        //        SetProperty(() => Parent, ref parent, value);
-        //    }
-        //}
-        //INode INode.Parent
-        //{
-        //    get { return Parent; }
-        //}
-        IEnumerable<C> INode</*P,*/ C>.Children
+        IEnumerable<T> INode<T>.Children
         {
             get { return Children; }
         }
@@ -65,19 +50,18 @@ namespace SenseLab.Common.Nodes
             get { return Children.Cast<INode>(); }
         }
 
-        protected IList<C> Children { get; private set; }
+        protected IList<T> Children { get; private set; }
 
         [DataMember(Name = "Children")]
-        private IEnumerable<C> ChildrenSerialized
+        private IEnumerable<T> ChildrenSerialized
         {
             get { return Children; }
-            set { Children = new ObservableCollection<C>(value); }
+            set { Children = new ObservableCollection<T>(value); }
         }
 
         [DataMember(Name = "Name")]
         private string name;
         [DataMember(Name = "Description")]
         private string description;
-        //private P parent;
     }
 }
