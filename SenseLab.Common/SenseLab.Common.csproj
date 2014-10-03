@@ -115,6 +115,7 @@
     <Compile Include="Environments\IDeviceProvider.cs" />
     <Compile Include="Locations\TimeHelper.cs" />
     <Compile Include="Nodes\NodeHelper.cs" />
+    <Compile Include="Nodes\NodeInfo.cs" />
     <Compile Include="Nodes\NodeWritable.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Projects\IProjectStorage.cs" />
@@ -135,7 +136,11 @@
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
     <Compile Include="Records\RecordsHelper.cs" />
+    <Compile Include="Records\RecordSourcesNonRecordable.cs" />
+    <Compile Include="Records\RecordSourceInfo.cs" />
+    <Compile Include="Records\RecordSourceUnavailable.cs" />
     <Compile Include="Records\RecordSource.cs" />
+    <Compile Include="Records\RecordType.cs" />
     <Compile Include="Records\SamplingRecorder.cs" />
     <Compile Include="Values\ValueRecorder.cs" />
     <Compile Include="Records\Recorder.cs" />

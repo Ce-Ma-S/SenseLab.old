@@ -1,8 +1,10 @@
 ﻿using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Values
 {
+    [DataContract]
     public class ValueRecord<T> :
         Record,
         IValueRecord
@@ -13,17 +15,12 @@ namespace SenseLab.Common.Values
             uint sequenceNumber,
             ISpatialLocation spatialLocation = null,
             ITime temporalLocation = null)
-            : base(sequenceNumber, spatialLocation, temporalLocation)
+            : base(source, sequenceNumber, spatialLocation, temporalLocation)
         {
-            source.ValidateNonNull("source");
-            this.source = source;
             Value = value;
         }
 
-        public override IRecordSource Source
-        {
-            get { return source; }
-        }
+        [DataMember]
         public T Value { get; private set; }
         object IValueRecord.Value
         {
@@ -34,7 +31,5 @@ namespace SenseLab.Common.Values
         {
             return string.Format("{0}", Value);
         }
-
-        private IRecordSource source;
     }
 }

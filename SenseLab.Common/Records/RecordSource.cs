@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Records
 {
+    [DataContract]
     public abstract class RecordSource :
         IRecordSource
     {
@@ -15,9 +17,14 @@ namespace SenseLab.Common.Records
             Description = description;
         }
 
+        [DataMember]
         public Guid Id { get; private set; }
+        [DataMember]
         public IRecordType Type { get; private set; }
+        [DataMember]
         public string Name { get; private set; }
+        [DataMember]
         public string Description { get; private set; }
+        public abstract bool IsAvailable { get; }
     }
 }

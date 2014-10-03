@@ -1,19 +1,25 @@
-﻿using SenseLab.Common.Events;
+﻿using SenseLab.Common.Environments;
+using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Records
 {
+    [DataContract]
     public abstract class Record :
         NotifyPropertyChange,
         IRecord
     {
         public Record(
+            IRecordSource source,
             uint sequenceNumber,
             ISpatialLocation spatialLocation = null,
             ITime temporalLocation = null)
         {
+            source.ValidateNonNull("source");
+            Source = source;
             SequenceNumber = sequenceNumber;
             SpatialLocation = spatialLocation;
             TemporalLocation = temporalLocation;
@@ -27,7 +33,8 @@ namespace SenseLab.Common.Records
         {
             get { return GetText(); }
         }
-        public abstract IRecordSource Source { get; }
+        public IRecordSource Source { get; private set; }
+        [DataMember(Name = "Number")]
         public uint SequenceNumber { get; private set; }
         public ISpatialLocation SpatialLocation
         {
@@ -69,8 +76,26 @@ namespace SenseLab.Common.Records
 
         protected abstract string GetText();
 
+        [DataMember]
+        private RecordSourceInfo SourceInfo
+        {
+            get { return new RecordSourceInfo(Source); }
+            set
+            {
+                if (value.IsRecordable)
+                    Source = EnvironmentHelper.RecordableFromId(value.Id);
+                else
+                    Source = RecordSourcesNonRecordable.Instance.TryGetFromId(value.Id);
+                if (Source == null)
+                    Source = new RecordSourceUnavailable(value);
+            }
+        }
+
+        [DataMember(Name = "Space")]
         private ISpatialLocation spatialLocation;
+        [DataMember(Name = "Time")]
         private ITime temporalLocation;
-        private IRecordGroup group;        
+        [DataMember(Name = "Group")]
+        private IRecordGroup group;
     }
 }

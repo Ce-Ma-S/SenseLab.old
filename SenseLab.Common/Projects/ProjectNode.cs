@@ -61,21 +61,21 @@ namespace SenseLab.Common.Projects
         }
 
         [DataMember]
-        private IdNameDescription<Guid> NodeInfo
+        private NodeInfo NodeInfo
         {
             get
             {
                 if (Node == null)
                     return null;
-                return new IdNameDescription<Guid>(Node.Id, Node.Name, Node.Description);
+                return new NodeInfo(Node);
             }
             set
             {
                 if (value == null)
                     return;
-                node = (IEnvironmentNode)environment.FromId(value.Id);
+                node = EnvironmentHelper.NodeFromId(value.Id);
                 if (node == null)
-                    node = new EnvironmentNodeUnavailable(value.Id, value.Name, value.Description);
+                    node = new EnvironmentNodeUnavailable(value);
             }
         }
         [DataMember]
@@ -103,7 +103,6 @@ namespace SenseLab.Common.Projects
             }
         }
 
-        private static readonly IEnvironment environment = ServiceLocator.Current.GetInstance<IEnvironment>();
 
         private IEnvironmentNode node;
         [DataMember(Name = "IsSelected")]

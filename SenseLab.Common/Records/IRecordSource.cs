@@ -10,6 +10,10 @@ namespace SenseLab.Common.Records
         IId<Guid>
     {
         /// <summary>
+        /// Record type.
+        /// </summary>
+        IRecordType Type { get; }
+        /// <summary>
         /// Name.
         /// </summary>
         /// <value>non-empty</value>
@@ -20,8 +24,8 @@ namespace SenseLab.Common.Records
         /// <value>optional</value>
         string Description { get; }
         /// <summary>
-        /// Record type.
+        /// Whether this record source is available for record production.
         /// </summary>
-        IRecordType Type { get; }
+        bool IsAvailable { get; }
     }
 }

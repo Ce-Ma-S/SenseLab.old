@@ -1,5 +1,8 @@
-﻿namespace SenseLab.Common
+﻿using System.Runtime.Serialization;
+
+namespace SenseLab.Common
 {
+    [DataContract]
     public class IdNameDescription<T> :
         IId<T>
     {
@@ -10,8 +13,11 @@
             Description = description;
         }
 
+        [DataMember]
         public T Id { get; private set; }
+        [DataMember]
         public string Name { get; private set; }
+        [DataMember]
         public string Description { get; private set; }
     }
 }
