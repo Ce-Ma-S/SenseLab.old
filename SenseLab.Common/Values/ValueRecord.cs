@@ -11,11 +11,11 @@ namespace SenseLab.Common.Values
     {
         public ValueRecord(
             IRecordSource source,
-            T value,
             uint sequenceNumber,
-            ISpatialLocation spatialLocation = null,
-            ITime temporalLocation = null)
-            : base(source, sequenceNumber, spatialLocation, temporalLocation)
+            ITime temporalLocation,
+            T value,
+            ISpatialLocation spatialLocation = null)
+            : base(source, sequenceNumber, temporalLocation, spatialLocation)
         {
             Value = value;
         }

@@ -11,7 +11,8 @@ namespace SenseLab.Common.Data
     /// <typeparam name="TItem">Item type.</typeparam>
     /// <typeparam name="TId">Item identifier type.</typeparam>
     public interface IItemStorage<TItem, TId> :
-        IId<Guid>
+        IId<Guid>,
+        IStreamManager
         where TItem : IId<TId>
     {
         string Name { get; }

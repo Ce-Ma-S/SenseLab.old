@@ -54,8 +54,10 @@ namespace SenseLab.Common.Values
             }
             if (temporalLocation == null)
                 temporalLocation = Time.Now;
-            return new ValueRecord<T>(Recordable, value,
-                sequenceNumber, spatialLocation, temporalLocation);
+            return new ValueRecord<T>(
+                Recordable, sequenceNumber, temporalLocation,
+                value,
+                spatialLocation);
         }
 
         private void OnValueChanged(object sender, ValueChangeEventArgs<T> e)

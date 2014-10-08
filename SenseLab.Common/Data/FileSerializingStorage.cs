@@ -46,7 +46,7 @@ namespace SenseLab.Common.Data
             {
                 string filePath, entryPath;
                 const string wildCard = "*";
-                GetItemFileAndEntryPath(default(TId), out filePath, out entryPath, itemId => wildCard);
+                GetItemFileAndEntryPath(null, wildCard, out filePath, out entryPath);
                 // one item per file
                 // file name is item id specific
                 if (filePath.Contains(wildCard))
@@ -138,39 +138,50 @@ namespace SenseLab.Common.Data
             }
         }
 
-        public void GetItemFileAndEntryPath(TId itemId, out string filePath, out string entryPath)
+        public void GetItemFileAndEntryPath(string namespaceName, string name, out string filePath, out string entryPath)
         {
-            GetItemFileAndEntryPath(itemId, out filePath, out entryPath, GetNameFromItemId);
-        }
+            string fileName;
+            if (string.IsNullOrEmpty(FileName))
+            {
+                fileName = name;
+            }
+            else
+            {
+                fileName = FileName;
+            }
+            fileName = Path.ChangeExtension(fileName, FileExtension);
+            filePath = Path.Combine(FileFolderPath, fileName);
 
-        protected virtual string GetNameFromItemId(TId itemId)
-        {
-            return itemId.ToString();
+            string entryName;
+            if (string.IsNullOrEmpty(EntryName))
+            {
+                entryName = name;
+            }
+            else
+            {
+                entryName = EntryName;
+            }
+            entryPath = Path.Combine(EntryFolderPath, namespaceName, entryName);
         }
-        protected virtual TId GetItemIdFromName(string name)
-        {
-            return (TId)idTypeConverter.ConvertFromString(name);
-        }
-
-        protected override async Task<Stream> OpenItemStreamForReading(TId itemId)
+        public override async Task<Stream> OpenStreamForReading(string namespaceName, string name)
         {
             return await Task.Run(
                 () =>
                 {
                     string filePath, entryPath;
-                    GetItemFileAndEntryPath(itemId, out filePath, out entryPath);
+                    GetItemFileAndEntryPath(namespaceName, name, out filePath, out entryPath);
                     var zip = ZipFile.OpenRead(filePath);
                     var entry = zip.GetEntry(entryPath);
                     return entry.Open();
                 });
         }
-        protected override async Task<Stream> CreateItemStreamForWriting(TId itemId)
+        public override async Task<Stream> CreateStreamForWriting(string namespaceName, string name)
         {
             return await Task.Run(
                 () =>
                 {
                     string filePath, entryPath;
-                    GetItemFileAndEntryPath(itemId, out filePath, out entryPath);
+                    GetItemFileAndEntryPath(namespaceName, name, out filePath, out entryPath);
                     var zip = ZipFile.Open(filePath, ZipArchiveMode.Update);
                     var entry = zip.GetEntry(entryPath);
                     if (entry != null)
@@ -179,13 +190,13 @@ namespace SenseLab.Common.Data
                     return entry.Open();
                 });
         }
-        protected override async Task<bool> RemoveItemStream(TId itemId)
+        public override async Task<bool> RemoveStream(string namespaceName, string name)
         {
             return await Task.Run(
                 () =>
                 {
                     string filePath, entryPath;
-                    GetItemFileAndEntryPath(itemId, out filePath, out entryPath);
+                    GetItemFileAndEntryPath(namespaceName, name, out filePath, out entryPath);
                     using (var zip = ZipFile.Open(filePath, ZipArchiveMode.Update))
                     {
                         var entry = zip.GetEntry(entryPath);
@@ -204,40 +215,6 @@ namespace SenseLab.Common.Data
                     }
                 });
         }
-
-        private void GetItemFileAndEntryPath(TId itemId, out string filePath, out string entryPath, Func<TId, string> getNameFromItemId)
-        {
-            string fileName;
-            string nameFromItemId = null;
-            if (string.IsNullOrEmpty(FileName))
-            {
-                nameFromItemId = getNameFromItemId(itemId);
-                fileName = nameFromItemId;
-            }
-            else
-            {
-                fileName = FileName;
-            }
-            fileName = Path.ChangeExtension(fileName, FileExtension);
-            filePath = Path.Combine(FileFolderPath, fileName);
-
-            string entryName;
-            if (string.IsNullOrEmpty(EntryName))
-            {
-                if (nameFromItemId == null)
-                {
-                    nameFromItemId = getNameFromItemId(itemId);
-                }
-                entryName = nameFromItemId;
-            }
-            else
-            {
-                entryName = EntryName;
-            }
-            entryPath = Path.Combine(EntryFolderPath, entryName);
-        }
-
-        private static readonly TypeConverter idTypeConverter = TypeDescriptor.GetConverter(typeof(TId));
 
         [DataMember(Name = "CompressionLevel")]
         private CompressionLevel compressionLevel;

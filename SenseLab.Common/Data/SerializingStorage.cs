@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.ComponentModel;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -61,14 +61,6 @@ namespace SenseLab.Common.Data
 
         #endregion
 
-        #region Streams
-
-        protected abstract Task<Stream> OpenItemStreamForReading(TId itemId);
-        protected abstract Task<Stream> CreateItemStreamForWriting(TId itemId);
-        protected abstract Task<bool> RemoveItemStream(TId itemId);
-
-        #endregion
-
         #region Serialization
 
         /// <summary>
@@ -77,16 +69,25 @@ namespace SenseLab.Common.Data
         /// <value>Non-null.</value>
         public ISerializer<TItem> Serializer { get; private set; }
 
+        protected virtual string GetNameFromItemId(TId itemId)
+        {
+            return itemId.ToString();
+        }
+        protected virtual TId GetItemIdFromName(string name)
+        {
+            return (TId)idTypeConverter.ConvertFromString(name);
+        }
+
         protected async Task SerializeItem(TItem item)
         {
-            using (var itemStream = await CreateItemStreamForWriting(item.Id))
+            using (var itemStream = await CreateStreamForWriting(null, GetNameFromItemId(item.Id)))
             {
-                await Serializer.Serialize(item, itemStream); 
+                await Serializer.Serialize(item, itemStream);
             }
         }
         protected async Task<TItem> DeserializeItem(TId itemId)
         {
-            using (var itemStream = await OpenItemStreamForReading(itemId))
+            using (var itemStream = await OpenStreamForReading(null, GetNameFromItemId(itemId)))
             {
                 return await Serializer.Deserialize(itemStream); 
             }
@@ -98,6 +99,8 @@ namespace SenseLab.Common.Data
             get { return Serializers<TItem>.Instance.GetId(Serializer); }
             set { Serializer = Serializers<TItem>.Instance.GetFromId(value); }
         }
+
+        private static readonly TypeConverter idTypeConverter = TypeDescriptor.GetConverter(typeof(TId));
 
         #endregion
 
@@ -114,7 +117,7 @@ namespace SenseLab.Common.Data
 
         public override async Task<bool> Remove(TId itemId)
         {
-            return await RemoveItemStream(itemId);
+            return await RemoveStream(null, GetNameFromItemId(itemId));
         }
 
         protected override async Task DoAdd(TItem item)

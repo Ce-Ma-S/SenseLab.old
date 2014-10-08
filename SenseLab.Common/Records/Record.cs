@@ -15,14 +15,15 @@ namespace SenseLab.Common.Records
         public Record(
             IRecordSource source,
             uint sequenceNumber,
-            ISpatialLocation spatialLocation = null,
-            ITime temporalLocation = null)
+            ITime temporalLocation,
+            ISpatialLocation spatialLocation = null)
         {
             source.ValidateNonNull("source");
+            temporalLocation.ValidateNonNull("temporalLocation");
             Source = source;
             SequenceNumber = sequenceNumber;
-            SpatialLocation = spatialLocation;
             TemporalLocation = temporalLocation;
+            SpatialLocation = spatialLocation;
         }
 
         public KeyValuePair<Guid, uint> Id
@@ -36,18 +37,6 @@ namespace SenseLab.Common.Records
         public IRecordSource Source { get; private set; }
         [DataMember(Name = "Number")]
         public uint SequenceNumber { get; private set; }
-        public ISpatialLocation SpatialLocation
-        {
-            get { return spatialLocation; }
-            set
-            {
-                SetProperty(() => SpatialLocation, ref spatialLocation, value);
-            }
-        }
-        ISpatialLocation ILocatable<ISpatialLocation>.Location
-        {
-            get { return SpatialLocation; }
-        }
         public ITime TemporalLocation
         {
             get { return temporalLocation; }
@@ -59,6 +48,18 @@ namespace SenseLab.Common.Records
         ITime ILocatable<ITime>.Location
         {
             get { return TemporalLocation; }
+        }
+        public ISpatialLocation SpatialLocation
+        {
+            get { return spatialLocation; }
+            set
+            {
+                SetProperty(() => SpatialLocation, ref spatialLocation, value);
+            }
+        }
+        ISpatialLocation ILocatable<ISpatialLocation>.Location
+        {
+            get { return SpatialLocation; }
         }
         public IRecordGroup Group
         {
@@ -91,10 +92,10 @@ namespace SenseLab.Common.Records
             }
         }
 
-        [DataMember(Name = "Space")]
-        private ISpatialLocation spatialLocation;
         [DataMember(Name = "Time")]
         private ITime temporalLocation;
+        [DataMember(Name = "Space")]
+        private ISpatialLocation spatialLocation;
         [DataMember(Name = "Group")]
         private IRecordGroup group;
     }

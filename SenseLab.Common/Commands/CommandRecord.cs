@@ -10,12 +10,12 @@ namespace SenseLab.Common.Commands
         ICommandRecord
     {
         public CommandRecord(
+            uint sequenceNumber,
+            ITime temporalLocation,
             IRecordableCommand command,
             P commandParameter,
-            uint sequenceNumber,
-            ISpatialLocation spatialLocation = null,
-            ITime temporalLocation = null)
-            : base(command, sequenceNumber, spatialLocation, temporalLocation)
+            ISpatialLocation spatialLocation = null)
+            : base(command, sequenceNumber, temporalLocation, spatialLocation)
         {
             CommandParameter = commandParameter;
         }

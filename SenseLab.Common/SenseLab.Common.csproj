@@ -71,15 +71,20 @@
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
     <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\IUseStreamManager.cs" />
+    <Compile Include="Data\IStreamable.cs" />
+    <Compile Include="Data\IStreamManager.cs" />
     <Compile Include="Data\ISerializer.cs" />
     <Compile Include="Data\IItemStorage.cs" />
     <Compile Include="Data\ItemRegister.cs" />
     <Compile Include="Data\ItemStorage.cs" />
     <Compile Include="Data\ObservableCache.cs" />
     <Compile Include="Data\FileSerializingStorage.cs" />
+    <Compile Include="Data\StreamManagers.cs" />
     <Compile Include="Data\Serializers.cs" />
     <Compile Include="Data\SerializingStorage.cs" />
     <Compile Include="Data\Serializer.cs" />
+    <Compile Include="Data\StreamInfo.cs" />
     <Compile Include="Data\XmlSerializer.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Environments\Device.cs" />
@@ -135,6 +140,7 @@
     <Compile Include="Records\IRecordStorage.cs" />
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
+    <Compile Include="Records\IStreamingRecorder.cs" />
     <Compile Include="Records\RecordsHelper.cs" />
     <Compile Include="Records\RecordSourcesNonRecordable.cs" />
     <Compile Include="Records\RecordSourceInfo.cs" />
@@ -142,6 +148,7 @@
     <Compile Include="Records\RecordSource.cs" />
     <Compile Include="Records\RecordType.cs" />
     <Compile Include="Records\SamplingRecorder.cs" />
+    <Compile Include="Records\StreamableRecord.cs" />
     <Compile Include="Values\ValueRecorder.cs" />
     <Compile Include="Records\Recorder.cs" />
     <Compile Include="Records\Recordable.cs" />

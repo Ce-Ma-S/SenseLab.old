@@ -1,5 +1,6 @@
 ﻿using SenseLab.Common.Events;
 using System;
+using System.IO;
 using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -106,6 +107,14 @@ namespace SenseLab.Common.Data
         }
         protected abstract Task DoAdd(TItem item);
         protected abstract Task DoUpdate(TItem item); 
+
+        #endregion
+
+        #region Streams
+
+        public abstract Task<Stream> OpenStreamForReading(string namespaceName, string name);
+        public abstract Task<Stream> CreateStreamForWriting(string namespaceName, string name);
+        public abstract Task<bool> RemoveStream(string namespaceName, string name);
 
         #endregion
     }
