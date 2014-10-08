@@ -83,6 +83,13 @@ namespace SenseLab.Common.Data
             }
         }
 
+        protected virtual TId GetItemIdFromName(string name)
+        {
+            return (TId)idTypeConverter.ConvertFromString(name);
+        }
+
+        private static readonly TypeConverter idTypeConverter = TypeDescriptor.GetConverter(typeof(TId));
+
         #endregion
 
         #region Files

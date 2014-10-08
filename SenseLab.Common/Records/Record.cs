@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Environments;
+﻿using SenseLab.Common.Data;
+using SenseLab.Common.Environments;
 using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using System;
@@ -10,7 +11,8 @@ namespace SenseLab.Common.Records
     [DataContract]
     public abstract class Record :
         NotifyPropertyChange,
-        IRecord
+        IRecord,
+        ISerializableSubitems
     {
         public Record(
             IRecordSource source,
@@ -21,6 +23,7 @@ namespace SenseLab.Common.Records
             source.ValidateNonNull("source");
             temporalLocation.ValidateNonNull("temporalLocation");
             Source = source;
+            sourceId = source.Id;
             SequenceNumber = sequenceNumber;
             TemporalLocation = temporalLocation;
             SpatialLocation = spatialLocation;
@@ -66,9 +69,58 @@ namespace SenseLab.Common.Records
             get { return group; }
             set
             {
-                SetProperty(() => Group, ref group, value);
+                if (SetProperty(() => Group, ref group, value))
+                {
+                    groupId = value == null ? (Guid?)null : value.Id;
+                }
             }
         }
+
+        #region ISerializableSubitems
+
+        public IEnumerable<SerializableItemInfo> SubitemInfos
+        {
+            get
+            {
+                yield return new SerializableItemInfo(sourceInfoName, typeof(RecordSourceInfo), Source.Id);
+                if (groupId.HasValue)
+                    yield return new SerializableItemInfo(groupName, typeof(IRecordGroup), groupId.Value);
+            }
+        }
+        public object this[SerializableItemInfo subitemInfo]
+        {
+            get
+            {
+                switch (subitemInfo.Name)
+                {
+                    case sourceInfoName:
+                        return SourceInfo;
+                    case groupName:
+                        return Group;
+                    default:
+                        return null;
+                };
+            }
+            set
+            {
+                switch (subitemInfo.Name)
+                {
+                    case sourceInfoName:
+                        SourceInfo = (RecordSourceInfo)value;
+                        break;
+                    case groupName:
+                        Group = (IRecordGroup)value;
+                        break;
+                    default:
+                        break;
+                };
+            }
+        }
+
+        private const string sourceInfoName = "SourceInfo";
+        private const string groupName = "Group";
+
+        #endregion
 
         public override string ToString()
         {
@@ -77,7 +129,6 @@ namespace SenseLab.Common.Records
 
         protected abstract string GetText();
 
-        [DataMember]
         private RecordSourceInfo SourceInfo
         {
             get { return new RecordSourceInfo(Source); }
@@ -92,11 +143,14 @@ namespace SenseLab.Common.Records
             }
         }
 
+        [DataMember(Name = "SourceId")]
+        private Guid sourceId;
         [DataMember(Name = "Time")]
         private ITime temporalLocation;
         [DataMember(Name = "Space")]
         private ISpatialLocation spatialLocation;
-        [DataMember(Name = "Group")]
+        [DataMember(Name = "GroupId")]
+        private Guid? groupId;
         private IRecordGroup group;
     }
 }

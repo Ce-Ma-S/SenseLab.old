@@ -71,6 +71,8 @@
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
     <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\ISerializableSubitems.cs" />
+    <Compile Include="Data\SerializableItemInfo.cs" />
     <Compile Include="Data\IUseStreamManager.cs" />
     <Compile Include="Data\IStreamable.cs" />
     <Compile Include="Data\IStreamManager.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Data\ItemStorage.cs" />
     <Compile Include="Data\ObservableCache.cs" />
     <Compile Include="Data\FileSerializingStorage.cs" />
+    <Compile Include="Data\ISerializingStorage.cs" />
     <Compile Include="Data\StreamManagers.cs" />
     <Compile Include="Data\Serializers.cs" />
     <Compile Include="Data\SerializingStorage.cs" />

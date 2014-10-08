@@ -12,7 +12,8 @@ namespace SenseLab.Common.Data
     /// <typeparam name="TItem">Item type.</typeparam>
     /// <typeparam name="TId">Item identifier type.</typeparam>
     public abstract class SerializingStorage<TItem, TId> :
-        ItemStorage<TItem, TId>
+        ItemStorage<TItem, TId>,
+        ISerializingStorage
         where TItem : IId<TId>
     {
         public SerializingStorage(Guid id, string name, string description, bool isReadOnly,
@@ -69,28 +70,63 @@ namespace SenseLab.Common.Data
         /// <value>Non-null.</value>
         public ISerializer<TItem> Serializer { get; private set; }
 
-        protected virtual string GetNameFromItemId(TId itemId)
-        {
-            return itemId.ToString();
-        }
-        protected virtual TId GetItemIdFromName(string name)
-        {
-            return (TId)idTypeConverter.ConvertFromString(name);
-        }
-
-        protected async Task SerializeItem(TItem item)
+        public async Task SerializeItem(TItem item)
         {
             using (var itemStream = await CreateStreamForWriting(null, GetNameFromItemId(item.Id)))
             {
                 await Serializer.Serialize(item, itemStream);
             }
+            var itemSerializable = item as ISerializableSubitems;
+            if (itemSerializable == null)
+                return;
+            foreach (var subitemInfo in itemSerializable.SubitemInfos)
+            {
+                var subitemStorage = ValidateItemStorage(subitemInfo);
+                var subitem = itemSerializable[subitemInfo];
+                await subitemStorage.SerializeItem(subitem);
+            }
         }
-        protected async Task<TItem> DeserializeItem(TId itemId)
+        public async Task SerializeItem(object item)
         {
+            await SerializeItem((TItem)item);
+        }
+        public async Task<TItem> DeserializeItem(TId itemId)
+        {
+            TItem item;
             using (var itemStream = await OpenStreamForReading(null, GetNameFromItemId(itemId)))
             {
-                return await Serializer.Deserialize(itemStream); 
+                item = await Serializer.Deserialize(itemStream); 
             }
+            var itemSerializable = item as ISerializableSubitems;
+            if (itemSerializable == null)
+                return item;
+            foreach (var subitemInfo in itemSerializable.SubitemInfos)
+            {
+                var subitemStorage = ValidateItemStorage(subitemInfo);
+                var subitem = await subitemStorage.DeserializeItem(subitemInfo.Id);
+                itemSerializable[subitemInfo] = subitem;
+            }
+            return item;
+        }
+        public async Task<object> DeserializeItem(object itemId)
+        {
+            return await DeserializeItem((TId)itemId);
+        }
+
+        protected virtual string GetNameFromItemId(TId itemId)
+        {
+            return itemId.ToString();
+        }
+        protected virtual ISerializingStorage GetItemStorage(SerializableItemInfo subitemInfo)
+        {
+            return null;
+        }
+        protected ISerializingStorage ValidateItemStorage(SerializableItemInfo itemInfo)
+        {
+            var itemStorage = GetItemStorage(itemInfo);
+            if (itemStorage == null)
+                throw new NotSupportedException(string.Format("No item storage available for {0}.", itemInfo));
+            return itemStorage;
         }
 
         [DataMember]
@@ -99,8 +135,6 @@ namespace SenseLab.Common.Data
             get { return Serializers<TItem>.Instance.GetId(Serializer); }
             set { Serializer = Serializers<TItem>.Instance.GetFromId(value); }
         }
-
-        private static readonly TypeConverter idTypeConverter = TypeDescriptor.GetConverter(typeof(TId));
 
         #endregion
 
