@@ -5,7 +5,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
@@ -15,22 +14,21 @@ namespace SenseLab.Common.Data
     /// </summary>
     /// <typeparam name="TItem">Item type.</typeparam>
     /// <typeparam name="TId">Item identifier type.</typeparam>
-    [DataContract]
     public class FileSerializingStorage<TItem, TId> :
         SerializingStorage<TItem, TId>
         where TItem : IId<TId>
     {
         public FileSerializingStorage(Guid id, string name, string description, bool isReadOnly,
             ISerializer<TItem> serializer,
-            string folderPath, string fileExtension,
+            string fileFolderPath, string fileExtension,
             string fileName = null,
             string entryFolderPath = null, string entryName = null,
             CompressionLevel compressionLevel = CompressionLevel.Optimal)
             : base(id, name, description, isReadOnly, serializer)
         {
-            folderPath.ValidateNonNullOrEmpty("folderPath");
+            fileFolderPath.ValidateNonNullOrEmpty("folderPath");
             fileExtension.ValidateNonNullOrEmpty("fileExtension");
-            FileFolderPath = folderPath;
+            FileFolderPath = fileFolderPath;
             FileExtension = fileExtension;
             FileName = fileName;
             EntryFolderPath = entryFolderPath;
@@ -98,7 +96,6 @@ namespace SenseLab.Common.Data
         /// Folder path of item file(s).
         /// </summary>
         /// <value>Non-empty.</value>
-        [DataMember]
         public string FileFolderPath { get; private set; }
         /// <summary>
         /// Item file name.
@@ -107,13 +104,11 @@ namespace SenseLab.Common.Data
         /// Non-empty means all items are stored in one file with this name.
         /// Otherwise each item has its own file with <see cref="GetNameFromItemId"/> name.
         /// </value>
-        [DataMember]
         public string FileName { get; private set; }
         /// <summary>
         /// Item file(s) extension (with or without leading dot).
         /// </summary>
         /// <value>Non-empty.</value>
-        [DataMember]
         public string FileExtension { get; private set; }
         /// <summary>
         /// Item entry folder path in its file.
@@ -122,7 +117,6 @@ namespace SenseLab.Common.Data
         /// Non-empty means entry folder is created for an item.
         /// Otherwise no entry folder is created and the entry is at the root of its file.
         /// </value>
-        [DataMember]
         public string EntryFolderPath { get; private set; }
         /// <summary>
         /// Item entry name in its file.
@@ -131,7 +125,6 @@ namespace SenseLab.Common.Data
         /// Non-empty means item is stored with this entry name.
         /// Otherwise entry name is <see cref="GetNameFromItemId"/>.
         /// </value>
-        [DataMember]
         public string EntryName { get; private set; }
         /// <summary>
         /// Compression level for item entry added to its file.
@@ -145,6 +138,10 @@ namespace SenseLab.Common.Data
             }
         }
 
+        public void GetItemFileAndEntryPath(TId itemId, out string filePath, out string entryPath)
+        {
+            GetItemFileAndEntryPath(null, GetNameFromItemId(itemId), out filePath, out entryPath);
+        }
         public void GetItemFileAndEntryPath(string namespaceName, string name, out string filePath, out string entryPath)
         {
             string fileName;
@@ -223,9 +220,17 @@ namespace SenseLab.Common.Data
                 });
         }
 
-        [DataMember(Name = "CompressionLevel")]
         private CompressionLevel compressionLevel;
 
         #endregion
+
+        public ISerializingStorage GetItemStorage<TSItem, TSId>(string itemName, ISerializer<TSItem> serializer)
+            where TSItem : IId<TSId>
+        {
+            return new FileSerializingStorage<TSItem, TSId>(Guid.NewGuid(), itemName, null, false,
+                serializer,
+                FileFolderPath, FileExtension, FileName,
+                Path.Combine(EntryFolderPath, itemName + "s"));
+        }
     }
 }

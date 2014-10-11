@@ -1,5 +1,4 @@
-﻿using SenseLab.Common.Locations;
-using SenseLab.Common.Records;
+﻿using SenseLab.Common.Records;
 using System;
 using System.Runtime.Serialization;
 
@@ -13,15 +12,25 @@ namespace SenseLab.Common.Projects
         ProjectNodeBase,
         IProject
     {
-        public Project(Guid id, string name, string description = null,
-            ISpatialLocation location = null)
-            : base(id, name, description, location)
+        public Project(Guid id, string name,
+            IRecordStorage records)
+            : base(id, name, null, null)
         {
+            Records = records;
         }
 
-        [DataMember]
-        public IRecordStorage Records { get; private set; }
+        public IRecordStorage Records
+        {
+            get { return records; }
+            set
+            {
+                SetProperty(() => Records, ref records, value,
+                    beforeChange: (n, v) => v.ValidateNonNull(n));
+            }
+        }
         //public IList<IRecordTransformer> ReadRecordTransformers { get; private set; }
         //public IList<IRecordTransformer> WriteRecordTransformers { get; private set; }
+
+        private IRecordStorage records;
     }
 }

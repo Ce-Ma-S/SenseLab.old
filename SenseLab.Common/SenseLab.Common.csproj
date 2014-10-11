@@ -84,7 +84,6 @@
     <Compile Include="Data\FileSerializingStorage.cs" />
     <Compile Include="Data\ISerializingStorage.cs" />
     <Compile Include="Data\StreamManagers.cs" />
-    <Compile Include="Data\Serializers.cs" />
     <Compile Include="Data\SerializingStorage.cs" />
     <Compile Include="Data\Serializer.cs" />
     <Compile Include="Data\StreamInfo.cs" />
@@ -128,6 +127,7 @@
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Projects\IProjectStorage.cs" />
     <Compile Include="Projects\Project.cs" />
+    <Compile Include="Projects\ProjectFileSerializingStorage.cs" />
     <Compile Include="Projects\ProjectNodeBase.cs" />
     <Compile Include="Projects\ProjectNode.cs" />
     <Compile Include="Projects\IProjectNode.cs" />
@@ -144,6 +144,8 @@
     <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
     <Compile Include="Records\IStreamingRecorder.cs" />
+    <Compile Include="Records\RecordFileSerializingStorage.cs" />
+    <Compile Include="Records\RecordGroup.cs" />
     <Compile Include="Records\RecordsHelper.cs" />
     <Compile Include="Records\RecordSourcesNonRecordable.cs" />
     <Compile Include="Records\RecordSourceInfo.cs" />

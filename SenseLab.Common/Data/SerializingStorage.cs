@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Reactive.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Data
@@ -95,7 +93,7 @@ namespace SenseLab.Common.Data
             TItem item;
             using (var itemStream = await OpenStreamForReading(null, GetNameFromItemId(itemId)))
             {
-                item = await Serializer.Deserialize(itemStream); 
+                item = await Serializer.Deserialize(itemStream);
             }
             var itemSerializable = item as ISerializableSubitems;
             if (itemSerializable == null)
@@ -106,34 +104,32 @@ namespace SenseLab.Common.Data
                 var subitem = await subitemStorage.DeserializeItem(subitemInfo.Id);
                 itemSerializable[subitemInfo] = subitem;
             }
+            OnItemDeserialized(item);
             return item;
         }
         public async Task<object> DeserializeItem(object itemId)
         {
             return await DeserializeItem((TId)itemId);
         }
-
-        protected virtual string GetNameFromItemId(TId itemId)
+        public virtual string GetNameFromItemId(TId itemId)
         {
             return itemId.ToString();
         }
-        protected virtual ISerializingStorage GetItemStorage(SerializableItemInfo subitemInfo)
+        
+        protected virtual ISerializingStorage GetItemStorage(string itemName, Type itemType)
         {
             return null;
         }
         protected ISerializingStorage ValidateItemStorage(SerializableItemInfo itemInfo)
         {
-            var itemStorage = GetItemStorage(itemInfo);
+            var itemStorage = GetItemStorage(itemInfo.Name, itemInfo.Type);
             if (itemStorage == null)
                 throw new NotSupportedException(string.Format("No item storage available for {0}.", itemInfo));
             return itemStorage;
         }
 
-        [DataMember]
-        private Guid SerializerId
+        protected virtual void OnItemDeserialized(TItem item)
         {
-            get { return Serializers<TItem>.Instance.GetId(Serializer); }
-            set { Serializer = Serializers<TItem>.Instance.GetFromId(value); }
         }
 
         #endregion

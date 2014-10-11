@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SenseLab.Common.Records
 {
     public interface IRecordStorage :
-        IItemStorage<IRecord, KeyValuePair<Guid, uint>>        
+        IItemStorage<IRecord, KeyValuePair<Guid, uint>>
     {
     }
 }
