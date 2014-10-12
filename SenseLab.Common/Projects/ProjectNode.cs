@@ -23,7 +23,7 @@ namespace SenseLab.Common.Projects
             ISpatialLocation location = null)
             : base(id, name, description, location)
         {
-            SelectedRecordables = new ObservableCollection<IRecordable>();
+            EnabledRecordables = new ObservableCollection<IRecordable>();
         }
 
         /// <summary>
@@ -38,26 +38,26 @@ namespace SenseLab.Common.Projects
             }
         }
         /// <summary>
-        /// Whether <see cref="Node"/> is selected.
+        /// Whether <see cref="Node"/> is enabled.
         /// </summary>
-        public bool IsSelected
+        public bool IsEnabled
         {
-            get { return isSelected; }
+            get { return isEnabled; }
             set
             {
-                if (SetProperty(() => IsSelected, ref isSelected, value))
+                if (SetProperty(() => IsEnabled, ref isEnabled, value))
                 {
                     foreach (var child in Children)
                     {
-                        child.IsSelected = value;
+                        child.IsEnabled = value;
                     }
                 }
             }
         }
-        public IList<IRecordable> SelectedRecordables { get; private set; }
-        IEnumerable<IRecordable> IProjectNode.SelectedRecordables
+        public IList<IRecordable> EnabledRecordables { get; private set; }
+        IEnumerable<IRecordable> IProjectNode.EnabledRecordables
         {
-            get { return SelectedRecordables; }
+            get { return EnabledRecordables; }
         }
 
         [DataMember]
@@ -79,18 +79,18 @@ namespace SenseLab.Common.Projects
             }
         }
         [DataMember]
-        private IEnumerable<Guid> SelectedRecordableIds
+        private IEnumerable<Guid> EnabledRecordableIds
         {
             get
             {
-                // keep selected recordable ids of unavailable node
+                // keep enabled recordable ids of unavailable node
                 if (node is EnvironmentNodeUnavailable)
                     return ((EnvironmentNodeUnavailable)node).RecordableIds;
-                return SelectedRecordables.Select(r => r.Id);
+                return EnabledRecordables.Select(r => r.Id);
             }
             set
             {
-                // keep selected recordable ids of unavailable node
+                // keep enabled recordable ids of unavailable node
                 if (node is EnvironmentNodeUnavailable)
                 {
                     ((EnvironmentNodeUnavailable)node).RecordableIds = value;
@@ -98,14 +98,14 @@ namespace SenseLab.Common.Projects
                 else
                 {
                     var recordables = node.RecordablesFromIds(value);
-                    SelectedRecordables = new ObservableCollection<IRecordable>(recordables);
+                    EnabledRecordables = new ObservableCollection<IRecordable>(recordables);
                 }
             }
         }
 
 
         private IEnvironmentNode node;
-        [DataMember(Name = "IsSelected")]
-        private bool isSelected;
+        [DataMember(Name = "IsEnabled")]
+        private bool isEnabled;
     }
 }

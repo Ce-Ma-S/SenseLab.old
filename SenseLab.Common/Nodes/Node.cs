@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Events;
+﻿using SenseLab.Common.Collections;
+using SenseLab.Common.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +19,8 @@ namespace SenseLab.Common.Nodes
             Id = id;
             Name = name;
             Description = description;
-            Children = new ObservableCollection<T>();
+            children = new ObservableCollectionEx<T, Guid>();
+            children.ItemContainmentChanged += OnChildrenChanged;
         }
 
         [DataMember]
@@ -50,18 +52,45 @@ namespace SenseLab.Common.Nodes
             get { return Children.Cast<INode>(); }
         }
 
-        protected IList<T> Children { get; private set; }
+        protected IList<T> Children
+        {
+            get { return children; }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                foreach (var child in Children.OfType<IDisposable>())
+                    child.Dispose();
+            }
+        }
+        protected override void ClearEventHandlers()
+        {
+            base.ClearEventHandlers();
+            children.ItemContainmentChanged -= OnChildrenChanged;
+        }
+
+        protected virtual void OnChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<T>> e)
+        {
+        }
 
         [DataMember(Name = "Children")]
         private IEnumerable<T> ChildrenSerialized
         {
-            get { return Children; }
-            set { Children = new ObservableCollection<T>(value); }
+            get { return children; }
+            set
+            {
+                children = new ObservableCollectionEx<T, Guid>(value);
+                children.ItemContainmentChanged += OnChildrenChanged;
+            }
         }
 
         [DataMember(Name = "Name")]
         private string name;
         [DataMember(Name = "Description")]
         private string description;
+        private ObservableCollectionEx<T, Guid> children;
     }
 }

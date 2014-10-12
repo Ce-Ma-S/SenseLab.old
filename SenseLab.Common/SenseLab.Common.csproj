@@ -68,9 +68,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ObservableCollectionEx.cs" />
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
     <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Data\DataHelper.cs" />
+    <Compile Include="Data\IChangeAware.cs" />
     <Compile Include="Data\ISerializableSubitems.cs" />
     <Compile Include="Data\SerializableItemInfo.cs" />
     <Compile Include="Data\IUseStreamManager.cs" />
@@ -138,6 +140,11 @@
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />
     <Compile Include="PhysicalQuantities\SIUnit.cs" />
     <Compile Include="PhysicalQuantities\Unit.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Records\IRecordSource.cs" />
     <Compile Include="Records\IRecordGroup.cs" />
     <Compile Include="Records\IRecordStorage.cs" />
@@ -184,6 +191,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

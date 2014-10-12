@@ -18,12 +18,12 @@ namespace SenseLab.Common.Projects
         /// </summary>
         IEnvironmentNode Node { get; }
         /// <summary>
-        /// Whether <see cref="Node"/> is selected.
+        /// Whether <see cref="Node"/> is enabled.
         /// </summary>
-        bool IsSelected { get; }
+        bool IsEnabled { get; }
         /// <summary>
-        /// Selected recordables of <see cref="Node"/>.
+        /// Enabled recordables of <see cref="Node"/>.
         /// </summary>
-        IEnumerable<IRecordable> SelectedRecordables { get; }
+        IEnumerable<IRecordable> EnabledRecordables { get; }
     }
 }

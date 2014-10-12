@@ -104,7 +104,7 @@ namespace SenseLab.Common.Data
                 var subitem = await subitemStorage.DeserializeItem(subitemInfo.Id);
                 itemSerializable[subitemInfo] = subitem;
             }
-            OnItemDeserialized(item);
+            await OnItemDeserialized(item);
             return item;
         }
         public async Task<object> DeserializeItem(object itemId)
@@ -128,9 +128,11 @@ namespace SenseLab.Common.Data
             return itemStorage;
         }
 
-        protected virtual void OnItemDeserialized(TItem item)
+#pragma warning disable 1998
+        protected virtual async Task OnItemDeserialized(TItem item)
         {
         }
+#pragma warning restore
 
         #endregion
 

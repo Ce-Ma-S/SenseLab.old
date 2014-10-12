@@ -53,5 +53,15 @@ namespace SenseLab.Common
                     throw new ArgumentException();
             }
         }
+        public static void ValidateContainmentOf<T>(this ICollection<T> items, T item, string name = null)
+        {
+            if (!items.Contains(item))
+            {
+                if (name == null)
+                    throw new ArgumentOutOfRangeException();
+                else
+                    throw new ArgumentOutOfRangeException(name);
+            }
+        }
     }
 }

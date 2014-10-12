@@ -6,6 +6,7 @@ using SenseLab.Common.Values;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 
 namespace SenseLab.Common.Projects
 {
@@ -38,9 +39,10 @@ namespace SenseLab.Common.Projects
 
         #endregion
 
-        public IRecordStorage CreateRecordStorage(Guid projectId, bool isReadOnly)
+        public async Task<IRecordStorage> CreateRecordStorage(Guid projectId)
         {
-            return new RecordFileSerializingStorage(this, projectId, isReadOnly);
+            ValidateWritable();
+            return await Task.Run<IRecordStorage>(() => new RecordFileSerializingStorage(this, projectId, IsReadOnly));
         }
 
         internal static Lazy<XmlSerializer<T>> PrepareSerializer<T>()
@@ -54,10 +56,11 @@ namespace SenseLab.Common.Projects
         {
             return Guid.Parse(name);
         }
-        protected override void OnItemDeserialized(IProject item)
+
+        protected override async Task OnItemDeserialized(IProject item)
         {
-            base.OnItemDeserialized(item);
-            ((Project)item).Records = CreateRecordStorage(item.Id, false);
+            await base.OnItemDeserialized(item);
+            ((Project)item).Records = await CreateRecordStorage(item.Id);
         }
 
         private static readonly Lazy<XmlSerializer<IProject>> serializer = PrepareSerializer<IProject>();

@@ -10,7 +10,7 @@ namespace SenseLab.Common.Records
         IRecordStorage
     {
         public RecordFileSerializingStorage(ProjectFileSerializingStorage projectStorage, Guid projectId, bool isReadOnly)
-            : base(Guid.NewGuid(), recordsName, null, isReadOnly, recordSerializer.Value,
+            : base(projectId, recordsName, null, isReadOnly, recordSerializer.Value,
                 projectStorage.FileFolderPath, projectStorage.FileExtension, projectStorage.GetNameFromItemId(projectId), recordsName)
         {
         }
