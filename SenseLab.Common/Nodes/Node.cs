@@ -24,7 +24,7 @@ namespace SenseLab.Common.Nodes
         }
 
         [DataMember]
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; }
         public string Name
         {
             get { return name; }
@@ -57,6 +57,19 @@ namespace SenseLab.Common.Nodes
             get { return children; }
         }
 
+        protected virtual Node<T> Clone()
+        {
+            var clone = (Node<T>)MemberwiseClone();
+            clone.Id = Guid.NewGuid();
+            clone.ClearEventHandlers();
+            clone.children = new ObservableCollectionEx<T, Guid>(TryCloneChildren(children));
+            clone.children.ItemContainmentChanged += OnChildrenChanged;
+            return clone;
+        }
+        protected virtual IEnumerable<T> TryCloneChildren(IEnumerable<T> children)
+        {
+            return children.Select(child => child is Node<T> ? (T)(object)(child as Node<T>).Clone() : child);
+        }
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

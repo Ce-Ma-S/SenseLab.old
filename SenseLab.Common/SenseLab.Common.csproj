@@ -135,6 +135,7 @@
     <Compile Include="Projects\IProjectNode.cs" />
     <Compile Include="OptionalValue.cs" />
     <Compile Include="Projects\ProjectsViewModel.cs" />
+    <Compile Include="Projects\SaveProjectAsUpdateOrCloneModes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhysicalQuantities\PhysicalQuantity.cs" />
     <Compile Include="PhysicalQuantities\SIPrefix.cs" />

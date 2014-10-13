@@ -72,7 +72,7 @@ namespace SenseLab.Common.Projects
             var projectId = Guid.NewGuid();
             var project = new Project(projectId, "Project",
                 await storage.CreateRecordStorage(projectId));
-            await SelectedStorage.Add(project);
+            await SelectedStorage.Save(project);
             OpenProject(project, storage);
             return project;
         }
@@ -84,7 +84,7 @@ namespace SenseLab.Common.Projects
                 return false;
             return GetOpenProject(projectId, storageId) == null &&
                 storage.IsConnected && await storage.Contains(projectId);
-        }        
+        }
         public async Task<IProject> OpenProject(Guid projectId, Guid storageId)
         {
             var storage = storages.GetItem(storageId);
@@ -95,13 +95,13 @@ namespace SenseLab.Common.Projects
 
         public bool CanCloseProject(IProject project)
         {
-            return OpenProjects.Contains(project);
+            return project != null && OpenProjects.Contains(project);
         }
         public async Task CloseProject(IProject project)
         {
             if (((IChangeAware)project).IsChanged)
             {
-                var save = AskToSaveProject(project);
+                var save = AskToSaveProjectOnClose(project);
                 if (!save.HasValue)
                     return;
                 if (save.Value && !await SaveProject(project))
@@ -113,16 +113,18 @@ namespace SenseLab.Common.Projects
 
         public async Task<bool> CanSaveProject(IProject project)
         {
+            if (project == null)
+                return false;
             var storage = openProjectToStorage[project];
             return ((IChangeAware)project).IsChanged &&
-                IsStorageWritableAndConnected(storage) && await storage.Contains(project.Id);
+                storage.IsWritableAndConnected() && await storage.Contains(project.Id);
         }
         public async Task<bool> SaveProject(IProject project)
         {
             var storage = openProjectToStorage[project];
-            if (IsStorageWritableAndConnected(storage))
+            if (storage.IsWritableAndConnected())
             {
-                await storage.Update(project);
+                await storage.Save(project);
                 ((IChangeAware)project).IsChanged = false;
                 return true;
             }
@@ -130,9 +132,13 @@ namespace SenseLab.Common.Projects
                 return await SaveProjectAs(project);
         }
 
+        public bool CanSaveProjectAs(IProject project)
+        {
+            return project != null && Storages.Where(s => s.IsWritableAndConnected()).Any();
+        }
         public async Task<bool> SaveProjectAs(IProject project)
         {
-            var storages = Storages.Where(s => IsStorageWritableAndConnected(s));
+            var storages = Storages.Where(s => s.IsWritableAndConnected()).ToArray();
             if (!storages.Any())
                 return false;
             var storage = AskToSaveProjectAs(project, storages);
@@ -140,24 +146,50 @@ namespace SenseLab.Common.Projects
             {
                 return false;
             }
+            return await SaveProjectAs(project, storage);
+        }
+        public async Task<bool> SaveProjectAs(IProject project, IProjectStorage storage)
+        {
             if (await storage.Contains(project.Id))
             {
-                if (AskToSaveProjectAsUpdate(project, storage))
-                    await storage.Update(project);
-                else
-                    return false;
+                switch (AskToSaveProjectAsUpdateOrClone(project, storage))
+                {
+                    case SaveProjectAsUpdateOrCloneModes.Update:
+                        await storage.Save(project);
+                        break;
+                    case SaveProjectAsUpdateOrCloneModes.CloneWithRecords:
+                        await SaveProjectAsClone(project, storage, true);
+                        break;
+                    case SaveProjectAsUpdateOrCloneModes.CloneWithoutRecords:
+                        await SaveProjectAsClone(project, storage, false);
+                        break;
+                    case SaveProjectAsUpdateOrCloneModes.Cancel:
+                    default:
+                        return false;
+                }
             }
             else
-                await storage.Add(project);
+                await storage.Save(project);
             ((IChangeAware)project).IsChanged = false;
             return true;
+        }
+        public bool CanSaveProjectAsClone(IProject project, IProjectStorage storage)
+        {
+            return project != null && storage.IsWritableAndConnected();
+        }
+        public async Task SaveProjectAsClone(IProject project, IProjectStorage storage, bool copyRecords)
+        {
+            var clone = await project.Clone(async cloneId => await storage.CreateRecordStorage(cloneId));
+            await storage.Save(clone);
+            if (copyRecords)
+                await project.Records.CopyTo(clone.Records);
         }
 
         public async Task<bool> CanRemoveProject(Guid projectId, Guid storageId)
         {
             IProjectStorage storage;
             return storages.TryGetItem(storageId, out storage) &&
-                IsStorageWritableAndConnected(storage) &&
+                storage.IsWritableAndConnected() &&
                 await SelectedStorage.Contains(projectId);
         }
         public async Task<bool> RemoveProject(Guid projectId, Guid storageId)
@@ -175,14 +207,46 @@ namespace SenseLab.Common.Projects
             return true;
         }
 
-        private bool SelectedStorageWritableAndConnected
+        #region Questions
+
+        public Func<IProject, bool?> AskToSaveProjectOnCloseMethod;
+        public Func<IProject, IEnumerable<IProjectStorage>, IProjectStorage> AskToSaveProjectAsMethod;
+        public Func<IProject, IProjectStorage, SaveProjectAsUpdateOrCloneModes> AskToSaveProjectAsUpdateOrCloneMethod;
+        public Func<Guid, IProjectStorage, bool> AskToRemoveProjectMethod;
+
+        private bool? AskToSaveProjectOnClose(IProject project)
         {
-            get { return IsStorageWritableAndConnected(SelectedStorage); }
+            if (AskToSaveProjectOnCloseMethod != null)
+                return AskToSaveProjectOnCloseMethod(project);
+            return true;
+        }
+        private IProjectStorage AskToSaveProjectAs(IProject project, IEnumerable<IProjectStorage> storages)
+        {
+            IProjectStorage storage;
+            if (AskToSaveProjectAsMethod != null)
+                storage = AskToSaveProjectAsMethod(project, storages);
+            else
+                storage = storages.FirstOrDefault();
+            return storage;
+        }
+        private SaveProjectAsUpdateOrCloneModes AskToSaveProjectAsUpdateOrClone(IProject project, IProjectStorage storage)
+        {
+            if (AskToSaveProjectAsUpdateOrCloneMethod != null)
+                return AskToSaveProjectAsUpdateOrCloneMethod(project, storage);
+            return SaveProjectAsUpdateOrCloneModes.Update;
+        }
+        private bool AskToRemoveProject(Guid projectId, IProjectStorage storage)
+        {
+            if (AskToRemoveProjectMethod != null)
+                return AskToRemoveProjectMethod(projectId, storage);
+            return true;
         }
 
-        private static bool IsStorageWritableAndConnected(IProjectStorage storage)
+        #endregion
+
+        private bool SelectedStorageWritableAndConnected
         {
-            return storage != null && !storage.IsReadOnly && storage.IsConnected;
+            get { return SelectedStorage.IsWritableAndConnected(); }
         }
 
         private void InitStorages()
@@ -204,23 +268,6 @@ namespace SenseLab.Common.Projects
         private IProject GetOpenProject(Guid projectId, Guid storageId)
         {
             return openProjectToStorage.FirstOrDefault(item => item.Key.Id == projectId && item.Value.Id == storageId).Key;
-        }
-
-        private bool? AskToSaveProject(IProject project)
-        {
-            throw new NotImplementedException();
-        }
-        private IProjectStorage AskToSaveProjectAs(IProject project, IEnumerable<IProjectStorage> storages)
-        {
-            throw new NotImplementedException();
-        }
-        private bool AskToSaveProjectAsUpdate(IProject project, IProjectStorage storage)
-        {
-            throw new NotImplementedException();
-        }
-        private bool AskToRemoveProject(Guid projectId, IProjectStorage storage)
-        {
-            throw new NotImplementedException();
         }
 
         private void OnStoragesChanged(object sender, NotifyCollectionChangedEventArgs e)

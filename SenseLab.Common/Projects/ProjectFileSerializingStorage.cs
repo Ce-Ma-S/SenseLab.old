@@ -41,7 +41,7 @@ namespace SenseLab.Common.Projects
 
         public async Task<IRecordStorage> CreateRecordStorage(Guid projectId)
         {
-            ValidateWritable();
+            ValidateWritableAndConnected();
             return await Task.Run<IRecordStorage>(() => new RecordFileSerializingStorage(this, projectId, IsReadOnly));
         }
 

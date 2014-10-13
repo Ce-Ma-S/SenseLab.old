@@ -103,7 +103,6 @@ namespace SenseLab.Common.Projects
             }
         }
 
-
         private IEnvironmentNode node;
         [DataMember(Name = "IsEnabled")]
         private bool isEnabled;

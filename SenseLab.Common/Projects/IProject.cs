@@ -1,6 +1,8 @@
 ﻿using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
+using System;
+using System.Threading.Tasks;
 
 namespace SenseLab.Common.Projects
 {
@@ -17,5 +19,11 @@ namespace SenseLab.Common.Projects
         IRecordStorage Records { get; }
         //IList<IRecordTransformer> ReadRecordTransformers { get; }
         //IList<IRecordTransformer> WriteRecordTransformers { get; }
+
+        /// <summary>
+        /// Clones this project without <see cref="Records"/>.
+        /// </summary>
+        /// <param name="createRecords">Creates <see cref="Records"/> for the clone.</param>
+        Task<IProject> Clone(Func<Guid, Task<IRecordStorage>> createRecords);
     }
 }

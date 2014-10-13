@@ -56,6 +56,14 @@ namespace SenseLab.Common.Projects
         }
         public event EventHandler Changed;
 
+        protected override Node<ProjectNode> Clone()
+        {
+            var clone = (ProjectNodeBase)base.Clone();
+            clone.isChanged = false;
+            if (location != null)
+                clone.location = location.Clone();
+            return clone;
+        }
         protected override void ClearEventHandlers()
         {
             base.ClearEventHandlers();

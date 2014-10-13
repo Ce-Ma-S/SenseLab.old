@@ -59,7 +59,7 @@ namespace SenseLab.Common.Data
         private bool isConnected;
 
         #endregion
-        
+
         #region Items
 
         public abstract IQbservable<TItem> Items { get; }
@@ -76,31 +76,26 @@ namespace SenseLab.Common.Data
         public abstract IObservable<TItem> ItemsUpdated { get; }
         public abstract IObservable<TItem> ItemsRemoved { get; }
 
-        public async Task Add(TItem item)
+        public async Task Save(TItem item)
         {
-            ValidateWritable();
-            bool contains = await Contains(item.Id);
-            if (contains)
-                throw new ArgumentOutOfRangeException("item.Id", item.Id, "Item to be added is alredy in this storage.");
-            await DoAdd(item);
+            ValidateWritableAndConnected();
+            await DoSave(item);
         }
-        public async Task Update(TItem item)
+        public async Task<bool> Remove(TId itemId)
         {
-            ValidateWritable();
-            bool contains = await Contains(item.Id);
-            if (!contains)
-                throw new ArgumentOutOfRangeException("item.Id", item.Id, "Item to be updated is not in this storage yet.");
-            await DoUpdate(item);
+            ValidateWritableAndConnected();
+            return await DoRemove(itemId);
         }
-        public abstract Task<bool> Remove(TId itemId);
 
-        protected void ValidateWritable()
+        protected void ValidateWritableAndConnected()
         {
             if (IsReadOnly)
                 throw new AccessViolationException("Storage is read only and cannot be modified.");
+            if (!IsConnected)
+                throw new AccessViolationException("Storage is not connected.");
         }
-        protected abstract Task DoAdd(TItem item);
-        protected abstract Task DoUpdate(TItem item); 
+        protected abstract Task DoSave(TItem item);
+        protected abstract Task<bool> DoRemove(TId itemId);
 
         #endregion
 

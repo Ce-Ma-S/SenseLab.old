@@ -147,18 +147,13 @@ namespace SenseLab.Common.Data
             get { throw new NotImplementedException(); }
         }
 
-        public override async Task<bool> Remove(TId itemId)
+        protected override async Task DoSave(TItem item)
+        {
+            await SerializeItem(item);
+        }
+        protected override async Task<bool> DoRemove(TId itemId)
         {
             return await RemoveStream(null, GetNameFromItemId(itemId));
-        }
-
-        protected override async Task DoAdd(TItem item)
-        {
-            await SerializeItem(item);
-        }
-        protected override async Task DoUpdate(TItem item)
-        {
-            await SerializeItem(item);
         }
 
         #endregion

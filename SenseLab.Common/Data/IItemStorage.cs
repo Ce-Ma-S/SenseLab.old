@@ -43,8 +43,7 @@ namespace SenseLab.Common.Data
         IObservable<TItem> ItemsUpdated { get; }
         IObservable<TItem> ItemsRemoved { get; }
         
-        Task Add(TItem item);
-        Task Update(TItem item);
+        Task Save(TItem item);
         Task<bool> Remove(TId itemId);
 
         #endregion
