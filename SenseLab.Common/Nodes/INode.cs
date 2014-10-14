@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SenseLab.Common.Collections;
+using System;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Nodes
@@ -9,11 +10,11 @@ namespace SenseLab.Common.Nodes
         string Name { get; }
         string Description { get; }
 
-        IEnumerable<INode> Children { get; }
+        INotifyEnumerable<INode> Children { get; }
     }
 
 
-    public interface INode<T> :
+    public interface INode<out T> :
         INode
         where T : INode
     {

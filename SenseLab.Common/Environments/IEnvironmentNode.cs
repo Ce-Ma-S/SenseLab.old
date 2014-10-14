@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Nodes;
+﻿using SenseLab.Common.Collections;
+using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
 using System.Collections.Generic;
 
@@ -11,6 +12,6 @@ namespace SenseLab.Common.Environments
         INode<IEnvironmentNode>
     {
         bool IsAvailable { get; }
-        IEnumerable<IRecordable> Recordables { get; }
+        INotifyEnumerable<IRecordable> Recordables { get; }
     }
 }

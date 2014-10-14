@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Environments;
+﻿using SenseLab.Common.Collections;
+using SenseLab.Common.Environments;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
@@ -24,6 +25,6 @@ namespace SenseLab.Common.Projects
         /// <summary>
         /// Enabled recordables of <see cref="Node"/>.
         /// </summary>
-        IEnumerable<IRecordable> EnabledRecordables { get; }
+        INotifyEnumerable<IRecordable> EnabledRecordables { get; }
     }
 }

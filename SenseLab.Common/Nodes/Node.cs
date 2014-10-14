@@ -20,6 +20,7 @@ namespace SenseLab.Common.Nodes
             Name = name;
             Description = description;
             children = new ObservableCollectionEx<T, Guid>();
+            notifyChildren = new ReadOnlyObservableCollectionEx<T, INode>(children);
             children.ItemContainmentChanged += OnChildrenChanged;
         }
 
@@ -43,13 +44,15 @@ namespace SenseLab.Common.Nodes
             }
         }
 
+        #region Children
+
         IEnumerable<T> INode<T>.Children
         {
             get { return Children; }
         }
-        IEnumerable<INode> INode.Children
+        INotifyEnumerable<INode> INode.Children
         {
-            get { return Children.Cast<INode>(); }
+            get { return notifyChildren; }
         }
 
         protected IList<T> Children
@@ -57,18 +60,41 @@ namespace SenseLab.Common.Nodes
             get { return children; }
         }
 
+        protected virtual IEnumerable<T> TryCloneChildren(IEnumerable<T> children)
+        {
+            return children.Select(child => child is Node<T> ? (T)(object)(child as Node<T>).Clone() : child);
+        }
+
+        protected virtual void OnChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<T>> e)
+        {
+        }
+
+        [DataMember(Name = "Children")]
+        private IEnumerable<T> ChildrenSerialized
+        {
+            get { return children; }
+            set
+            {
+                children = new ObservableCollectionEx<T, Guid>(value);
+                notifyChildren = new ReadOnlyObservableCollectionEx<T, INode>(children);
+                children.ItemContainmentChanged += OnChildrenChanged;
+            }
+        }
+
+        private ObservableCollectionEx<T, Guid> children;
+        private ReadOnlyObservableCollectionEx<T, INode> notifyChildren;
+
+        #endregion
+
         protected virtual Node<T> Clone()
         {
             var clone = (Node<T>)MemberwiseClone();
             clone.Id = Guid.NewGuid();
             clone.ClearEventHandlers();
             clone.children = new ObservableCollectionEx<T, Guid>(TryCloneChildren(children));
+            clone.notifyChildren = new ReadOnlyObservableCollectionEx<T, INode>(clone.children);
             clone.children.ItemContainmentChanged += OnChildrenChanged;
             return clone;
-        }
-        protected virtual IEnumerable<T> TryCloneChildren(IEnumerable<T> children)
-        {
-            return children.Select(child => child is Node<T> ? (T)(object)(child as Node<T>).Clone() : child);
         }
         protected override void Dispose(bool disposing)
         {
@@ -85,25 +111,9 @@ namespace SenseLab.Common.Nodes
             children.ItemContainmentChanged -= OnChildrenChanged;
         }
 
-        protected virtual void OnChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<T>> e)
-        {
-        }
-
-        [DataMember(Name = "Children")]
-        private IEnumerable<T> ChildrenSerialized
-        {
-            get { return children; }
-            set
-            {
-                children = new ObservableCollectionEx<T, Guid>(value);
-                children.ItemContainmentChanged += OnChildrenChanged;
-            }
-        }
-
         [DataMember(Name = "Name")]
         private string name;
         [DataMember(Name = "Description")]
         private string description;
-        private ObservableCollectionEx<T, Guid> children;
     }
 }

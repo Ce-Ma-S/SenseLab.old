@@ -11,11 +11,6 @@ namespace SenseLab.Common.Environments
             : base(id, name, description)
         {
         }
-
-        protected virtual void OnIsAvailableChanged()
-        {
-            OnPropertyChanged(() => IsAvailable);
-        }
     }
 
 

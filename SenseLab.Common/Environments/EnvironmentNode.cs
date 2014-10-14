@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Nodes;
+﻿using SenseLab.Common.Collections;
+using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
 using System;
 using System.Collections.Generic;
@@ -15,19 +16,34 @@ namespace SenseLab.Common.Environments
         public EnvironmentNode(Guid id, string name, string description = null)
             : base(id, name, description)
         {
-            Recordables = new ObservableCollection<IRecordable>();
+            recordables = new ObservableCollectionEx<IRecordable>();
         }
 
+        #region IsAvailable
+
         public abstract bool IsAvailable { get; }
+
+        protected virtual void OnIsAvailableChanged()
+        {
+            OnPropertyChanged(() => IsAvailable);
+        }
+
+        #endregion
+
         IEnumerable<IEnvironmentNode> INode<IEnvironmentNode>.Children
         {
             get { return Children.Cast<IEnvironmentNode>(); }
         }
-        IEnumerable<IRecordable> IEnvironmentNode.Recordables
+        INotifyEnumerable<IRecordable> IEnvironmentNode.Recordables
         {
-            get { return Recordables; }
+            get { return recordables; }
         }
 
-        protected IList<IRecordable> Recordables { get; private set; }
+        protected IList<IRecordable> Recordables
+        {
+            get { return recordables; }
+        }
+
+        private ObservableCollectionEx<IRecordable> recordables;
     }
 }

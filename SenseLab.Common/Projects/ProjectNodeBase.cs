@@ -23,6 +23,13 @@ namespace SenseLab.Common.Projects
             Location = location;
         }
 
+        IEnumerable<IProjectNode> INode<IProjectNode>.Children
+        {
+            get { return Children; }
+        }
+
+        #region Location
+
         public ISpatialLocation Location
         {
             get { return location; }
@@ -35,10 +42,20 @@ namespace SenseLab.Common.Projects
         /// Fired when <see cref="ILocatable{T}.Location"/> is changed.
         /// </summary>
         public event EventHandler<ValueChangeEventArgs<ISpatialLocation>> LocationChanged;
-        IEnumerable<IProjectNode> INode<IProjectNode>.Children
+
+        private void OnLocationChanged(ISpatialLocation oldValue, ISpatialLocation newValue)
         {
-            get { return Children; }
+            if (LocationChanged != null)
+                LocationChanged(this, new ValueChangeEventArgs<ISpatialLocation>(oldValue, newValue));
         }
+
+        [DataMember(Name = "Location")]
+        private ISpatialLocation location;
+
+        #endregion
+
+        #region IChangeAware
+
         public virtual bool IsChanged
         {
             get
@@ -55,20 +72,6 @@ namespace SenseLab.Common.Projects
             }
         }
         public event EventHandler Changed;
-
-        protected override Node<ProjectNode> Clone()
-        {
-            var clone = (ProjectNodeBase)base.Clone();
-            clone.isChanged = false;
-            if (location != null)
-                clone.location = location.Clone();
-            return clone;
-        }
-        protected override void ClearEventHandlers()
-        {
-            base.ClearEventHandlers();
-            Changed = null;
-        }
 
         protected virtual void OnChanged()
         {
@@ -88,14 +91,23 @@ namespace SenseLab.Common.Projects
         {
             IsChanged = true;
         }
-        private void OnLocationChanged(ISpatialLocation oldValue, ISpatialLocation newValue)
-        {
-            if (LocationChanged != null)
-                LocationChanged(this, new ValueChangeEventArgs<ISpatialLocation>(oldValue, newValue));
-        }
 
-        [DataMember(Name = "Location")]
-        private ISpatialLocation location;
         private bool isChanged;
+
+        #endregion
+
+        protected override Node<ProjectNode> Clone()
+        {
+            var clone = (ProjectNodeBase)base.Clone();
+            clone.isChanged = false;
+            if (location != null)
+                clone.location = location.Clone();
+            return clone;
+        }
+        protected override void ClearEventHandlers()
+        {
+            base.ClearEventHandlers();
+            Changed = null;
+        }
     }
 }

@@ -7,7 +7,8 @@ using System.Linq;
 namespace SenseLab.Common.Collections
 {
     public class ObservableCollectionEx<T> :
-        ObservableCollection<T>
+        ObservableCollection<T>,
+        INotifyEnumerable<T>
     {
         public ObservableCollectionEx()
         {

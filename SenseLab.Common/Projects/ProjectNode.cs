@@ -1,5 +1,7 @@
 ﻿using Microsoft.Practices.ServiceLocation;
+using SenseLab.Common.Collections;
 using SenseLab.Common.Environments;
+using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
@@ -23,20 +25,79 @@ namespace SenseLab.Common.Projects
             ISpatialLocation location = null)
             : base(id, name, description, location)
         {
-            EnabledRecordables = new ObservableCollection<IRecordable>();
+            enabledRecordables = new ObservableCollectionEx<IRecordable, Guid>();
         }
+        public ProjectNode(IEnvironmentNode node,
+            ISpatialLocation location = null)
+            : this(node.Id, node.Name, node.Description, location)
+        {
+            Node = node;
+            FillChildrenFromNode();
+        }
+
+        #region Node
 
         /// <summary>
         /// Node this wrapper works with.
         /// </summary>
-        public IEnvironmentNode Node
+        public IEnvironmentNode Node { get; private set; }
+
+        [DataMember]
+        private NodeInfo NodeInfo
         {
-            get { return node; }
+            get
+            {
+                if (Node == null)
+                    return null;
+                return new NodeInfo(Node);
+            }
             set
             {
-                SetProperty(() => Node, ref node, value);
+                if (value == null)
+                    return;
+                Node = EnvironmentHelper.NodeFromId(value.Id);
+                if (Node == null)
+                    Node = new EnvironmentNodeUnavailable(value);
+                else
+                    ((INode)Node).Children.ItemContainmentChanged += OnNodeChildrenChanged;
             }
         }
+
+        private void FillChildrenFromNode()
+        {
+            Children.Clear();
+            FillChildrenFrom(Node.Children);
+            ((INode)Node).Children.ItemContainmentChanged += OnNodeChildrenChanged;
+        }
+        private void FillChildrenFrom(IEnumerable<IEnvironmentNode> children)
+        {
+            foreach (var child in children)
+            {
+                var node = new ProjectNode(child);
+                Children.Add(node);
+            }
+        }
+
+        private void OnNodeChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<INode>> e)
+        {
+            foreach (var item in e.OldValue.Value)
+            {
+                for (int i = Children.Count - 1; i >= 0; i--)
+                {
+                    if (Children[i].Node == item)
+                    {
+                        Children.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+            FillChildrenFrom(e.NewValue.Cast<IEnvironmentNode>());
+        }
+
+        #endregion
+
+        #region IsEnabled
+
         /// <summary>
         /// Whether <see cref="Node"/> is enabled.
         /// </summary>
@@ -54,57 +115,65 @@ namespace SenseLab.Common.Projects
                 }
             }
         }
-        public IList<IRecordable> EnabledRecordables { get; private set; }
-        IEnumerable<IRecordable> IProjectNode.EnabledRecordables
+
+        [DataMember(Name = "IsEnabled")]
+        private bool isEnabled;
+
+        #endregion
+
+        #region EnabledRecordables
+
+        public IList<IRecordable> EnabledRecordables
         {
-            get { return EnabledRecordables; }
+            get { return enabledRecordables; }
+        }
+        INotifyEnumerable<IRecordable> IProjectNode.EnabledRecordables
+        {
+            get { return enabledRecordables; }
         }
 
-        [DataMember]
-        private NodeInfo NodeInfo
-        {
-            get
-            {
-                if (Node == null)
-                    return null;
-                return new NodeInfo(Node);
-            }
-            set
-            {
-                if (value == null)
-                    return;
-                node = EnvironmentHelper.NodeFromId(value.Id);
-                if (node == null)
-                    node = new EnvironmentNodeUnavailable(value);
-            }
-        }
         [DataMember]
         private IEnumerable<Guid> EnabledRecordableIds
         {
             get
             {
                 // keep enabled recordable ids of unavailable node
-                if (node is EnvironmentNodeUnavailable)
-                    return ((EnvironmentNodeUnavailable)node).RecordableIds;
+                if (Node is EnvironmentNodeUnavailable)
+                    return ((EnvironmentNodeUnavailable)Node).RecordableIds;
                 return EnabledRecordables.Select(r => r.Id);
             }
             set
             {
                 // keep enabled recordable ids of unavailable node
-                if (node is EnvironmentNodeUnavailable)
+                if (Node is EnvironmentNodeUnavailable)
                 {
-                    ((EnvironmentNodeUnavailable)node).RecordableIds = value;
+                    ((EnvironmentNodeUnavailable)Node).RecordableIds = value;
                 }
                 else
                 {
-                    var recordables = node.RecordablesFromIds(value);
-                    EnabledRecordables = new ObservableCollection<IRecordable>(recordables);
+                    var recordables = Node.RecordablesFromIds(value);
+                    enabledRecordables = new ObservableCollectionEx<IRecordable, Guid>(recordables);
                 }
             }
         }
 
-        private IEnvironmentNode node;
-        [DataMember(Name = "IsEnabled")]
-        private bool isEnabled;
+        private ObservableCollectionEx<IRecordable, Guid> enabledRecordables;
+
+        #endregion
+
+        protected override Node<ProjectNode> Clone()
+        {
+            var clone = (ProjectNode)base.Clone();
+            if (Node != null && !(Node is EnvironmentNodeUnavailable))
+                ((INode)Node).Children.ItemContainmentChanged += OnNodeChildrenChanged;
+            clone.enabledRecordables = new ObservableCollectionEx<IRecordable, Guid>(enabledRecordables);
+            return clone;
+        }
+        protected override void ClearEventHandlers()
+        {
+            base.ClearEventHandlers();
+            if (Node != null && !(Node is EnvironmentNodeUnavailable))
+                ((INode)Node).Children.ItemContainmentChanged -= OnNodeChildrenChanged;
+        }
     }
 }
