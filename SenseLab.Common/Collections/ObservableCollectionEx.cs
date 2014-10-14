@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace SenseLab.Common.Collections
@@ -19,6 +20,31 @@ namespace SenseLab.Common.Collections
         }
 
         public event EventHandler<ValueChangeEventArgs<IEnumerable<T>>> ItemContainmentChanged;
+
+        public void Add(IEnumerable<T> items)
+        {
+            Insert(Count, items);
+        }
+        public void Insert(int index, IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                Items.Insert(index, item);
+            }
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnItemContainmentChanged(null, items);
+        }
+        public bool Remove(IEnumerable<T> items)
+        {
+            bool removed = false;
+            foreach (var item in items)
+            {
+                removed |= Items.Remove(item);
+            }
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnItemContainmentChanged(items, null);
+            return removed;
+        }
 
         protected override void InsertItem(int index, T item)
         {

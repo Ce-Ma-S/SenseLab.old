@@ -55,7 +55,7 @@ namespace SenseLab.Common.Nodes
             get { return notifyChildren; }
         }
 
-        protected IList<T> Children
+        protected ObservableCollectionEx<T, Guid> Children
         {
             get { return children; }
         }

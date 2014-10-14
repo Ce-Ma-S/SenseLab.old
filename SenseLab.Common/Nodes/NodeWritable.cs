@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SenseLab.Common.Collections;
+using System;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Nodes
@@ -23,7 +24,7 @@ namespace SenseLab.Common.Nodes
             set { base.Description = value; }
         }
 
-        public new IList<T> Children
+        public new ObservableCollectionEx<T, Guid> Children
         {
             get { return base.Children; }
         }

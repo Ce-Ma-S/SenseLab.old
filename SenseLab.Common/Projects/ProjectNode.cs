@@ -59,38 +59,30 @@ namespace SenseLab.Common.Projects
                 if (Node == null)
                     Node = new EnvironmentNodeUnavailable(value);
                 else
+                {
                     ((INode)Node).Children.ItemContainmentChanged += OnNodeChildrenChanged;
+                    Node.Recordables.ItemContainmentChanged += OnNodeRecordablesChanged;
+                }
             }
         }
 
         private void FillChildrenFromNode()
         {
-            Children.Clear();
             FillChildrenFrom(Node.Children);
             ((INode)Node).Children.ItemContainmentChanged += OnNodeChildrenChanged;
+            FillEnabledRecordablesFromNode();
         }
+
         private void FillChildrenFrom(IEnumerable<IEnvironmentNode> children)
         {
-            foreach (var child in children)
-            {
-                var node = new ProjectNode(child);
-                Children.Add(node);
-            }
+            var nodes = children.Select(child => new ProjectNode(child));
+            Children.Add(nodes);
         }
 
         private void OnNodeChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<INode>> e)
         {
-            foreach (var item in e.OldValue.Value)
-            {
-                for (int i = Children.Count - 1; i >= 0; i--)
-                {
-                    if (Children[i].Node == item)
-                    {
-                        Children.RemoveAt(i);
-                        break;
-                    }
-                }
-            }
+            var nodes = Children.Where(child => child.Node != null && e.OldValue.Value.Contains(child.Node)).ToArray();
+            Children.Remove(nodes);
             FillChildrenFrom(e.NewValue.Cast<IEnvironmentNode>());
         }
 
@@ -132,6 +124,22 @@ namespace SenseLab.Common.Projects
             get { return enabledRecordables; }
         }
 
+        private void FillEnabledRecordablesFromNode()
+        {
+            FillEnabledRecordablesFrom(Node.Recordables);
+            Node.Recordables.ItemContainmentChanged += OnNodeRecordablesChanged;
+        }
+        private void FillEnabledRecordablesFrom(IEnumerable<IRecordable> recordables)
+        {
+            enabledRecordables.Add(recordables);
+        }
+
+        private void OnNodeRecordablesChanged(object sender, ValueChangeEventArgs<IEnumerable<IRecordable>> e)
+        {
+            enabledRecordables.Remove(e.OldValue.Value);
+            FillEnabledRecordablesFrom(e.NewValue);
+        }
+
         [DataMember]
         private IEnumerable<Guid> EnabledRecordableIds
         {
@@ -165,7 +173,10 @@ namespace SenseLab.Common.Projects
         {
             var clone = (ProjectNode)base.Clone();
             if (Node != null && !(Node is EnvironmentNodeUnavailable))
+            {
                 ((INode)Node).Children.ItemContainmentChanged += OnNodeChildrenChanged;
+                Node.Recordables.ItemContainmentChanged += OnNodeRecordablesChanged;
+            }
             clone.enabledRecordables = new ObservableCollectionEx<IRecordable, Guid>(enabledRecordables);
             return clone;
         }
@@ -173,7 +184,10 @@ namespace SenseLab.Common.Projects
         {
             base.ClearEventHandlers();
             if (Node != null && !(Node is EnvironmentNodeUnavailable))
+            {
                 ((INode)Node).Children.ItemContainmentChanged -= OnNodeChildrenChanged;
+                Node.Recordables.ItemContainmentChanged -= OnNodeRecordablesChanged;
+            }
         }
     }
 }
