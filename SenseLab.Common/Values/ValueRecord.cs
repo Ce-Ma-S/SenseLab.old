@@ -1,5 +1,6 @@
 ﻿using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
+using System;
 using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Values
@@ -10,12 +11,12 @@ namespace SenseLab.Common.Values
         IValueRecord
     {
         public ValueRecord(
-            IRecordSource source,
+            Guid sourceId,
             uint sequenceNumber,
             ITime temporalLocation,
             T value,
             ISpatialLocation spatialLocation = null)
-            : base(source, sequenceNumber, temporalLocation, spatialLocation)
+            : base(sourceId, sequenceNumber, temporalLocation, spatialLocation)
         {
             Value = value;
         }

@@ -1,5 +1,4 @@
-﻿using SenseLab.Common.Data;
-using SenseLab.Common.Environments;
+﻿using SenseLab.Common.Environments;
 using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using System;
@@ -11,19 +10,16 @@ namespace SenseLab.Common.Records
     [DataContract]
     public abstract class Record :
         NotifyPropertyChange,
-        IRecord,
-        ISerializableSubitems
+        IRecord
     {
         public Record(
-            IRecordSource source,
+            Guid sourceId,
             uint sequenceNumber,
             ITime temporalLocation,
             ISpatialLocation spatialLocation = null)
         {
-            source.ValidateNonNull("source");
             temporalLocation.ValidateNonNull("temporalLocation");
-            Source = source;
-            sourceId = source.Id;
+            SourceId = sourceId;
             SequenceNumber = sequenceNumber;
             TemporalLocation = temporalLocation;
             SpatialLocation = spatialLocation;
@@ -31,13 +27,14 @@ namespace SenseLab.Common.Records
 
         public KeyValuePair<Guid, uint> Id
         {
-            get { return new KeyValuePair<Guid, uint>(Source.Id, SequenceNumber); }
+            get { return new KeyValuePair<Guid, uint>(SourceId, SequenceNumber); }
         }
         public string Text
         {
             get { return GetText(); }
         }
-        public IRecordSource Source { get; private set; }
+        [DataMember]
+        public Guid SourceId { get; private set; }
         [DataMember(Name = "Number")]
         public uint SequenceNumber { get; private set; }
         public ITime TemporalLocation
@@ -64,63 +61,14 @@ namespace SenseLab.Common.Records
         {
             get { return SpatialLocation; }
         }
-        public IRecordGroup Group
+        public Guid GroupId
         {
-            get { return group; }
+            get { return groupId; }
             set
             {
-                if (SetProperty(() => Group, ref group, value))
-                {
-                    groupId = value == null ? (Guid?)null : value.Id;
-                }
+                SetProperty(() => GroupId, ref groupId, value);
             }
         }
-
-        #region ISerializableSubitems
-
-        public IEnumerable<SerializableItemInfo> SubitemInfos
-        {
-            get
-            {
-                yield return new SerializableItemInfo(sourceInfoName, typeof(RecordSourceInfo), Source.Id);
-                if (groupId.HasValue)
-                    yield return new SerializableItemInfo(groupName, typeof(IRecordGroup), groupId.Value);
-            }
-        }
-        public object this[SerializableItemInfo subitemInfo]
-        {
-            get
-            {
-                switch (subitemInfo.Name)
-                {
-                    case sourceInfoName:
-                        return SourceInfo;
-                    case groupName:
-                        return Group;
-                    default:
-                        return null;
-                };
-            }
-            set
-            {
-                switch (subitemInfo.Name)
-                {
-                    case sourceInfoName:
-                        SourceInfo = (RecordSourceInfo)value;
-                        break;
-                    case groupName:
-                        Group = (IRecordGroup)value;
-                        break;
-                    default:
-                        break;
-                };
-            }
-        }
-
-        private const string sourceInfoName = "SourceInfo";
-        private const string groupName = "Group";
-
-        #endregion
 
         public override string ToString()
         {
@@ -129,28 +77,11 @@ namespace SenseLab.Common.Records
 
         protected abstract string GetText();
 
-        private RecordSourceInfo SourceInfo
-        {
-            get { return new RecordSourceInfo(Source); }
-            set
-            {
-                if (value.IsRecordable)
-                    Source = EnvironmentHelper.RecordableFromId(value.Id);
-                else
-                    Source = RecordSourcesNonRecordable.Instance.TryGetFromId(value.Id);
-                if (Source == null)
-                    Source = new RecordSourceUnavailable(value);
-            }
-        }
-
-        [DataMember(Name = "SourceId")]
-        private Guid sourceId;
         [DataMember(Name = "Time")]
         private ITime temporalLocation;
         [DataMember(Name = "Space")]
         private ISpatialLocation spatialLocation;
         [DataMember(Name = "GroupId")]
-        private Guid? groupId;
-        private IRecordGroup group;
+        private Guid groupId;
     }
 }

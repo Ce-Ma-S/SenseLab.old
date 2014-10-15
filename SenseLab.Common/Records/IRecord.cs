@@ -10,9 +10,9 @@ namespace SenseLab.Common.Records
         ILocatable<ITime>
     {
         string Text { get; }
-        IRecordSource Source { get; }
+        Guid SourceId { get; }
         uint SequenceNumber { get; }
-        IRecordGroup Group { get; }
+        Guid GroupId { get; }
         ISpatialLocation SpatialLocation { get; }
         /// <summary>
         /// Temporal location.

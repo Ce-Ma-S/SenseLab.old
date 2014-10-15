@@ -21,6 +21,7 @@ namespace SenseLab.Common.Projects
             : base(id, name, description)
         {
             Location = location;
+            SetIsChangedOnChanged = true;
         }
 
         IEnumerable<IProjectNode> INode<IProjectNode>.Children
@@ -65,31 +66,48 @@ namespace SenseLab.Common.Projects
             }
             set
             {
-                if (SetProperty(() => IsChanged, ref isChanged, value) && value)
-                    OnChanged();
-                foreach (var child in Children)
-                    child.IsChanged = value;
+                SetProperty(() => IsChanged, ref isChanged, value);
+                if (!value)
+                {
+                    foreach (var child in Children)
+                        child.IsChanged = value;
+                }
             }
         }
         public event EventHandler Changed;
 
+        protected bool SetIsChangedOnChanged { get; set; }
+
         protected virtual void OnChanged()
         {
+            if (SetIsChangedOnChanged)
+                IsChanged = true;
             if (Changed != null)
                 Changed(this, EventArgs.Empty);
         }
-        protected override void OnChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<ProjectNode>> e)
+        protected override void OnChildrenChanged(ValueChangeEventArgs<IEnumerable<ProjectNode>> e)
         {
-            base.OnChildrenChanged(sender, e);
+            base.OnChildrenChanged(e);
             foreach (var child in e.OldValue.Value)
                 child.Changed -= OnChildChanged;
             foreach (var child in e.NewValue)
                 child.Changed += OnChildChanged;
+            OnChanged();
         }
-
-        private void OnChildChanged(object sender, EventArgs e)
+        protected virtual void OnChildChanged(object sender, EventArgs e)
         {
-            IsChanged = true;
+            OnChanged();
+        }
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            base.OnPropertyChanged(propertyName);
+            if (propertyName != "IsChanged")
+                OnChanged();
+        }
+        [OnDeserialized]
+        protected virtual void OnDeserialized()
+        {
+            SetIsChangedOnChanged = true;
         }
 
         private bool isChanged;

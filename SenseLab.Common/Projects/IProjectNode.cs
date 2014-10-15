@@ -3,6 +3,7 @@ using SenseLab.Common.Environments;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Nodes;
 using SenseLab.Common.Records;
+using System;
 using System.Collections.Generic;
 
 namespace SenseLab.Common.Projects
@@ -22,6 +23,10 @@ namespace SenseLab.Common.Projects
         /// Whether <see cref="Node"/> is enabled.
         /// </summary>
         bool IsEnabled { get; }
+        /// <summary>
+        /// Fired when <see cref="IsEnabled"/> is changed.
+        /// </summary>
+        event EventHandler IsEnabledChanged;
         /// <summary>
         /// Enabled recordables of <see cref="Node"/>.
         /// </summary>

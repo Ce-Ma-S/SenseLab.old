@@ -1,5 +1,6 @@
 ﻿using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
+using System;
 using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Commands
@@ -10,20 +11,16 @@ namespace SenseLab.Common.Commands
         ICommandRecord
     {
         public CommandRecord(
+            Guid sourceId,
             uint sequenceNumber,
             ITime temporalLocation,
-            IRecordableCommand command,
             P commandParameter,
             ISpatialLocation spatialLocation = null)
-            : base(command, sequenceNumber, temporalLocation, spatialLocation)
+            : base(sourceId, sequenceNumber, temporalLocation, spatialLocation)
         {
             CommandParameter = commandParameter;
         }
 
-        public IRecordableCommand Command
-        {
-            get { return (IRecordableCommand)Source; } 
-        }
         public P CommandParameter
         {
             get { return commandParameter; }
@@ -39,7 +36,7 @@ namespace SenseLab.Common.Commands
 
         protected override string GetText()
         {
-            return string.Format("{0} ({1})", Command, CommandParameter);
+            return string.Format("{0} ({1})", SourceId, CommandParameter);
         }
 
         [DataMember(Name = "Parameter")]

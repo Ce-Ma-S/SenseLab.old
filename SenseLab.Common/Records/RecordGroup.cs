@@ -33,6 +33,12 @@ namespace SenseLab.Common.Records
             }
         }
 
+        public virtual RecordGroup Clone()
+        {
+            // keep the same Id so that records do not need GroupId modification
+            return (RecordGroup)MemberwiseClone();
+        }
+
         private string name;
         private string description;
     }

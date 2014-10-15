@@ -12,13 +12,13 @@ namespace SenseLab.Common.Records
         IStreamable
     {
         public StreamableRecord(
-            IRecordSource source,
+            Guid sourceId,
             uint sequenceNumber,
             ITime temporalLocation,
             IStreamManager streamManager,
             StreamInfo streamInfo,
             ISpatialLocation spatialLocation = null)
-            : base(source, sequenceNumber, temporalLocation, spatialLocation)
+            : base(sourceId, sequenceNumber, temporalLocation, spatialLocation)
         {
         }
 

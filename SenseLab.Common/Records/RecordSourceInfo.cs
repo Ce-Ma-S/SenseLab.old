@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SenseLab.Common.Environments;
+using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Records
@@ -16,5 +18,13 @@ namespace SenseLab.Common.Records
 
         public bool IsRecordable { get; private set; }
         public IdNameDescription<Guid> Type { get; private set; }
+
+        public IRecordSource ToSource()
+        {
+            var source = RecordSource.From(Id, IsRecordable);
+            if (source == null)
+                source = new RecordSourceUnavailable(this);
+            return source;
+        }
     }
 }

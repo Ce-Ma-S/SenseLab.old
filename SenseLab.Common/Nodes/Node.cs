@@ -60,12 +60,12 @@ namespace SenseLab.Common.Nodes
             get { return children; }
         }
 
-        protected virtual IEnumerable<T> TryCloneChildren(IEnumerable<T> children)
+        protected virtual IEnumerable<T> TryClone(IEnumerable<T> children)
         {
             return children.Select(child => child is Node<T> ? (T)(object)(child as Node<T>).Clone() : child);
         }
 
-        protected virtual void OnChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<T>> e)
+        protected virtual void OnChildrenChanged(ValueChangeEventArgs<IEnumerable<T>> e)
         {
         }
 
@@ -81,6 +81,11 @@ namespace SenseLab.Common.Nodes
             }
         }
 
+        private void OnChildrenChanged(object sender, ValueChangeEventArgs<IEnumerable<T>> e)
+        {
+            OnChildrenChanged(e);
+        }
+
         private ObservableCollectionEx<T, Guid> children;
         private ReadOnlyObservableCollectionEx<T, INode> notifyChildren;
 
@@ -91,7 +96,7 @@ namespace SenseLab.Common.Nodes
             var clone = (Node<T>)MemberwiseClone();
             clone.Id = Guid.NewGuid();
             clone.ClearEventHandlers();
-            clone.children = new ObservableCollectionEx<T, Guid>(TryCloneChildren(children));
+            clone.children = new ObservableCollectionEx<T, Guid>(TryClone(children));
             clone.notifyChildren = new ReadOnlyObservableCollectionEx<T, INode>(clone.children);
             clone.children.ItemContainmentChanged += OnChildrenChanged;
             return clone;

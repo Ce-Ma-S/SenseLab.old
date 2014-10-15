@@ -118,6 +118,10 @@ namespace SenseLab.Common.Collections
         {
             return idToItem.TryGetValue(itemId, out item);
         }
+        public bool Contains(TId itemId)
+        {
+            return idToItem.Keys.Contains(itemId);
+        }
 
         protected override void OnItemContainmentChanged(IEnumerable<TItem> oldItems, IEnumerable<TItem> newItems)
         {

@@ -15,35 +15,22 @@ namespace SenseLab.Common.Records
             return records.Where(record => record.TemporalLocation.Intersects(time));
         }
 
-        public static IQbservable<IRecordSource> Sources(this IQbservable<IRecord> records)
+        public static IQbservable<Guid> SourceIds(this IQbservable<IRecord> records)
         {
-            return records.Select(record => record.Source).Distinct();
+            return records.Select(record => record.SourceId).Distinct();
         }
         public static IQbservable<IRecord> OfSource(this IQbservable<IRecord> records, Guid sourceId)
         {
-            return records.Where(record => record.Source.Id == sourceId);
+            return records.Where(record => record.SourceId == sourceId);
         }
 
-        public static IQbservable<IRecordGroup> Groups(this IQbservable<IRecord> records)
+        public static IQbservable<Guid> GroupIds(this IQbservable<IRecord> records)
         {
-            return records.Select(record => record.Group).Distinct();
+            return records.Select(record => record.GroupId).Distinct();
         }
         public static IQbservable<IRecord> OfGroup(this IQbservable<IRecord> records, Guid groupId)
         {
-            return records.Where(record => record.Group != null && record.Group.Id == groupId);
-        }
-        public static IQbservable<IRecord> WithoutGroup(this IQbservable<IRecord> records)
-        {
-            return records.Where(record => record.Group == null);
-        }
-
-        public static IQbservable<IRecordType> Types(this IQbservable<IRecord> records)
-        {
-            return records.Select(record => record.Source.Type).Distinct();
-        }
-        public static IQbservable<IRecord> OfType(this IQbservable<IRecord> records, Guid typeId)
-        {
-            return records.Where(record => record.Source.Type.Id == typeId);
+            return records.Where(record => record.GroupId == groupId);
         }
     }
 }

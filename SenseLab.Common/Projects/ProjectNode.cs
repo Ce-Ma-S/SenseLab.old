@@ -32,7 +32,15 @@ namespace SenseLab.Common.Projects
             : this(node.Id, node.Name, node.Description, location)
         {
             Node = node;
-            FillChildrenFromNode();
+            try
+            {
+                SetIsChangedOnChanged = false;
+                FillChildrenFromNode();
+            }
+            finally
+            {
+                SetIsChangedOnChanged = true;
+            }
         }
 
         #region Node
@@ -98,13 +106,22 @@ namespace SenseLab.Common.Projects
             get { return isEnabled; }
             set
             {
-                if (SetProperty(() => IsEnabled, ref isEnabled, value))
+                if (SetProperty(() => IsEnabled, ref isEnabled, value, OnIsEnabledChanged))
                 {
                     foreach (var child in Children)
                     {
                         child.IsEnabled = value;
                     }
                 }
+            }
+        }
+        public event EventHandler IsEnabledChanged;
+
+        protected virtual void OnIsEnabledChanged()
+        {
+            if (IsEnabledChanged != null)
+            {
+                IsEnabledChanged(this, EventArgs.Empty);
             }
         }
 
