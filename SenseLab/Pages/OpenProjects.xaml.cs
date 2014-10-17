@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SenseLab
+namespace SenseLab.Pages
 {
     /// <summary>
-    /// Interaction logic for MainPage.xaml
+    /// Interaction logic for OpenProjects.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class OpenProjects : UserControl
     {
-        public MainPage()
+        public OpenProjects()
         {
             InitializeComponent();
         }
