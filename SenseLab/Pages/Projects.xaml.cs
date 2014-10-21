@@ -15,12 +15,9 @@ using System.Windows.Shapes;
 
 namespace SenseLab.Pages
 {
-    /// <summary>
-    /// Interaction logic for ProjectStorages.xaml
-    /// </summary>
-    public partial class ProjectStorages : UserControl
+    public partial class Projects : Page
     {
-        public ProjectStorages()
+        public Projects()
         {
             InitializeComponent();
         }

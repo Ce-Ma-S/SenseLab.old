@@ -8,16 +8,13 @@ namespace SenseLab.Common.Values
         SamplingRecorder<ValueRecord<T>>
     {
         public ValueRecorder(IValue<T> value, uint nextSequenceNumber, ILocatable<ISpatialLocation> location)
-            : base(nextSequenceNumber, location)
+            : base(value, nextSequenceNumber, location)
         {
-            value.ValidateNonNull("value");
-            Value = value;
         }
 
-        public IValue<T> Value { get; private set; }
-        public override IRecordable Recordable
+        public IValue<T> Value
         {
-            get { return Value; }
+            get { return (IValue<T>)Recordable; }
         }
 
         protected override void DoStart()
@@ -28,14 +25,6 @@ namespace SenseLab.Common.Values
         protected override void DoStop()
         {
             Value.ValueChanged -= OnValueChanged;
-        }
-        protected override void DoPause()
-        {
-            DoStop();
-        }
-        protected override void DoUnpause()
-        {
-            DoStart();
         }
         protected override ValueRecord<T> CreateRecord(object data, uint sequenceNumber, ISpatialLocation spatialLocation)
         {

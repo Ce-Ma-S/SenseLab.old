@@ -15,12 +15,9 @@ using System.Windows.Shapes;
 
 namespace SenseLab.Pages
 {
-    /// <summary>
-    /// Interaction logic for OpenProjects.xaml
-    /// </summary>
-    public partial class OpenProjects : UserControl
+    public partial class Settings : Page
     {
-        public OpenProjects()
+        public Settings()
         {
             InitializeComponent();
         }

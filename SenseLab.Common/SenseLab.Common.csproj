@@ -60,6 +60,7 @@
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,9 @@
     <Compile Include="Collections\INotifyItemContainmentChanged.cs" />
     <Compile Include="Collections\ReadOnlyObservableCollectionEx.cs" />
     <Compile Include="Collections\ObservableCollectionEx.cs" />
+    <Compile Include="Commands\CommandRecorder.cs" />
+    <Compile Include="Commands\RecordableCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandExecutedEventArgs.cs" />
     <Compile Include="Commands\IRecordableCommand.cs" />
     <Compile Include="Data\DataHelper.cs" />
@@ -190,6 +194,7 @@
     <Compile Include="Projects\IProject.cs" />
     <Compile Include="Values\IPhysicalValue.cs" />
     <Compile Include="Values\IValue.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

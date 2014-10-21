@@ -12,8 +12,10 @@ namespace SenseLab.Common.Records
         IRecorder
         where T : class, IRecord
     {
-        public Recorder(uint nextSequenceNumber, ILocatable<ISpatialLocation> location)
+        public Recorder(IRecordable recordable, uint nextSequenceNumber, ILocatable<ISpatialLocation> location)
         {
+            recordable.ValidateNonNull("recordable");
+            Recordable = recordable;
             NextSequenceNumber = nextSequenceNumber;
             Location = location;
         }
@@ -31,7 +33,7 @@ namespace SenseLab.Common.Records
             }
         }
 
-        public abstract IRecordable Recordable { get; }
+        public IRecordable Recordable { get; private set; }
         public uint NextSequenceNumber
         {
             get { return nextSequenceNumber; }
@@ -58,8 +60,14 @@ namespace SenseLab.Common.Records
 
         protected abstract void DoStart();
         protected abstract void DoStop();
-        protected abstract void DoPause();
-        protected abstract void DoUnpause();
+        protected virtual void DoPause()
+        {
+            DoStop();
+        }
+        protected virtual void DoUnpause()
+        {
+            DoStart();
+        }
         protected abstract T CreateRecord(object data, uint sequenceNumber, ISpatialLocation spatialLocation);
         protected T AddRecord(object data)
         {

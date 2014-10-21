@@ -1,16 +1,14 @@
-﻿using FirstFloor.ModernUI.Windows.Controls;
+﻿using SenseLab.Common.ViewModels;
 
 namespace SenseLab
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow :
-        ModernWindow
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+            var shell = new ShellViewModel(frame.NavigationService);
+            DataContext = shell;
         }
     }
 }
