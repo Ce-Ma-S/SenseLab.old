@@ -169,6 +169,7 @@
     <Compile Include="Records\RecordType.cs" />
     <Compile Include="Records\SamplingRecorder.cs" />
     <Compile Include="Records\StreamableRecord.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Values\ValueRecorder.cs" />
     <Compile Include="Records\Recorder.cs" />
     <Compile Include="Records\Recordable.cs" />

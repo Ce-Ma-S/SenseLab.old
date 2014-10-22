@@ -1,9 +1,12 @@
 ﻿using SenseLab.Common.Commands;
+using SenseLab.Common.Properties;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
@@ -16,39 +19,42 @@ namespace SenseLab.Common.ViewModels
         {
             navigationService.ValidateNonNull("navigationService");
             NavigationService = navigationService;
-            NavigateCommand = new Command<object>((p, cts) => Navigate(p), false);
+            NavigateCommand = new Command<object>((p, cts) => Navigate(p));
+            if (CanNavigate(LastInternalNavigationUri))
+                Navigate(LastInternalNavigationUri);
         }
 
         #region Navigation
 
-        private class NavigationData
+        public NavigationService NavigationService { get; private set; }
+        public Uri LastInternalNavigationUri
         {
-            public NavigationData(CancellationTokenSource cancellation)
+            get { return Settings.Default.LastInternalNavigationUri; }
+            set
             {
-                Cancellation = cancellation;
+                SetProperty(() => LastInternalNavigationUri, v => Settings.Default.LastInternalNavigationUri = v, value);
             }
-
-            public readonly AutoResetEvent Ended = new AutoResetEvent(false);
-            public readonly CancellationTokenSource Cancellation;
-            public Exception Error;
         }
 
-        public NavigationService NavigationService { get; private set; }
-
+        public bool CanNavigate(object parameter)
+        {
+            return parameter is string ?
+                !string.IsNullOrEmpty((string)parameter) :
+                parameter != null;
+        }
         /// <summary>
         /// Navigates to <paramref name="parameter"/> synchronously.
         /// </summary>
         /// <param name="parameter">Uri or object (Page).</param>
-        /// <param name="cancellation">Cancellation.</param>
-        public void Navigate(object parameter, CancellationTokenSource cancellation = null)
+        public async Task Navigate(object parameter)
         {
-            var navigation = new NavigationData(cancellation);
+            var navigation = new TaskCompletionSource<object>();
             NavigationService.Navigated += OnNavigated;
             NavigationService.NavigationStopped += OnNavigationStopped;
             NavigationService.NavigationFailed += OnNavigationFailed;
             try
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(
+                await Application.Current.Dispatcher.InvokeAsync(
                     () =>
                     {
                         if (parameter is string)
@@ -56,30 +62,33 @@ namespace SenseLab.Common.ViewModels
                         if (parameter is Uri)
                         {
                             var uri = (Uri)parameter;
+                            // external
                             if (uri.IsAbsoluteUri && externalUriSchemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase))
                             {
                                 try
                                 {
                                     Process.Start(uri.AbsoluteUri);
+                                    navigation.SetResult(null);
                                 }
                                 catch (Exception e)
                                 {
-                                    navigation.Error = e;
-                                }
-                                finally
-                                {
-                                    navigation.Ended.Set();
+                                    navigation.SetException(new Exception("Navigation failed.", e));
                                 }
                             }
+                            // internal
                             else
-                                NavigationService.Navigate(uri, navigation);
+                            {
+                                Page keptAlivePage;
+                                if (uriToKeptAlivePage.TryGetValue(uri, out keptAlivePage))
+                                    NavigationService.Navigate(keptAlivePage, navigation);
+                                else
+                                    NavigationService.Navigate(uri, navigation);
+                            }
                         }
                         else
                             NavigationService.Navigate(parameter, navigation);
-                    }));
-                navigation.Ended.WaitOne();
-                if (navigation.Error != null)
-                    throw new Exception("Navigation failed.", navigation.Error);
+                    });
+                await navigation.Task;
             }
             finally
             {
@@ -92,25 +101,32 @@ namespace SenseLab.Common.ViewModels
 
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
-            var navigation = (NavigationData)e.ExtraData;
-            navigation.Ended.Set();
+            var navigation = (TaskCompletionSource<object>)e.ExtraData;
+            var uri = e.Uri;
+            if (uri == null)
+                uri = uriToKeptAlivePage.FirstOrDefault(i => i.Value == e.Content).Key;
+            if (uri != null)
+            {
+                LastInternalNavigationUri = uri;
+                if (e.Content is Page)
+                {
+                    var page = (Page)e.Content;
+                    if (page.KeepAlive)
+                        uriToKeptAlivePage[uri] = page;
+                }
+            }
+            navigation.SetResult(null);
         }
         private void OnNavigationStopped(object sender, NavigationEventArgs e)
         {
-            var navigation = (NavigationData)e.ExtraData;
-            if (navigation.Cancellation != null)
-            {
-                navigation.Cancellation.Cancel();
-                navigation.Cancellation.Token.ThrowIfCancellationRequested();
-            }
-            navigation.Ended.Set();
+            var navigation = (TaskCompletionSource<object>)e.ExtraData;
+            navigation.SetCanceled();
         }
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            var navigation = (NavigationData)e.ExtraData;
-            navigation.Error = e.Exception;
+            var navigation = (TaskCompletionSource<object>)e.ExtraData;
             e.Handled = true;
-            navigation.Ended.Set();
+            navigation.SetException(new Exception("Navigation failed.", e.Exception));
         }
 
         private static readonly string[] externalUriSchemes = new string[] {
@@ -119,6 +135,10 @@ namespace SenseLab.Common.ViewModels
             Uri.UriSchemeMailto,
             Uri.UriSchemeFile
             };
+
+        // TODO: use Prism navigation and remove view specific clases (Page, NavigationService) from this view model
+        // to respect Page.KeepAlive in NavigationService.Navigate (it is respected only in NavigationService.NavigateBack/Forward etc.)
+        private Dictionary<Uri, Page> uriToKeptAlivePage = new Dictionary<Uri,Page>();
 
         #endregion
     }

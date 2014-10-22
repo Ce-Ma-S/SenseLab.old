@@ -5,20 +5,25 @@
     Title="SenseLab">
     <ma:MetroWindow.LeftWindowCommands>
         <ma:WindowCommands>
+            <ma:WindowCommands.Resources>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                    <Setter Property="Margin" Value="10, 5, 0, 0"/>
+                </Style>
+            </ma:WindowCommands.Resources>
             <Button
                 Content="Environment"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="/Pages/Environment.xaml"/>
-            <Label
-                Content="Projects"/>
+                CommandParameter="Pages/Environment.xaml"/>
+            <TextBlock
+                Text="Projects"/>
             <Button
                 Content="Stored"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="/Pages/ProjectsStored.xaml"/>
+                CommandParameter="Pages/ProjectsStored.xaml"/>
             <Button
                 Content="Open"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="/Pages/ProjectsOpen.xaml"/>
+                CommandParameter="Pages/ProjectsOpen.xaml"/>
         </ma:WindowCommands>
     </ma:MetroWindow.LeftWindowCommands>
     <ma:MetroWindow.RightWindowCommands>
@@ -26,7 +31,7 @@
             <Button
                 Content="Settings"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="/Pages/Settings.xaml"/>
+                CommandParameter="Pages/Settings.xaml"/>
             <Button
                 Content="Source Code"
                 Command="{Binding NavigateCommand}"
@@ -34,14 +39,13 @@
             <Button
                 Content="About"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="/Pages/About.xaml"/>
+                CommandParameter="Pages/About.xaml"/>
         </ma:WindowCommands>
     </ma:MetroWindow.RightWindowCommands>
     <GroupBox
         Margin="0"
         Header="{Binding Content.Title, ElementName=frame}">
         <Frame x:Name="frame"
-            Source="/Pages/About.xaml"
             NavigationUIVisibility="Hidden"/>
     </GroupBox>
 </ma:MetroWindow>

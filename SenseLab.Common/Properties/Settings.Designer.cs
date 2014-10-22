@@ -34,5 +34,17 @@ namespace SenseLab.Common.Properties {
                 this["ProjectFolders"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pages/About.xaml")]
+        public global::System.Uri LastInternalNavigationUri {
+            get {
+                return ((global::System.Uri)(this["LastInternalNavigationUri"]));
+            }
+            set {
+                this["LastInternalNavigationUri"] = value;
+            }
+        }
     }
 }

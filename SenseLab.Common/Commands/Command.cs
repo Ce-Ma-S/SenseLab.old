@@ -52,7 +52,9 @@ namespace SenseLab.Common.Commands
             // asynchronous
             else
             {
-                task.Start(taskScheduler);
+                // start task if not running already
+                if (task.Status == TaskStatus.Created)
+                    task.Start(taskScheduler);
                 task.ContinueWith(
                     t => OnExecuteEnded(p, t, startData),
                     TaskScheduler.FromCurrentSynchronizationContext());
