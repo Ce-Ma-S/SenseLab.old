@@ -1,6 +1,7 @@
 ﻿using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SenseLab.Common.Commands
@@ -9,10 +10,10 @@ namespace SenseLab.Common.Commands
         Command<T>,
         IRecordableCommand
     {
-        public RecordableCommand(Guid id, string name, Action<T> execute,
+        public RecordableCommand(Guid id, string name, Action<T, CancellationTokenSource> execute, bool isSynchronous,
             string description = null, Func<T, bool> canExecute = null,
             Func<bool> isAvailable = null) :
-            base(execute, canExecute)
+            base(execute, isSynchronous, canExecute)
         {
             name.ValidateNonNullOrEmpty("name");
             Id = id;
@@ -20,7 +21,7 @@ namespace SenseLab.Common.Commands
             Description = description;
             isAvailableMethod = isAvailable;
         }
-        public RecordableCommand(Guid id, string name, Func<T, Task> executeTaskFactory,
+        public RecordableCommand(Guid id, string name, Func<T, CancellationTokenSource, Task> executeTaskFactory,
             string description = null, Func<T, bool> canExecute = null, TaskScheduler taskScheduler = null,
             Func<bool> isAvailable = null) :
             base(executeTaskFactory, canExecute, taskScheduler)
@@ -85,23 +86,23 @@ namespace SenseLab.Common.Commands
     public class RecordableCommand :
         RecordableCommand<object>
     {
-        public RecordableCommand(Guid id, string name, Action execute,
+        public RecordableCommand(Guid id, string name, Action<CancellationTokenSource> execute, bool isSynchronous,
             string description = null, Func<bool> canExecute = null,
             Func<bool> isAvailable = null) :
             base(
                 id, name,
-                p => execute(),
+                (p, cts) => execute(cts), isSynchronous,
                 description,
                 canExecute == null ? (Func<object, bool>)null : p => canExecute(),
                 isAvailable)
         {
         }
-        public RecordableCommand(Guid id, string name, Func<Task> executeTaskFactory,
+        public RecordableCommand(Guid id, string name, Func<CancellationTokenSource, Task> executeTaskFactory,
             string description = null, Func<bool> canExecute = null, TaskScheduler taskScheduler = null,
             Func<bool> isAvailable = null) :
             base(
                 id, name,
-                p => executeTaskFactory(),
+                (p, cts) => executeTaskFactory(cts),
                 description,
                 canExecute == null ? (Func<object, bool>)null : p => canExecute(),
                 taskScheduler,

@@ -2,9 +2,9 @@
 
 namespace SenseLab.Pages
 {
-    public partial class Environment : Page
+    public partial class ProjectsStored : Page
     {
-        public Environment()
+        public ProjectsStored()
         {
             InitializeComponent();
         }

@@ -100,11 +100,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\ProjectsStored.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Projects.xaml">
+    <Page Include="Pages\ProjectsOpen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -117,11 +121,14 @@
     <Compile Include="Pages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ProjectsStored.xaml.cs">
+      <DependentUpon>ProjectsStored.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Projects.xaml.cs">
-      <DependentUpon>Projects.xaml</DependentUpon>
+    <Compile Include="Pages\ProjectsOpen.xaml.cs">
+      <DependentUpon>ProjectsOpen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Environment.xaml.cs">
       <DependentUpon>Environment.xaml</DependentUpon>

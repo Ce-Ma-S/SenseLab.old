@@ -1,6 +1,8 @@
 ﻿using SenseLab.Common.Events;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SenseLab.Common.Commands
@@ -9,14 +11,15 @@ namespace SenseLab.Common.Commands
         NotifyPropertyChange,
         ICommand
     {
-        public Command(Action<T> execute, Func<T, bool> canExecute = null)
+        public Command(Action<T, CancellationTokenSource> execute, bool isSynchronous, Func<T, bool> canExecute = null)
         {
             execute.ValidateNonNull("execute");
-            IsSynchronous = true;
-            executeTaskFactory = p => new Task(pp => execute((T)pp), p);
+            IsSynchronous = isSynchronous;
+            executeTaskFactory = (p, cts) => new Task(() => execute(p, cts), cts.Token);
+            taskScheduler = TaskScheduler.Default;
             canExecuteMethod = canExecute;
         }
-        public Command(Func<T, Task> executeTaskFactory, Func<T, bool> canExecute = null, TaskScheduler taskScheduler = null)
+        public Command(Func<T, CancellationTokenSource, Task> executeTaskFactory, Func<T, bool> canExecute = null, TaskScheduler taskScheduler = null)
         {
             executeTaskFactory.ValidateNonNull("executeTaskFactory");
             IsSynchronous = false;
@@ -37,26 +40,34 @@ namespace SenseLab.Common.Commands
         public void Execute(object parameter)
         {
             T p = (T)parameter;
-            var task = executeTaskFactory(p);
+            var cancellation = new CancellationTokenSource();
+            var task = executeTaskFactory(p, cancellation);
             var startData = OnExecuteStarted(p, task);
+            // synchronous
             if (IsSynchronous)
             {
                 task.RunSynchronously();
                 OnExecuteEnded(p, task, startData);
-                return;
             }
-            task.Start(taskScheduler);
-            task.ContinueWith(t => OnExecuteEnded(p, t, startData), TaskScheduler.FromCurrentSynchronizationContext());
+            // asynchronous
+            else
+            {
+                task.Start(taskScheduler);
+                task.ContinueWith(
+                    t => OnExecuteEnded(p, t, startData),
+                    TaskScheduler.FromCurrentSynchronizationContext());
+            }
         }
-        public void NotifyCanExecuteChanged()
+        public async Task NotifyCanExecuteChanged()
         {
-            OnCanExecuteChanged();
+            await Application.Current.Dispatcher.InvokeAsync(OnCanExecuteChanged);
         }
 
         protected virtual bool DoCanExecute(T parameter)
         {
             return canExecuteMethod == null || canExecuteMethod(parameter);
         }
+
         protected virtual object OnExecuteStarted(T parameter, Task task)
         {
             return null;
@@ -71,7 +82,7 @@ namespace SenseLab.Common.Commands
         }
         
         private Func<T, bool> canExecuteMethod;
-        private Func<T, Task> executeTaskFactory;
+        private Func<T, CancellationTokenSource, Task> executeTaskFactory;
         private TaskScheduler taskScheduler;
     }
 
@@ -79,15 +90,15 @@ namespace SenseLab.Common.Commands
     public class Command :
         Command<object>
     {
-        public Command(Action execute, Func<bool> canExecute = null)
+        public Command(Action<CancellationTokenSource> execute, bool isSynchronous, Func<bool> canExecute = null)
             : base(
-                p => execute(),
+                (p, cts) => execute(cts), isSynchronous,
                 canExecute == null ? (Func<object, bool>)null : p => canExecute())
         {
         }
-        public Command(Func<Task> executeTaskFactory, Func<bool> canExecute = null, TaskScheduler taskScheduler = null)
+        public Command(Func<CancellationTokenSource, Task> executeTaskFactory, Func<bool> canExecute = null, TaskScheduler taskScheduler = null)
             : base(
-                p => executeTaskFactory(),
+                (p, cts) => executeTaskFactory(cts),
                 canExecute == null ? (Func<object, bool>)null : p => canExecute(),
                 taskScheduler)
         {

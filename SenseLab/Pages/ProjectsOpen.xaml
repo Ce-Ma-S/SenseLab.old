@@ -1,0 +1,54 @@
+﻿<Page x:Class="SenseLab.Pages.ProjectsOpen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ma="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300"
+	Title="Projects Open"
+    KeepAlive="True">
+    <Page.Resources>
+        <DataTemplate x:Key="ItemTemplate">
+            <GroupBox
+                Header="{Binding}"/>
+        </DataTemplate>
+    </Page.Resources>
+    <ma:MetroAnimatedTabControl
+        ma:TabControlHelper.IsUnderlined="True">
+        <ma:MetroTabItem
+            Header="Project 1"
+            CloseButtonEnabled="True">
+            <TabControl>
+                <TabItem Header="Content">
+                    <DockPanel>
+                        <Expander
+                            DockPanel.Dock="Top"
+                            Header="About">
+                            <StackPanel>
+                                <Label Content="Name"/>
+                                <Label Content="Description"/>
+                            </StackPanel>
+                        </Expander>
+                        <GroupBox
+                            Header="Nodes">
+                            <TreeView>
+                                <TreeViewItem Header="SensorTag 1"/>
+                                <TreeViewItem Header="Mooshimeters">
+                                    <TreeViewItem Header="Mooshimeter 1"/>
+                                    <TreeViewItem Header="Mooshimeter 2"/>
+                                </TreeViewItem>
+                            </TreeView>
+                        </GroupBox>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Records"/>
+            </TabControl>
+        </ma:MetroTabItem>
+        <ma:MetroTabItem
+            Header="Project 2"
+            CloseButtonEnabled="True"/>
+        <ma:MetroTabItem
+            Header="+"/>
+    </ma:MetroAnimatedTabControl>
+</Page>

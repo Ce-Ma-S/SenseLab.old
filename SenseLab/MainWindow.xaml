@@ -9,10 +9,16 @@
                 Content="Environment"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="/Pages/Environment.xaml"/>
+            <Label
+                Content="Projects"/>
             <Button
-                Content="Projects"
+                Content="Stored"
                 Command="{Binding NavigateCommand}"
-                CommandParameter="/Pages/Projects.xaml"/>
+                CommandParameter="/Pages/ProjectsStored.xaml"/>
+            <Button
+                Content="Open"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="/Pages/ProjectsOpen.xaml"/>
         </ma:WindowCommands>
     </ma:MetroWindow.LeftWindowCommands>
     <ma:MetroWindow.RightWindowCommands>
