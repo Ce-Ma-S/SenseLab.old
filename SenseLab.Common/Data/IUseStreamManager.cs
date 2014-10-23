@@ -1,10 +1,13 @@
-﻿namespace SenseLab.Common.Data
+﻿using System.Threading.Tasks;
+
+namespace SenseLab.Common.Data
 {
     public interface IUseStreamManager
     {
         /// <summary>
         /// Stream manager which has to be provided for proper functionality.
         /// </summary>
-        IStreamManager StreamManager { get; set; }
+        IStreamManager StreamManager { get; }
+        Task SetStreamManager(IStreamManager value);
     }
 }

@@ -21,6 +21,7 @@ namespace SenseLab.Common.ViewModels
             NavigationService = navigationService;
             NavigateCommand = new Command<object>((p, cts) => Navigate(p));
             if (CanNavigate(LastInternalNavigationUri))
+                // do not wait for navigation to complete
                 Navigate(LastInternalNavigationUri);
         }
 
