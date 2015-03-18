@@ -1,18 +1,14 @@
-﻿using System;
+﻿using CeMaS.Common.Events;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Locations
 {
     /// <summary>
     /// Location.
     /// </summary>
-    /// <remarks><see cref="Events.IChangeable"/> can be implemented as well.</remarks>
-    public interface ILocation
+    public interface ILocation :
+        IChangeable
     {
-        /// <summary>
-        /// Text representation.
-        /// </summary>
-        string Text { get; }
-
         /// <summary>
         /// Clones this location.
         /// </summary>

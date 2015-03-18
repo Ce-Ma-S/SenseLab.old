@@ -1,6 +1,7 @@
-﻿using SenseLab.Common.Events;
+﻿using CeMaS.Common.Events;
 using SenseLab.Common.Records;
 using System;
+using System.Threading.Tasks;
 
 namespace SenseLab.Common.Values
 {
@@ -13,7 +14,7 @@ namespace SenseLab.Common.Values
         T Value { get; }
         event EventHandler<ValueChangeEventArgs<T>> ValueChanged;
 
-        bool ReadValue();
+        Task<bool> ReadValue();
         
         #endregion
 
@@ -22,7 +23,7 @@ namespace SenseLab.Common.Values
         bool IsReadOnly { get; }
         T ValueWritable { get; set; }
 
-        bool WriteValue();
+        Task<bool> WriteValue();
 
         #endregion
     }

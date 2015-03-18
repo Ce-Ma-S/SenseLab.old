@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}</ProjectGuid>
+    <ProjectGuid>{E8136F71-1C34-482B-95C8-3A36B950671A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SenseLab.Common</RootNamespace>
     <AssemblyName>SenseLab.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>004967eb</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,180 +30,96 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Reactive.Core">
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Interfaces">
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Linq">
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="System.Reactive.Providers">
-      <HintPath>..\packages\Rx-Providers.2.2.5\lib\net45\System.Reactive.Providers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Windows.Threading">
-      <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\INotifyEnumerable.cs" />
-    <Compile Include="Collections\INotifyItemContainmentChanged.cs" />
-    <Compile Include="Collections\ReadOnlyObservableCollectionEx.cs" />
-    <Compile Include="Collections\ObservableCollectionEx.cs" />
-    <Compile Include="Commands\CommandRecorder.cs" />
-    <Compile Include="Commands\RecordableCommand.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CommandExecutedEventArgs.cs" />
-    <Compile Include="Commands\IRecordableCommand.cs" />
-    <Compile Include="Data\DataHelper.cs" />
-    <Compile Include="Data\IChangeAware.cs" />
-    <Compile Include="Data\ISerializableSubitems.cs" />
-    <Compile Include="Data\SerializableItemInfo.cs" />
-    <Compile Include="Data\IUseStreamManager.cs" />
-    <Compile Include="Data\IStreamable.cs" />
-    <Compile Include="Data\IStreamManager.cs" />
-    <Compile Include="Data\ISerializer.cs" />
-    <Compile Include="Data\IItemStorage.cs" />
-    <Compile Include="Data\ItemRegister.cs" />
-    <Compile Include="Data\ItemStorage.cs" />
-    <Compile Include="Data\ObservableCache.cs" />
-    <Compile Include="Data\FileSerializingStorage.cs" />
-    <Compile Include="Data\ISerializingStorage.cs" />
-    <Compile Include="Data\StreamManagers.cs" />
-    <Compile Include="Data\SerializingStorage.cs" />
-    <Compile Include="Data\Serializer.cs" />
-    <Compile Include="Data\StreamInfo.cs" />
-    <Compile Include="Data\XmlSerializer.cs" />
-    <Compile Include="Disposable.cs" />
-    <Compile Include="Environments\Device.cs" />
-    <Compile Include="Environments\Environment.cs" />
-    <Compile Include="Environments\EnvironmentHelper.cs" />
-    <Compile Include="Environments\EnvironmentNode.cs" />
-    <Compile Include="Environments\DeviceProvider.cs" />
-    <Compile Include="Environments\EnvironmentNodeUnavailable.cs" />
-    <Compile Include="Environments\IDeviceProviders.cs" />
-    <Compile Include="Environments\IEnvironmentNode.cs" />
-    <Compile Include="Environments\IEnvironment.cs" />
-    <Compile Include="Events\IChangeable.cs" />
-    <Compile Include="Events\NotifyPropertyChange.cs" />
-    <Compile Include="Events\LocatableEventArgs.cs" />
-    <Compile Include="Events\ValueChangeEventArgs.cs" />
-    <Compile Include="IdNameDescription.cs" />
-    <Compile Include="IId.cs" />
-    <Compile Include="Locations\ILocatableChangeable.cs" />
-    <Compile Include="Locations\ILocation.cs" />
-    <Compile Include="Locations\ILocationGroup.cs" />
-    <Compile Include="Locations\ITime.cs" />
-    <Compile Include="Locations\SpatialLocationGroup.cs" />
-    <Compile Include="Locations\OrientedPoint.cs" />
-    <Compile Include="Locations\Point.cs" />
-    <Compile Include="Locations\ITemporalLocation.cs" />
-    <Compile Include="Locations\LocationGroup.cs" />
-    <Compile Include="Locations\SpatialTextLocation.cs" />
-    <Compile Include="Locations\TemporalLocationGroup.cs" />
-    <Compile Include="Locations\TemporalTextLocation.cs" />
-    <Compile Include="Locations\Time.cs" />
-    <Compile Include="Locations\TextLocation.cs" />
-    <Compile Include="Locations\Location.cs" />
-    <Compile Include="Environments\IDeviceProvider.cs" />
-    <Compile Include="Locations\TimeHelper.cs" />
-    <Compile Include="Nodes\NodeHelper.cs" />
-    <Compile Include="Nodes\NodeInfo.cs" />
-    <Compile Include="Nodes\NodeWritable.cs" />
-    <Compile Include="Nodes\Node.cs" />
-    <Compile Include="Projects\IProjectStorage.cs" />
-    <Compile Include="Projects\Project.cs" />
-    <Compile Include="Projects\ProjectFileSerializingStorage.cs" />
-    <Compile Include="Projects\ProjectNodeBase.cs" />
-    <Compile Include="Projects\ProjectNode.cs" />
-    <Compile Include="Projects\IProjectNode.cs" />
-    <Compile Include="OptionalValue.cs" />
-    <Compile Include="Projects\ProjectsViewModel.cs" />
-    <Compile Include="Projects\SaveProjectAsUpdateOrCloneModes.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PhysicalQuantities\PhysicalQuantity.cs" />
-    <Compile Include="PhysicalQuantities\SIPrefix.cs" />
-    <Compile Include="PhysicalQuantities\SIUnit.cs" />
-    <Compile Include="PhysicalQuantities\Unit.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
+    <Compile Include="..\SenseLab.AssemblyInfo.cs">
+      <Link>Properties\SenseLab.AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Locations\ILocationGroup.cs" />
+    <Compile Include="Locations\LocatableValue.cs" />
+    <Compile Include="Locations\LocatableItemInfo.cs" />
+    <Compile Include="Locations\ILocatable.cs" />
+    <Compile Include="Locations\ILocation.cs" />
+    <Compile Include="Locations\ISpatialLocation.cs" />
+    <Compile Include="Locations\ITemporalLocation.cs" />
+    <Compile Include="Locations\ITimeInterval.cs" />
+    <Compile Include="Locations\Location.cs" />
+    <Compile Include="Locations\LocationGroup.cs" />
+    <Compile Include="Locations\OrientedPoint.cs" />
+    <Compile Include="Locations\SpatialLocation.cs" />
+    <Compile Include="Locations\Point.cs" />
+    <Compile Include="Locations\SpatialLocationGroup.cs" />
+    <Compile Include="Locations\TemporalLocation.cs" />
+    <Compile Include="Locations\Uri.cs" />
+    <Compile Include="Locations\SpatialTextLocation.cs" />
+    <Compile Include="Locations\TextLocation.cs" />
+    <Compile Include="Locations\TimeHelper.cs" />
+    <Compile Include="Locations\TimeInterval.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Records\IRecord.cs" />
+    <Compile Include="Records\IRecordable.cs" />
+    <Compile Include="Records\IRecordProvider.cs" />
+    <Compile Include="Records\ISamplingRecordProvider.cs" />
+    <Compile Include="Records\IStreamingRecordProvider.cs" />
+    <Compile Include="Records\Record.cs" />
+    <Compile Include="Records\Recordable.cs" />
+    <Compile Include="Records\StreamingRecordProvider.cs" />
+    <Compile Include="Records\SamplingRecordProvider.cs" />
+    <Compile Include="Records\StreamingRecordProviderInfo.cs" />
+    <Compile Include="Records\StreamableRecord.cs" />
+    <Compile Include="Values\ValueRecordProviderInfo.cs" />
+    <Compile Include="Records\SamplingRecordProviderInfo.cs" />
+    <Compile Include="Records\RecordProviderInfo.cs" />
+    <Compile Include="Records\RecordProvider.cs" />
+    <Compile Include="Records\RecordSource.cs" />
     <Compile Include="Records\IRecordSource.cs" />
-    <Compile Include="Records\IRecordGroup.cs" />
-    <Compile Include="Records\IRecordStorage.cs" />
-    <Compile Include="Records\IRecordTransformer.cs" />
     <Compile Include="Records\IRecordType.cs" />
-    <Compile Include="Records\IStreamingRecorder.cs" />
-    <Compile Include="Records\RecordFileSerializingStorage.cs" />
-    <Compile Include="Records\RecordGroup.cs" />
-    <Compile Include="Records\RecordsHelper.cs" />
-    <Compile Include="Records\RecordSourcesNonRecordable.cs" />
+    <Compile Include="Records\RecordType.cs" />
     <Compile Include="Records\RecordSourceInfo.cs" />
     <Compile Include="Records\RecordSourceUnavailable.cs" />
-    <Compile Include="Records\RecordSource.cs" />
-    <Compile Include="Records\RecordType.cs" />
-    <Compile Include="Records\SamplingRecorder.cs" />
-    <Compile Include="Records\StreamableRecord.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Values\ValueRecorder.cs" />
-    <Compile Include="Records\Recorder.cs" />
-    <Compile Include="Records\Recordable.cs" />
-    <Compile Include="Records\IRecordable.cs" />
-    <Compile Include="Records\ISamplingRecorder.cs" />
-    <Compile Include="Values\ValueRecord.cs" />
-    <Compile Include="Records\IValueRecord.cs" />
-    <Compile Include="Commands\ICommandRecord.cs" />
-    <Compile Include="Commands\CommandRecord.cs" />
-    <Compile Include="Records\IRecorder.cs" />
-    <Compile Include="Records\IRecord.cs" />
-    <Compile Include="Records\Record.cs" />
-    <Compile Include="ValidationHelper.cs" />
-    <Compile Include="ExpressionHelper.cs" />
-    <Compile Include="Values\IValuePrecision.cs" />
-    <Compile Include="Values\IPrecision.cs" />
-    <Compile Include="Values\Value.cs" />
-    <Compile Include="ViewModels\IViewModel.cs" />
-    <Compile Include="Locations\ILocatable.cs" />
-    <Compile Include="Locations\ISpatialLocation.cs" />
-    <Compile Include="Environments\IDevice.cs" />
-    <Compile Include="Nodes\INode.cs" />
-    <Compile Include="Projects\IProject.cs" />
     <Compile Include="Values\IPhysicalValue.cs" />
+    <Compile Include="Values\IPrecision.cs" />
     <Compile Include="Values\IValue.cs" />
-    <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Values\IValuePrecision.cs" />
+    <Compile Include="Locations\ILocatableValue.cs" />
+    <Compile Include="Values\IValueRecordProvider.cs" />
+    <Compile Include="Values\IValuesRecord.cs" />
+    <Compile Include="Values\IValueRecord.cs" />
+    <Compile Include="Values\ValuesRecord.cs" />
+    <Compile Include="Values\ValueRecord.cs" />
+    <Compile Include="Values\ValueRecordProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CeMaS.Common\CeMaS.Common.csproj">
+      <Project>{6458e616-f0cf-4065-96b3-437c2f60208f}</Project>
+      <Name>CeMaS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CeMaS.Data\CeMaS.Data.csproj">
+      <Project>{414b34f4-46c6-45c7-b2f9-2e38217f1f9c}</Project>
+      <Name>CeMaS.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,13 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab", "SenseLab\SenseLab.csproj", "{A5B68C8E-6A01-473C-8B20-6792388DDAAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeMaS.Common", "CeMaS.Common\CeMaS.Common.csproj", "{6458E616-F0CF-4065-96B3-437C2F60208F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Common", "SenseLab.Common\SenseLab.Common.csproj", "{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Environments", "SenseLab.Environments\SenseLab.Environments.csproj", "{0D2AC4B6-9CA8-4EC8-AFC0-53B89AA6BB6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Devices.SensorTag", "SenseLab.Devices.SensorTag\SenseLab.Devices.SensorTag.csproj", "{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Projects", "SenseLab.Projects\SenseLab.Projects.csproj", "{72AA2B37-8E80-463D-B424-AF424D4FA78F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Client", "SenseLab.Client\SenseLab.Client.csproj", "{BE2711F8-2F79-4AF0-A2E2-BB01917D5AAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CeMaS.Data", "CeMaS.Data\CeMaS.Data.csproj", "{414B34F4-46C6-45C7-B2F9-2E38217F1F9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Common", "SenseLab.Common\SenseLab.Common.csproj", "{E8136F71-1C34-482B-95C8-3A36B950671A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseLab.Environments.Service", "SenseLab.Environments.Service\SenseLab.Environments.Service.csproj", "{E3057182-21AF-4CB1-9169-3A89DB44921D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B980A7F3-7CB0-47BF-8642-5963A644098E}"
+	ProjectSection(SolutionItems) = preProject
+		CeMaS.AssemblyInfo.cs = CeMaS.AssemblyInfo.cs
+		SenseLab.AssemblyInfo.cs = SenseLab.AssemblyInfo.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +29,36 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A5B68C8E-6A01-473C-8B20-6792388DDAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A5B68C8E-6A01-473C-8B20-6792388DDAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A5B68C8E-6A01-473C-8B20-6792388DDAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A5B68C8E-6A01-473C-8B20-6792388DDAAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{475010C0-BB7E-464E-84CB-5FAB1EC09D4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00DF06B0-E4B5-456B-9D3E-1E15573BFDE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6458E616-F0CF-4065-96B3-437C2F60208F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6458E616-F0CF-4065-96B3-437C2F60208F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6458E616-F0CF-4065-96B3-437C2F60208F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6458E616-F0CF-4065-96B3-437C2F60208F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D2AC4B6-9CA8-4EC8-AFC0-53B89AA6BB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D2AC4B6-9CA8-4EC8-AFC0-53B89AA6BB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D2AC4B6-9CA8-4EC8-AFC0-53B89AA6BB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D2AC4B6-9CA8-4EC8-AFC0-53B89AA6BB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72AA2B37-8E80-463D-B424-AF424D4FA78F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72AA2B37-8E80-463D-B424-AF424D4FA78F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72AA2B37-8E80-463D-B424-AF424D4FA78F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72AA2B37-8E80-463D-B424-AF424D4FA78F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE2711F8-2F79-4AF0-A2E2-BB01917D5AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE2711F8-2F79-4AF0-A2E2-BB01917D5AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE2711F8-2F79-4AF0-A2E2-BB01917D5AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE2711F8-2F79-4AF0-A2E2-BB01917D5AAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{414B34F4-46C6-45C7-B2F9-2E38217F1F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{414B34F4-46C6-45C7-B2F9-2E38217F1F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{414B34F4-46C6-45C7-B2F9-2E38217F1F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{414B34F4-46C6-45C7-B2F9-2E38217F1F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8136F71-1C34-482B-95C8-3A36B950671A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8136F71-1C34-482B-95C8-3A36B950671A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8136F71-1C34-482B-95C8-3A36B950671A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8136F71-1C34-482B-95C8-3A36B950671A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3057182-21AF-4CB1-9169-3A89DB44921D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3057182-21AF-4CB1-9169-3A89DB44921D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3057182-21AF-4CB1-9169-3A89DB44921D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3057182-21AF-4CB1-9169-3A89DB44921D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = SenseLab\SenseLab.csproj
 	EndGlobalSection
 EndGlobal

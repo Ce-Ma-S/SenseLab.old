@@ -1,49 +1,46 @@
-﻿using SenseLab.Common.Environments;
+﻿using CeMaS.Common;
+using CeMaS.Common.Events;
+using CeMaS.Common.Validation;
 using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Records
 {
-    [DataContract]
     public abstract class RecordSource :
+        ItemInfo<Guid>,
         IRecordSource
     {
         public RecordSource(Guid id, IRecordType type, string name, string description = null)
+            : base(id, name, description)
         {
-            type.ValidateNonNull("type");
-            name.ValidateNonNullOrEmpty("name");
-            Id = id;
+            type.ValidateNonNull(nameof(type));
             Type = type;
-            Name = name;
-            Description = description;
         }
 
-        [DataMember]
-        public Guid Id { get; private set; }
-        [DataMember]
-        public IRecordType Type { get; private set; }
-        [DataMember]
-        public string Name { get; private set; }
-        [DataMember]
-        public string Description { get; private set; }
-        public abstract bool IsAvailable { get; }
+        #region Available
 
-        public static IRecordSource From(Guid sourceId, bool isRecordable)
+        public bool IsAvailable
         {
-            IRecordSource source;
-            if (!idToSource.TryGetValue(sourceId, out source))
-            {
-                if (isRecordable)
-                    source = EnvironmentHelper.RecordableFromId(sourceId);
-                else
-                    source = RecordSourcesNonRecordable.Instance.TryGetFromId(sourceId);
-                if (source != null)
-                    idToSource.Add(sourceId, source);
-            }
-            return source;
+            get { return GetIsAvailable(); }
+        }
+        public event EventHandler IsAvailableChanged;
+        public IRecordType Type
+        {
+            get; private set;
         }
 
-        private static readonly Dictionary<Guid, IRecordSource> idToSource = new Dictionary<Guid, IRecordSource>();
+        protected abstract bool GetIsAvailable();
+
+        protected virtual void OnIsAvailableChanged()
+        {
+            IsAvailableChanged.RaiseEvent(this);
+        }
+
+        #endregion
+
+        protected override void ClearEventHandlers()
+        {
+            base.ClearEventHandlers();
+            IsAvailableChanged = null;
+        }
     }
 }

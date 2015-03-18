@@ -8,29 +8,35 @@ namespace SenseLab.Common.Values
     [DataContract]
     public class ValueRecord<T> :
         Record,
-        IValueRecord
+        IValueRecord<T>
     {
         public ValueRecord(
+            uint id,
             Guid sourceId,
-            uint sequenceNumber,
-            ITime temporalLocation,
             T value,
+            ITimeInterval temporalLocation,
             ISpatialLocation spatialLocation = null)
-            : base(sourceId, sequenceNumber, temporalLocation, spatialLocation)
+            : base(id, sourceId, temporalLocation, spatialLocation)
         {
             Value = value;
         }
 
-        [DataMember]
-        public T Value { get; private set; }
+        public T Value
+        {
+            get { return value; }
+            set { SetProperty(() => Value, ref this.value, value); }
+        }
         object IValueRecord.Value
         {
             get { return Value; }
         }
 
-        protected override string GetText()
+        public override string ToString()
         {
             return string.Format("{0}", Value);
         }
+
+        [DataMember(Name = "Value")]
+        private T value;
     }
 }

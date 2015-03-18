@@ -1,11 +1,19 @@
-﻿using System.Windows.Media.Media3D;
+﻿using System.Runtime.Serialization;
+using System.Windows.Media.Media3D;
 
 namespace SenseLab.Common.Locations
 {
+    [DataContract]
+    [KnownType(typeof(OrientedPoint))]
     public class Point :
-        Location,
-        ISpatialLocation
+        SpatialLocation
     {
+        public Point(Point3D position)
+        {
+            Position = position;
+        }
+
+        [DataMember]
         public Point3D Position
         {
             get { return position; }
@@ -15,12 +23,7 @@ namespace SenseLab.Common.Locations
             }
         }
 
-        public new ISpatialLocation Clone()
-        {
-            return (ISpatialLocation)base.Clone();
-        }
-
-        protected override string GetText()
+        public override string ToString()
         {
             return Position.ToString();
         }

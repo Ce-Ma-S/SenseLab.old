@@ -1,5 +1,10 @@
-﻿namespace SenseLab.Common.Locations
+﻿using CeMaS.Common.Validation;
+using System.Runtime.Serialization;
+
+namespace SenseLab.Common.Locations
 {
+    [DataContract]
+    [KnownType(typeof(SpatialTextLocation))]
     public class TextLocation :
         Location
     {
@@ -8,7 +13,8 @@
             Text = text;
         }
 
-        public new string Text
+        [DataMember]
+        public string Text
         {
             get { return text; }
             set
@@ -18,7 +24,7 @@
             }
         }
 
-        protected override string GetText()
+        public override string ToString()
         {
             return Text;
         }

@@ -1,23 +1,21 @@
-﻿using SenseLab.Common.Locations;
+﻿using CeMaS.Common;
+using SenseLab.Common.Locations;
 using System;
-using System.Collections.Generic;
 
 namespace SenseLab.Common.Records
 {
+    /// <summary>
+    /// Record provided by <see cref="IRecordSource"/>.
+    /// </summary>
+    /// <remarks><see cref="ITimeInterval"/> is required.</remarks>
     public interface IRecord :
-        IId<KeyValuePair<Guid, uint>>,
+        IIdWritable<uint>,
         ILocatable<ISpatialLocation>,
-        ILocatable<ITime>
+        ILocatable<ITimeInterval>
     {
-        string Text { get; }
-        Guid SourceId { get; }
-        uint SequenceNumber { get; }
-        Guid GroupId { get; }
-        ISpatialLocation SpatialLocation { get; }
         /// <summary>
-        /// Temporal location.
+        /// Record source identifier.
         /// </summary>
-        /// <value>non-null</value>
-        ITime TemporalLocation { get; }
+        Guid SourceId { get; }
     }
 }

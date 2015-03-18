@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{72AA2B37-8E80-463D-B424-AF424D4FA78F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SenseLab.Projects</RootNamespace>
+    <AssemblyName>SenseLab.Projects</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SenseLab.AssemblyInfo.cs">
+      <Link>Properties\SenseLab.AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="IProject.cs" />
+    <Compile Include="IProjectDevice.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CeMaS.Common\CeMaS.Common.csproj">
+      <Project>{6458e616-f0cf-4065-96b3-437c2f60208f}</Project>
+      <Name>CeMaS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CeMaS.Data\CeMaS.Data.csproj">
+      <Project>{414b34f4-46c6-45c7-b2f9-2e38217f1f9c}</Project>
+      <Name>CeMaS.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SenseLab.Common\SenseLab.Common.csproj">
+      <Project>{e8136f71-1c34-482b-95c8-3a36b950671a}</Project>
+      <Name>SenseLab.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SenseLab.Environments\SenseLab.Environments.csproj">
+      <Project>{0d2ac4b6-9ca8-4ec8-afc0-53b89aa6bb6d}</Project>
+      <Name>SenseLab.Environments</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,10 +1,19 @@
-﻿using System.Windows.Media.Media3D;
+﻿using System.Runtime.Serialization;
+using System.Windows.Media.Media3D;
 
 namespace SenseLab.Common.Locations
 {
+    [DataContract]
     public class OrientedPoint :
         Point
     {
+        public OrientedPoint(Point3D position, Quaternion orientation)
+            : base(position)
+        {
+            Orientation = orientation;
+        }
+
+        [DataMember]
         public Quaternion Orientation
         {
             get { return orientation; }
@@ -14,9 +23,9 @@ namespace SenseLab.Common.Locations
             }
         }
 
-        protected override string GetText()
+        public override string ToString()
         {
-            return string.Format("{0}\n{1}", base.Text, Orientation.ToString());
+            return string.Format("{0}\n{1}", base.ToString(), Orientation.ToString());
         }
 
         private Quaternion orientation;

@@ -1,28 +1,22 @@
-﻿using SenseLab.Common.Locations;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace SenseLab.Common.Records
 {
     public abstract class Recordable<T> :
         RecordSource,
         IRecordable
-        where T : IRecorder
+        where T : IRecordProvider
     {
         public Recordable(Guid id, IRecordType type, string name, string description = null)
             : base(id, type, name, description)
         {
         }
 
-        public abstract T CreateRecorder(
-            IRecordGroup group,
-            uint nextSequenceNumber,
-            ILocatable<ISpatialLocation> spatialLocation);
-        IRecorder IRecordable.CreateRecorder(
-            IRecordGroup group,
-            uint nextSequenceNumber,
-            ILocatable<ISpatialLocation> spatialLocation)
+        public abstract Task<T> CreateRecordProvider();
+        async Task<IRecordProvider> IRecordable.CreateRecordProvider()
         {
-            return CreateRecorder(group, nextSequenceNumber ,spatialLocation);
+            return await CreateRecordProvider();
         }
     }
 }

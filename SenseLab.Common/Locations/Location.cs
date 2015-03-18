@@ -1,18 +1,16 @@
-﻿using SenseLab.Common.Events;
+﻿using CeMaS.Common.Events;
 using System;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Locations
 {
+    [DataContract]
+    [KnownType(typeof(SpatialLocation))]
+    [KnownType(typeof(TemporalLocation))]
     public abstract class Location :
         NotifyPropertyChange,
-        ILocation,
-        IChangeable
+        ILocation
     {
-        public string Text
-        {
-            get { return GetText(); }
-        }
-
         public event EventHandler Changed;
 
         public virtual ILocation Clone()
@@ -21,20 +19,16 @@ namespace SenseLab.Common.Locations
             clone.ClearEventHandlers();
             return clone;
         }
-        public override string ToString()
-        {
-            return Text;
-        }
-
-        protected abstract string GetText();
 
         protected virtual void OnChanged()
         {
-            if (Changed != null)
-            {
-                Changed(this, EventArgs.Empty);
-            }
-            OnPropertyChanged(() => Text);
+            Changed.RaiseEvent(this);
+        }
+
+        protected override void ClearEventHandlers()
+        {
+            base.ClearEventHandlers();
+            Changed = null;
         }
     }
 }

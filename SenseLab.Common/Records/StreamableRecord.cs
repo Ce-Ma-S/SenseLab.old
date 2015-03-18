@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Data;
+﻿using CeMaS.Common.Validation;
+using CeMaS.Data.Streams;
 using SenseLab.Common.Locations;
 using System;
 using System.IO;
@@ -13,90 +14,71 @@ namespace SenseLab.Common.Records
         IStreamable
     {
         protected StreamableRecord(
+            uint id,
             Guid sourceId,
-            uint sequenceNumber,
-            ITime temporalLocation,
-            IStreamManager streamManager,
+            ITimeInterval temporalLocation,
+            ISpatialLocation spatialLocation = null)
+            : base(id, sourceId, temporalLocation, spatialLocation)
+        {
+        }
+
+        public async static Task<StreamableRecord> Create(
+            uint id,
+            Guid sourceId,
+            ITimeInterval temporalLocation,
             StreamInfo streamInfo,
             ISpatialLocation spatialLocation = null)
-            : base(sourceId, sequenceNumber, temporalLocation, spatialLocation)
         {
-            SetStreamManager(streamManager).Wait();
-            SetStreamInfo(streamInfo);
+            var record = new StreamableRecord(id, sourceId, temporalLocation, spatialLocation);
+            await record.SetStreamInfo(streamInfo, true);
+            return record;
         }
 
         public IStreamManager StreamManager
         {
-            get { return streamManager; }
+            get { return streamInfo.StreamManager; }
         }
-        public Stream Stream { get; private set;}
-        public Stream StreamWritable { get; private set;}
-
-        public async static Task<StreamableRecord> Create(
-            Guid sourceId,
-            uint sequenceNumber,
-            ITime temporalLocation,
-            IStreamManager streamManager,
-            StreamInfo streamInfo,
-            ISpatialLocation spatialLocation = null)
-        {
-            var record = new StreamableRecord(sourceId, sequenceNumber, temporalLocation, streamManager, streamInfo, spatialLocation);
-            await record.CreateEnd();
-            return record;
-        }
+        public Stream Stream { get; private set; }
+        public Stream StreamWritable { get; private set; }
 
         public async Task SetStreamManager(IStreamManager value)
         {
-            value.ValidateNonNull("StreamManager");
-            var oldValue = streamManager;
-            if (SetProperty(() => StreamManager, ref streamManager, value) && oldValue != null)
-                await TransferStream(oldValue);
+            value.ValidateNonNull(nameof(value));
+            if (SetProperty(() => StreamManager, v => streamInfo.StreamManagerId = v.Id, value))
+                await TransferStream();
+        }
+        public override string ToString()
+        {
+            return streamInfo.ToString();
         }
 
-        protected async Task CreateEnd()
-        {
-            StreamWritable = await CreateStreamWritable();
-            await OpenAndSetStream();
-        }
-        protected override string GetText()
-        {
-            return string.Format("{0}: {1}", streamInfo.NamespaceName, streamInfo.Name);
-        }
-
-        [DataMember]
-        private Guid StreamManagerId
-        {
-            get { return StreamManager.Id; }
-            set
-            {
-                SetStreamManager(StreamManagers.Instance.GetFromId(value)).Wait();
-            }
-        }
         [DataMember]
         private StreamInfo StreamInfo
         {
             get { return streamInfo; }
             set
             {
-                SetStreamInfo(value);
-                OpenAndSetStream().Wait();
+                SetStreamInfo(value, false).Wait();
             }
         }
 
-        private void SetStreamInfo(StreamInfo value)
+        private async Task SetStreamInfo(StreamInfo value, bool createStreamWritable)
         {
-            value.ValidateNonNull("StreamInfo");
+            value.ValidateNonNull(nameof(StreamInfo));
             streamInfo = value;
+            if (createStreamWritable)
+                StreamWritable = await CreateStreamWritable();
+            await OpenAndSetStream();
         }
         private async Task OpenAndSetStream()
         {
-            Stream = await StreamManager.OpenStreamForReading(streamInfo.NamespaceName, streamInfo.Name);
+            Stream = await StreamManager.Open(streamInfo.NamespaceName, streamInfo.Name, true);
         }
         private async Task<Stream> CreateStreamWritable()
         {
-            return await StreamManager.CreateStreamForWriting(streamInfo.NamespaceName, streamInfo.Name);
+            return await StreamManager.Create(streamInfo.NamespaceName, streamInfo.Name, true);
         }
-        private async Task TransferStream(IStreamManager oldManager)
+        private async Task TransferStream()
         {
             var oldStream = Stream;
             oldStream.Flush();
@@ -107,7 +89,6 @@ namespace SenseLab.Common.Records
             await OpenAndSetStream();
         }
 
-        private IStreamManager streamManager;
         private StreamInfo streamInfo;
     }
 }

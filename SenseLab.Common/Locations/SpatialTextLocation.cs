@@ -1,7 +1,8 @@
-﻿using SenseLab.Common.Events;
+﻿using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Locations
 {
+    [DataContract]
     public class SpatialTextLocation :
         TextLocation,
         ISpatialLocation

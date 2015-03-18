@@ -1,4 +1,5 @@
-﻿using SenseLab.Common.Events;
+﻿using CeMaS.Common.Events;
+using SenseLab.Common.Events;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
 using System;
@@ -6,7 +7,7 @@ using System;
 namespace SenseLab.Common.Values
 {
     public abstract class Value<T> :
-        Recordable<ValueRecorder<T>>,
+        Recordable<ValueRecordProvider<T>>,
         IValue<T>
     {
         public Value(Guid id, IRecordType type, string name, string description = null)
@@ -52,8 +53,7 @@ namespace SenseLab.Common.Values
 
         public virtual void OnValueChanged(T newValue, ILocation location)
         {
-            if (ValueChanged != null)
-                ValueChanged(this, new ValueChangeEventArgs<T>(newValue, location));
+            ValueChanged.RaiseEvent(this, () => new ValueChangeEventArgs<T>(newValue, location));
         }
     }
 }

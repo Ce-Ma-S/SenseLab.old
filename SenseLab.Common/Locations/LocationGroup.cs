@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Locations
 {
+    [DataContract]
     public class LocationGroup<T> :
         Location,
         ILocationGroup
@@ -16,6 +18,7 @@ namespace SenseLab.Common.Locations
             Locations = locations;
         }
 
+        [DataMember]
         public IList<T> Locations
         {
             get;
@@ -32,8 +35,7 @@ namespace SenseLab.Common.Locations
             clone.Locations = new ObservableCollection<T>(Locations.Select(l => (T)l.Clone()));
             return clone;
         }
-
-        protected override string GetText()
+        public override string ToString()
         {
             return string.Join("\n", Locations);
         }
