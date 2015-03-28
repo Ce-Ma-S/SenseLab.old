@@ -53,6 +53,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CeMaS.AssemblyInfo.cs">
@@ -68,6 +69,10 @@
     <Compile Include="Collections\ItemRegister.cs" />
     <Compile Include="Collections\ObservableCollectionEx.cs" />
     <Compile Include="Collections\ReadOnlyObservableCollectionEx.cs" />
+    <Compile Include="Commands\ICommandEx.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandExecutedEventArgs.cs" />
+    <Compile Include="UIDispatcherHelper.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Events\EventHelper.cs" />
     <Compile Include="Events\IChangeable.cs" />
@@ -97,6 +102,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

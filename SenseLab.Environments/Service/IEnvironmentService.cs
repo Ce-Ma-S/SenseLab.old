@@ -43,6 +43,9 @@ namespace SenseLab.Environments.Service
         [OperationContract]
         Task<RecordProviderInfo> Recordable_CreateRecordProvider(Guid id);
 
+        Task<bool> Command_CanExecute(Guid id, object parameter);
+        Task Command_Execute(Guid id, object parameter);
+
         #endregion
 
         #region Record providers

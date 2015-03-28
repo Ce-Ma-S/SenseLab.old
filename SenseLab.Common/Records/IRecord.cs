@@ -1,6 +1,7 @@
 ﻿using CeMaS.Common;
 using SenseLab.Common.Locations;
 using System;
+using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Records
 {

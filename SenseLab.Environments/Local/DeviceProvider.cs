@@ -18,6 +18,16 @@ namespace SenseLab.Environments.Local
 
         #region IEnvironmentChangesService
 
+        protected override void OnNameChanged()
+        {
+            base.OnNameChanged();
+            environment.OnChange(service => service.DeviceProvider_NameChanged(Id, Name));
+        }
+        protected override void OnDescriptionChanged()
+        {
+            base.OnDescriptionChanged();
+            environment.OnChange(service => service.DeviceProvider_DescriptionChanged(Id, Description));
+        }
         protected override void OnDevicesAdded(IEnumerable<IDevice> items)
         {
             base.OnDevicesAdded(items);

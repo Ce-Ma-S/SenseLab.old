@@ -49,11 +49,18 @@
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SenseLab.AssemblyInfo.cs">
       <Link>Properties\SenseLab.AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\RecordableCommandInfo.cs" />
+    <Compile Include="Commands\CommandRecord.cs" />
+    <Compile Include="Commands\CommandRecordProvider.cs" />
+    <Compile Include="Commands\ICommandRecord.cs" />
+    <Compile Include="Commands\IRecordableCommand.cs" />
+    <Compile Include="Commands\RecordableCommand.cs" />
     <Compile Include="Locations\ILocationGroup.cs" />
     <Compile Include="Locations\LocatableValue.cs" />
     <Compile Include="Locations\LocatableItemInfo.cs" />

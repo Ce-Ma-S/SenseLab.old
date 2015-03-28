@@ -15,7 +15,7 @@ namespace SenseLab.Environments.Remote
             : base(recordable)
         {
             this.environment = environment;
-            this.Service = service;
+            Service = service;
             Id = id;
         }
 

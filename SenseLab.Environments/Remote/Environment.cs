@@ -23,6 +23,7 @@ namespace SenseLab.Environments.Remote
         private Environment()
             : base(Guid.Empty, " ")
         {
+            recordables = new Dictionary<Guid, Recordable>();
             recordProviders = new Dictionary<int, RecordProvider>();
         }
 
@@ -132,11 +133,7 @@ namespace SenseLab.Environments.Remote
         }
         void IEnvironmentChangesService.DeviceProvider_DevicesAdded(Guid deviceProviderId, IEnumerable<Guid> ids)
         {
-            var deviceProvider = DeviceProvider(deviceProviderId);
-            var devices = ids.
-                AsParallel().AsOrdered().
-                Select(id => Remote.Device.Create(id, this, service).Result);
-            deviceProvider.Devices.Add(devices);
+            Remote.DeviceProvider.AddDevices(this, service, ids, DeviceProvider(deviceProviderId).Devices).Wait();
         }
         void IEnvironmentChangesService.DeviceProvider_DevicesRemoved(Guid deviceProviderId, IEnumerable<Guid> ids)
         {
@@ -164,6 +161,16 @@ namespace SenseLab.Environments.Remote
         {
             Device(deviceId).Location = value;
         }
+        void IEnvironmentChangesService.Device_RecordablesAdded(Guid deviceId, IEnumerable<Guid> ids)
+        {
+            Remote.Device.AddRecordables(this, service, ids, Device(deviceId)).Wait();
+        }
+        void IEnvironmentChangesService.Device_RecordablesRemoved(Guid deviceId, IEnumerable<Guid> ids)
+        {
+            Device(deviceId).Recordables.Remove(ids);
+            foreach (var id in ids)
+                RemoveRecordable(id);
+        }
 
         private Device Device(Guid id)
         {
@@ -174,12 +181,43 @@ namespace SenseLab.Environments.Remote
 
         #region Recordables
 
+        void IEnvironmentChangesService.Recordable_NameChanged(Guid recordableId, string value)
+        {
+            Recordable(recordableId).Name = value;
+        }
+        void IEnvironmentChangesService.Recordable_DescriptionChanged(Guid recordableId, string value)
+        {
+            Recordable(recordableId).Description = value;
+        }
+        void IEnvironmentChangesService.Recordable_IsAvailableChanged(Guid recordableId, bool value)
+        {
+            Recordable(recordableId).IsAvailable = value;
+        }
+        void IEnvironmentChangesService.Command_CanExecuteChanged(Guid commandId)
+        {
+            var command = (RecordableCommand)Recordable(commandId);
+            command.OnCanExecuteChanged();
+        }
+        void IEnvironmentChangesService.Command_Executed(Guid commandId, object parameter, DateTimeOffset start, DateTimeOffset end, bool canceled, Exception error)
+        {
+            var command = (RecordableCommand)Recordable(commandId);
+            command.OnExecuted(parameter, start, end, canceled, error);
+        }
+
         async void IEnvironmentChangesService.RecordProvider_NextRecord(int id, IRecord record)
         {
-            var recordProvider = recordProviders[id];
+            var recordProvider = RecordProvider(id);
             await recordProvider.AddRecord(record);
         }
 
+        internal void AddRecordable(Recordable recordable)
+        {
+            recordables.Add(recordable.Id, recordable);
+        }
+        private void RemoveRecordable(Guid id)
+        {
+            recordables.Remove(id);
+        }
         internal void AddRecordProvider(RecordProvider recordProvider)
         {
             recordProviders.Add(recordProvider.Id, recordProvider);
@@ -189,6 +227,16 @@ namespace SenseLab.Environments.Remote
             recordProviders.Remove(recordProvider.Id);
         }
 
+        private Recordable Recordable(Guid id)
+        {
+            return recordables[id];
+        }
+        private RecordProvider RecordProvider(int id)
+        {
+            return recordProviders[id];
+        }
+
+        private readonly Dictionary<Guid, Recordable> recordables;
         private readonly Dictionary<int, RecordProvider> recordProviders;
 
         #endregion

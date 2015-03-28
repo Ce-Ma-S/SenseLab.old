@@ -1,5 +1,6 @@
 ﻿using CeMaS.Common.Collections;
 using CeMaS.Data.Streams;
+using SenseLab.Common.Commands;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
 using SenseLab.Common.Values;
@@ -148,7 +149,7 @@ namespace SenseLab.Environments.Local
         {
             IRecordable item;
             ((IItemLookup<IRecordable, Guid>)this).TryGetItem(id, out item);
-            return Task.FromResult(new RecordSourceInfo(item));
+            return Task.FromResult(RecordSourceInfo.Create(item));
         }
 
         async Task<RecordProviderInfo> IEnvironmentService.Recordable_CreateRecordProvider(Guid id)
@@ -158,6 +159,17 @@ namespace SenseLab.Environments.Local
             recordProviders.Add(recordProviderId, recordProvider);
             return RecordProviderInfo.Create(recordProviderId, recordProvider);
         }
+        Task<bool> IEnvironmentService.Command_CanExecute(Guid id, object parameter)
+        {
+            var command = (IRecordableCommand)Recordable(id);
+            return Task.Run(() => command.CanExecute(parameter));
+        }
+        Task IEnvironmentService.Command_Execute(Guid id, object parameter)
+        {
+            var command = (IRecordableCommand)Recordable(id);
+            return Task.Run(() => command.Execute(parameter));
+        }
+
         Task<RecordProviderInfo> IEnvironmentService.RecordProvider(int id)
         {
             var recordProvider = RecordProvider(id);

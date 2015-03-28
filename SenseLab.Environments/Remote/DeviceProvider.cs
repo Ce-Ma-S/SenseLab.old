@@ -25,16 +25,16 @@ namespace SenseLab.Environments.Remote
             var info = await service.DeviceProvider(id);
             var result = new DeviceProvider(environment, service,
                 id, info.Name, info.Description);
-            await FillDevices(environment, service, info, result.Devices);
+            await AddDevices(environment, service, info.DeviceIds, result.Devices);
             return result;
         }
-
-        internal static async Task FillDevices(Environment environment, IEnvironmentService service, DeviceProviderInfo info, INotifyList<IDevice, Guid> devices)
+        internal static async Task AddDevices(Environment environment, IEnvironmentService service,
+            IEnumerable<Guid> deviceIds, INotifyList<IDevice, Guid> devices)
         {
             IEnumerable<IDevice> localDevices = null;
             await Task.Run(() =>
             {
-                localDevices = info.DeviceIds.
+                localDevices = deviceIds.
                   AsParallel().AsOrdered().
                   Select(did => Device.Create(did, environment, service).Result);
             });

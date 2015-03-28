@@ -4,6 +4,7 @@ using CeMaS.Common.Validation;
 using SenseLab.Common.Locations;
 using SenseLab.Common.Records;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SenseLab.Environments.Common
@@ -17,13 +18,26 @@ namespace SenseLab.Environments.Common
         {
             Location = location;
             Recordables = new ObservableCollectionEx<IRecordable, Guid>();
+            Recordables.Added.Subscribe(OnRecordablesAdded);
+            Recordables.Removed.Subscribe(OnRecordablesRemoved);
         }
+
+        #region Recordables
 
         public INotifyList<IRecordable, Guid> Recordables { get; private set; }
         INotifyEnumerable<IRecordable, Guid> IDevice.Recordables
         {
             get { return Recordables; }
         }
+
+        protected virtual void OnRecordablesAdded(IEnumerable<IRecordable> items)
+        {
+        }
+        protected virtual void OnRecordablesRemoved(IEnumerable<IRecordable> items)
+        {
+        }
+
+        #endregion
 
         #region Available
 
@@ -32,6 +46,8 @@ namespace SenseLab.Environments.Common
             get { return GetIsAvailable(); }
         }
         public event EventHandler IsAvailableChanged;
+
+        protected abstract bool GetIsAvailable();
 
         protected virtual void OnIsAvailableChanged()
         {
@@ -112,7 +128,6 @@ namespace SenseLab.Environments.Common
 
         #endregion
 
-        protected abstract bool GetIsAvailable();
         protected override void ClearEventHandlers()
         {
             base.ClearEventHandlers();

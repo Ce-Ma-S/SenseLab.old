@@ -17,6 +17,8 @@ namespace SenseLab.Environments.Common
             Devices.Removed.Subscribe(OnDevicesRemoved);
         }
 
+        #region Devices
+
         public INotifyList<IDevice, Guid> Devices { get; private set; }
         INotifyEnumerable<IDevice, Guid> IDeviceProvider.Devices
         {
@@ -29,5 +31,7 @@ namespace SenseLab.Environments.Common
         protected virtual void OnDevicesRemoved(IEnumerable<IDevice> items)
         {
         }
+
+        #endregion
     }
 }

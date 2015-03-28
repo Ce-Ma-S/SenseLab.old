@@ -28,16 +28,25 @@ namespace SenseLab.Environments.Remote
             var result = new Device(environment, service,
                 id, info.Name, info.Description, info.Location,
                 info.IsAvailable, info.IsConnected);
-            await DeviceProvider.FillDevices(environment, service, info, result.Devices);
+            await DeviceProvider.AddDevices(environment, service, info.DeviceIds, result.Devices);
+            await AddRecordables(environment, service, info.RecordableIds, result);
+            return result;
+        }
+        internal static async Task AddRecordables(Environment environment, IEnvironmentService service,
+            IEnumerable<Guid> recordableIds, Device device)
+        {
             IEnumerable<IRecordable> recordables = null;
             await Task.Run(() =>
             {
-                recordables = info.DeviceIds.
+                recordables = recordableIds.
                   AsParallel().AsOrdered().
                   Select(rid => Recordable.Create(rid, environment, service).Result);
+
             });
-            return result;
+            device.Recordables.Add(recordables);
         }
+
+        #region IsAvailable
 
         public new bool IsAvailable
         {
@@ -47,6 +56,18 @@ namespace SenseLab.Environments.Remote
                 SetProperty(() => IsAvailable, ref isAvailable, value, OnIsAvailableChanged);
             }
         }
+
+        protected override bool GetIsAvailable()
+        {
+            return IsAvailable;
+        }
+
+        private bool isAvailable;
+
+        #endregion
+
+        #region IsConnected
+
         public new bool IsConnected
         {
             get { return isConnected; }
@@ -68,14 +89,11 @@ namespace SenseLab.Environments.Remote
             return IsConnected;
         }
 
-        protected override bool GetIsAvailable()
-        {
-            return IsAvailable;
-        }
+        private bool isConnected;
+
+        #endregion
 
         private readonly Environment environment;
         private readonly IEnvironmentService service;
-        private bool isAvailable;
-        private bool isConnected;
     }
 }

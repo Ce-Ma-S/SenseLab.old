@@ -1,12 +1,17 @@
 ﻿using CeMaS.Common.Events;
 using CeMaS.Common.Validation;
+using SenseLab.Common.Commands;
 using SenseLab.Common.Locations;
+using SenseLab.Common.Values;
 using System;
 using System.Runtime.Serialization;
 
 namespace SenseLab.Common.Records
 {
     [DataContract]
+    [KnownType(typeof(ValueRecord<>))]
+    [KnownType(typeof(CommandRecord<>))]
+    [KnownType(typeof(StreamableRecord))]
     public abstract class Record :
         NotifyPropertyChange,
         IRecord
