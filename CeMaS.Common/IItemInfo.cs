@@ -5,7 +5,7 @@ namespace CeMaS.Common
     /// <summary>
     /// Item with basic information.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Item identifier type.</typeparam>
     public interface IItemInfo<T> :
         IId<T>
     {
