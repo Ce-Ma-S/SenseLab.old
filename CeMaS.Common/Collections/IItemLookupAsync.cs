@@ -21,8 +21,8 @@ namespace CeMaS.Common.Collections
         /// </summary>
         /// <param name="id">Item identifier.</param>
         /// <param name="item">Found item.</param>
-        /// <returns>Whether an item was found.</returns>
-        Task<bool> TryGetItem(TId id, out TItem item);
+        /// <returns>Item if found.</returns>
+        Task<OptionalValue<TItem>> TryGetItem(TId id);
         /// <summary>
         /// Whether an item with <paramref name="id"/> is available.
         /// </summary>
