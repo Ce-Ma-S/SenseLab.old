@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace CeMaS.Common
 {
+    /// <summary>
+    /// Optional value.
+    /// </summary>
+    /// <remarks><typeparamref name="T"/>? alternative for both reference and value types.</remarks>
+    /// <typeparam name="T">Value type.</typeparam>
     public struct OptionalValue<T>
     {
         public OptionalValue(T value)
